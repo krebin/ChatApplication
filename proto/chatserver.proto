@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package chatserver;
+
+service ChatServer
+{
+    rpc LogIn (LogInRequest) returns (LogInReply) {}
+    rpc LogOut (LogOutRequest) returns (LogOutReply) {}
+    rpc SendMessage (SendMessageRequest) returns (SendMessageReply) {}
+    rpc ReceiveMessage (ReceiveMessageRequest) returns (ReceiveMessageReply) {}
+    rpc List (ListRequest) returns (ListReply) {}
+}
+
+message LogInRequest
+{
+    string user = 1;
+}
+
+message LogInReply
+{
+    string conformation = 1;
+}
+
+message LogOutRequest
+{
+    string user = 1;
+}
+
+message LogOutReply
+{
+    string conformation = 1;
+}
+
+message SendMessageRequest
+{
+    string user = 1;
+    string recipient = 2;
+    string message = 3;
+}
+
+message SendMessageReply
+{
+    string conformation = 1;
+}
+
+message ReceiveMessageRequest
+{
+    string user = 1;
+}
+
+message ReceiveMessageReply
+{
+    string conformation = 1;
+}
+
+message ListRequest
+{
+    string list = 1;
+}
+
+message ListReply
+{
+    string list = 1;
+}
