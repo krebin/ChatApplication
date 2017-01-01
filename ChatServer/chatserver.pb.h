@@ -36,16 +36,22 @@ void protobuf_AddDesc_chatserver_2eproto();
 void protobuf_AssignDesc_chatserver_2eproto();
 void protobuf_ShutdownFile_chatserver_2eproto();
 
+class ListM;
 class ListReply;
 class ListRequest;
+class LogInM;
 class LogInReply;
 class LogInRequest;
+class LogOutM;
 class LogOutReply;
 class LogOutRequest;
+class ReceiveMessageM;
 class ReceiveMessageReply;
 class ReceiveMessageRequest;
+class SendMessageM;
 class SendMessageReply;
 class SendMessageRequest;
+class oneOfTypes;
 
 // ===================================================================
 
@@ -941,6 +947,630 @@ class ListReply : public ::google::protobuf::Message /* @@protoc_insertion_point
   void InitAsDefaultInstance();
   static ListReply* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class ListM : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.ListM) */ {
+ public:
+  ListM();
+  virtual ~ListM();
+
+  ListM(const ListM& from);
+
+  inline ListM& operator=(const ListM& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ListM& default_instance();
+
+  void Swap(ListM* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ListM* New() const { return New(NULL); }
+
+  ListM* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ListM& from);
+  void MergeFrom(const ListM& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ListM* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.ListReply reply = 1;
+  bool has_reply() const;
+  void clear_reply();
+  static const int kReplyFieldNumber = 1;
+  const ::chatserver::ListReply& reply() const;
+  ::chatserver::ListReply* mutable_reply();
+  ::chatserver::ListReply* release_reply();
+  void set_allocated_reply(::chatserver::ListReply* reply);
+
+  // optional .chatserver.ListRequest request = 2;
+  bool has_request() const;
+  void clear_request();
+  static const int kRequestFieldNumber = 2;
+  const ::chatserver::ListRequest& request() const;
+  ::chatserver::ListRequest* mutable_request();
+  ::chatserver::ListRequest* release_request();
+  void set_allocated_request(::chatserver::ListRequest* request);
+
+  // @@protoc_insertion_point(class_scope:chatserver.ListM)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::chatserver::ListReply* reply_;
+  ::chatserver::ListRequest* request_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static ListM* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ReceiveMessageM : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.ReceiveMessageM) */ {
+ public:
+  ReceiveMessageM();
+  virtual ~ReceiveMessageM();
+
+  ReceiveMessageM(const ReceiveMessageM& from);
+
+  inline ReceiveMessageM& operator=(const ReceiveMessageM& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ReceiveMessageM& default_instance();
+
+  void Swap(ReceiveMessageM* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ReceiveMessageM* New() const { return New(NULL); }
+
+  ReceiveMessageM* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ReceiveMessageM& from);
+  void MergeFrom(const ReceiveMessageM& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ReceiveMessageM* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.ReceiveMessageReply reply = 1;
+  bool has_reply() const;
+  void clear_reply();
+  static const int kReplyFieldNumber = 1;
+  const ::chatserver::ReceiveMessageReply& reply() const;
+  ::chatserver::ReceiveMessageReply* mutable_reply();
+  ::chatserver::ReceiveMessageReply* release_reply();
+  void set_allocated_reply(::chatserver::ReceiveMessageReply* reply);
+
+  // optional .chatserver.ReceiveMessageRequest request = 2;
+  bool has_request() const;
+  void clear_request();
+  static const int kRequestFieldNumber = 2;
+  const ::chatserver::ReceiveMessageRequest& request() const;
+  ::chatserver::ReceiveMessageRequest* mutable_request();
+  ::chatserver::ReceiveMessageRequest* release_request();
+  void set_allocated_request(::chatserver::ReceiveMessageRequest* request);
+
+  // @@protoc_insertion_point(class_scope:chatserver.ReceiveMessageM)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::chatserver::ReceiveMessageReply* reply_;
+  ::chatserver::ReceiveMessageRequest* request_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static ReceiveMessageM* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class SendMessageM : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.SendMessageM) */ {
+ public:
+  SendMessageM();
+  virtual ~SendMessageM();
+
+  SendMessageM(const SendMessageM& from);
+
+  inline SendMessageM& operator=(const SendMessageM& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SendMessageM& default_instance();
+
+  void Swap(SendMessageM* other);
+
+  // implements Message ----------------------------------------------
+
+  inline SendMessageM* New() const { return New(NULL); }
+
+  SendMessageM* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const SendMessageM& from);
+  void MergeFrom(const SendMessageM& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(SendMessageM* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.SendMessageReply reply = 1;
+  bool has_reply() const;
+  void clear_reply();
+  static const int kReplyFieldNumber = 1;
+  const ::chatserver::SendMessageReply& reply() const;
+  ::chatserver::SendMessageReply* mutable_reply();
+  ::chatserver::SendMessageReply* release_reply();
+  void set_allocated_reply(::chatserver::SendMessageReply* reply);
+
+  // optional .chatserver.SendMessageRequest request = 2;
+  bool has_request() const;
+  void clear_request();
+  static const int kRequestFieldNumber = 2;
+  const ::chatserver::SendMessageRequest& request() const;
+  ::chatserver::SendMessageRequest* mutable_request();
+  ::chatserver::SendMessageRequest* release_request();
+  void set_allocated_request(::chatserver::SendMessageRequest* request);
+
+  // @@protoc_insertion_point(class_scope:chatserver.SendMessageM)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::chatserver::SendMessageReply* reply_;
+  ::chatserver::SendMessageRequest* request_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static SendMessageM* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LogInM : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.LogInM) */ {
+ public:
+  LogInM();
+  virtual ~LogInM();
+
+  LogInM(const LogInM& from);
+
+  inline LogInM& operator=(const LogInM& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogInM& default_instance();
+
+  void Swap(LogInM* other);
+
+  // implements Message ----------------------------------------------
+
+  inline LogInM* New() const { return New(NULL); }
+
+  LogInM* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const LogInM& from);
+  void MergeFrom(const LogInM& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(LogInM* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.LogInReply reply = 1;
+  bool has_reply() const;
+  void clear_reply();
+  static const int kReplyFieldNumber = 1;
+  const ::chatserver::LogInReply& reply() const;
+  ::chatserver::LogInReply* mutable_reply();
+  ::chatserver::LogInReply* release_reply();
+  void set_allocated_reply(::chatserver::LogInReply* reply);
+
+  // optional .chatserver.LogInRequest request = 2;
+  bool has_request() const;
+  void clear_request();
+  static const int kRequestFieldNumber = 2;
+  const ::chatserver::LogInRequest& request() const;
+  ::chatserver::LogInRequest* mutable_request();
+  ::chatserver::LogInRequest* release_request();
+  void set_allocated_request(::chatserver::LogInRequest* request);
+
+  // @@protoc_insertion_point(class_scope:chatserver.LogInM)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::chatserver::LogInReply* reply_;
+  ::chatserver::LogInRequest* request_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static LogInM* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LogOutM : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.LogOutM) */ {
+ public:
+  LogOutM();
+  virtual ~LogOutM();
+
+  LogOutM(const LogOutM& from);
+
+  inline LogOutM& operator=(const LogOutM& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LogOutM& default_instance();
+
+  void Swap(LogOutM* other);
+
+  // implements Message ----------------------------------------------
+
+  inline LogOutM* New() const { return New(NULL); }
+
+  LogOutM* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const LogOutM& from);
+  void MergeFrom(const LogOutM& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(LogOutM* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.LogOutReply reply = 1;
+  bool has_reply() const;
+  void clear_reply();
+  static const int kReplyFieldNumber = 1;
+  const ::chatserver::LogOutReply& reply() const;
+  ::chatserver::LogOutReply* mutable_reply();
+  ::chatserver::LogOutReply* release_reply();
+  void set_allocated_reply(::chatserver::LogOutReply* reply);
+
+  // optional .chatserver.LogOutRequest request = 2;
+  bool has_request() const;
+  void clear_request();
+  static const int kRequestFieldNumber = 2;
+  const ::chatserver::LogOutRequest& request() const;
+  ::chatserver::LogOutRequest* mutable_request();
+  ::chatserver::LogOutRequest* release_request();
+  void set_allocated_request(::chatserver::LogOutRequest* request);
+
+  // @@protoc_insertion_point(class_scope:chatserver.LogOutM)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::chatserver::LogOutReply* reply_;
+  ::chatserver::LogOutRequest* request_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static LogOutM* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class oneOfTypes : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.oneOfTypes) */ {
+ public:
+  oneOfTypes();
+  virtual ~oneOfTypes();
+
+  oneOfTypes(const oneOfTypes& from);
+
+  inline oneOfTypes& operator=(const oneOfTypes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const oneOfTypes& default_instance();
+
+  enum TypesCase {
+    kLogout = 1,
+    kLogin = 2,
+    kSendmessage = 3,
+    kReceivemessage = 4,
+    kList = 5,
+    TYPES_NOT_SET = 0,
+  };
+
+  void Swap(oneOfTypes* other);
+
+  // implements Message ----------------------------------------------
+
+  inline oneOfTypes* New() const { return New(NULL); }
+
+  oneOfTypes* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const oneOfTypes& from);
+  void MergeFrom(const oneOfTypes& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(oneOfTypes* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .chatserver.LogOutM logout = 1;
+  bool has_logout() const;
+  void clear_logout();
+  static const int kLogoutFieldNumber = 1;
+  const ::chatserver::LogOutM& logout() const;
+  ::chatserver::LogOutM* mutable_logout();
+  ::chatserver::LogOutM* release_logout();
+  void set_allocated_logout(::chatserver::LogOutM* logout);
+
+  // optional .chatserver.LogInM login = 2;
+  bool has_login() const;
+  void clear_login();
+  static const int kLoginFieldNumber = 2;
+  const ::chatserver::LogInM& login() const;
+  ::chatserver::LogInM* mutable_login();
+  ::chatserver::LogInM* release_login();
+  void set_allocated_login(::chatserver::LogInM* login);
+
+  // optional .chatserver.SendMessageM sendmessage = 3;
+  bool has_sendmessage() const;
+  void clear_sendmessage();
+  static const int kSendmessageFieldNumber = 3;
+  const ::chatserver::SendMessageM& sendmessage() const;
+  ::chatserver::SendMessageM* mutable_sendmessage();
+  ::chatserver::SendMessageM* release_sendmessage();
+  void set_allocated_sendmessage(::chatserver::SendMessageM* sendmessage);
+
+  // optional .chatserver.ReceiveMessageM receivemessage = 4;
+  bool has_receivemessage() const;
+  void clear_receivemessage();
+  static const int kReceivemessageFieldNumber = 4;
+  const ::chatserver::ReceiveMessageM& receivemessage() const;
+  ::chatserver::ReceiveMessageM* mutable_receivemessage();
+  ::chatserver::ReceiveMessageM* release_receivemessage();
+  void set_allocated_receivemessage(::chatserver::ReceiveMessageM* receivemessage);
+
+  // optional .chatserver.ListM list = 5;
+  bool has_list() const;
+  void clear_list();
+  static const int kListFieldNumber = 5;
+  const ::chatserver::ListM& list() const;
+  ::chatserver::ListM* mutable_list();
+  ::chatserver::ListM* release_list();
+  void set_allocated_list(::chatserver::ListM* list);
+
+  TypesCase types_case() const;
+  // @@protoc_insertion_point(class_scope:chatserver.oneOfTypes)
+ private:
+  inline void set_has_logout();
+  inline void set_has_login();
+  inline void set_has_sendmessage();
+  inline void set_has_receivemessage();
+  inline void set_has_list();
+
+  inline bool has_types() const;
+  void clear_types();
+  inline void clear_has_types();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  union TypesUnion {
+    TypesUnion() {}
+    ::chatserver::LogOutM* logout_;
+    ::chatserver::LogInM* login_;
+    ::chatserver::SendMessageM* sendmessage_;
+    ::chatserver::ReceiveMessageM* receivemessage_;
+    ::chatserver::ListM* list_;
+  } types_;
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[1];
+
+  friend void  protobuf_AddDesc_chatserver_2eproto();
+  friend void protobuf_AssignDesc_chatserver_2eproto();
+  friend void protobuf_ShutdownFile_chatserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static oneOfTypes* default_instance_;
+};
 // ===================================================================
 
 
@@ -1513,7 +2143,672 @@ inline void ListReply::set_allocated_list(::std::string* list) {
   // @@protoc_insertion_point(field_set_allocated:chatserver.ListReply.list)
 }
 
+// -------------------------------------------------------------------
+
+// ListM
+
+// optional .chatserver.ListReply reply = 1;
+inline bool ListM::has_reply() const {
+  return !_is_default_instance_ && reply_ != NULL;
+}
+inline void ListM::clear_reply() {
+  if (GetArenaNoVirtual() == NULL && reply_ != NULL) delete reply_;
+  reply_ = NULL;
+}
+inline const ::chatserver::ListReply& ListM::reply() const {
+  // @@protoc_insertion_point(field_get:chatserver.ListM.reply)
+  return reply_ != NULL ? *reply_ : *default_instance_->reply_;
+}
+inline ::chatserver::ListReply* ListM::mutable_reply() {
+  
+  if (reply_ == NULL) {
+    reply_ = new ::chatserver::ListReply;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.ListM.reply)
+  return reply_;
+}
+inline ::chatserver::ListReply* ListM::release_reply() {
+  // @@protoc_insertion_point(field_release:chatserver.ListM.reply)
+  
+  ::chatserver::ListReply* temp = reply_;
+  reply_ = NULL;
+  return temp;
+}
+inline void ListM::set_allocated_reply(::chatserver::ListReply* reply) {
+  delete reply_;
+  reply_ = reply;
+  if (reply) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ListM.reply)
+}
+
+// optional .chatserver.ListRequest request = 2;
+inline bool ListM::has_request() const {
+  return !_is_default_instance_ && request_ != NULL;
+}
+inline void ListM::clear_request() {
+  if (GetArenaNoVirtual() == NULL && request_ != NULL) delete request_;
+  request_ = NULL;
+}
+inline const ::chatserver::ListRequest& ListM::request() const {
+  // @@protoc_insertion_point(field_get:chatserver.ListM.request)
+  return request_ != NULL ? *request_ : *default_instance_->request_;
+}
+inline ::chatserver::ListRequest* ListM::mutable_request() {
+  
+  if (request_ == NULL) {
+    request_ = new ::chatserver::ListRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.ListM.request)
+  return request_;
+}
+inline ::chatserver::ListRequest* ListM::release_request() {
+  // @@protoc_insertion_point(field_release:chatserver.ListM.request)
+  
+  ::chatserver::ListRequest* temp = request_;
+  request_ = NULL;
+  return temp;
+}
+inline void ListM::set_allocated_request(::chatserver::ListRequest* request) {
+  delete request_;
+  request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ListM.request)
+}
+
+// -------------------------------------------------------------------
+
+// ReceiveMessageM
+
+// optional .chatserver.ReceiveMessageReply reply = 1;
+inline bool ReceiveMessageM::has_reply() const {
+  return !_is_default_instance_ && reply_ != NULL;
+}
+inline void ReceiveMessageM::clear_reply() {
+  if (GetArenaNoVirtual() == NULL && reply_ != NULL) delete reply_;
+  reply_ = NULL;
+}
+inline const ::chatserver::ReceiveMessageReply& ReceiveMessageM::reply() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageM.reply)
+  return reply_ != NULL ? *reply_ : *default_instance_->reply_;
+}
+inline ::chatserver::ReceiveMessageReply* ReceiveMessageM::mutable_reply() {
+  
+  if (reply_ == NULL) {
+    reply_ = new ::chatserver::ReceiveMessageReply;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageM.reply)
+  return reply_;
+}
+inline ::chatserver::ReceiveMessageReply* ReceiveMessageM::release_reply() {
+  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageM.reply)
+  
+  ::chatserver::ReceiveMessageReply* temp = reply_;
+  reply_ = NULL;
+  return temp;
+}
+inline void ReceiveMessageM::set_allocated_reply(::chatserver::ReceiveMessageReply* reply) {
+  delete reply_;
+  reply_ = reply;
+  if (reply) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageM.reply)
+}
+
+// optional .chatserver.ReceiveMessageRequest request = 2;
+inline bool ReceiveMessageM::has_request() const {
+  return !_is_default_instance_ && request_ != NULL;
+}
+inline void ReceiveMessageM::clear_request() {
+  if (GetArenaNoVirtual() == NULL && request_ != NULL) delete request_;
+  request_ = NULL;
+}
+inline const ::chatserver::ReceiveMessageRequest& ReceiveMessageM::request() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageM.request)
+  return request_ != NULL ? *request_ : *default_instance_->request_;
+}
+inline ::chatserver::ReceiveMessageRequest* ReceiveMessageM::mutable_request() {
+  
+  if (request_ == NULL) {
+    request_ = new ::chatserver::ReceiveMessageRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageM.request)
+  return request_;
+}
+inline ::chatserver::ReceiveMessageRequest* ReceiveMessageM::release_request() {
+  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageM.request)
+  
+  ::chatserver::ReceiveMessageRequest* temp = request_;
+  request_ = NULL;
+  return temp;
+}
+inline void ReceiveMessageM::set_allocated_request(::chatserver::ReceiveMessageRequest* request) {
+  delete request_;
+  request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageM.request)
+}
+
+// -------------------------------------------------------------------
+
+// SendMessageM
+
+// optional .chatserver.SendMessageReply reply = 1;
+inline bool SendMessageM::has_reply() const {
+  return !_is_default_instance_ && reply_ != NULL;
+}
+inline void SendMessageM::clear_reply() {
+  if (GetArenaNoVirtual() == NULL && reply_ != NULL) delete reply_;
+  reply_ = NULL;
+}
+inline const ::chatserver::SendMessageReply& SendMessageM::reply() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageM.reply)
+  return reply_ != NULL ? *reply_ : *default_instance_->reply_;
+}
+inline ::chatserver::SendMessageReply* SendMessageM::mutable_reply() {
+  
+  if (reply_ == NULL) {
+    reply_ = new ::chatserver::SendMessageReply;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageM.reply)
+  return reply_;
+}
+inline ::chatserver::SendMessageReply* SendMessageM::release_reply() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageM.reply)
+  
+  ::chatserver::SendMessageReply* temp = reply_;
+  reply_ = NULL;
+  return temp;
+}
+inline void SendMessageM::set_allocated_reply(::chatserver::SendMessageReply* reply) {
+  delete reply_;
+  reply_ = reply;
+  if (reply) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageM.reply)
+}
+
+// optional .chatserver.SendMessageRequest request = 2;
+inline bool SendMessageM::has_request() const {
+  return !_is_default_instance_ && request_ != NULL;
+}
+inline void SendMessageM::clear_request() {
+  if (GetArenaNoVirtual() == NULL && request_ != NULL) delete request_;
+  request_ = NULL;
+}
+inline const ::chatserver::SendMessageRequest& SendMessageM::request() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageM.request)
+  return request_ != NULL ? *request_ : *default_instance_->request_;
+}
+inline ::chatserver::SendMessageRequest* SendMessageM::mutable_request() {
+  
+  if (request_ == NULL) {
+    request_ = new ::chatserver::SendMessageRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageM.request)
+  return request_;
+}
+inline ::chatserver::SendMessageRequest* SendMessageM::release_request() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageM.request)
+  
+  ::chatserver::SendMessageRequest* temp = request_;
+  request_ = NULL;
+  return temp;
+}
+inline void SendMessageM::set_allocated_request(::chatserver::SendMessageRequest* request) {
+  delete request_;
+  request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageM.request)
+}
+
+// -------------------------------------------------------------------
+
+// LogInM
+
+// optional .chatserver.LogInReply reply = 1;
+inline bool LogInM::has_reply() const {
+  return !_is_default_instance_ && reply_ != NULL;
+}
+inline void LogInM::clear_reply() {
+  if (GetArenaNoVirtual() == NULL && reply_ != NULL) delete reply_;
+  reply_ = NULL;
+}
+inline const ::chatserver::LogInReply& LogInM::reply() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogInM.reply)
+  return reply_ != NULL ? *reply_ : *default_instance_->reply_;
+}
+inline ::chatserver::LogInReply* LogInM::mutable_reply() {
+  
+  if (reply_ == NULL) {
+    reply_ = new ::chatserver::LogInReply;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.LogInM.reply)
+  return reply_;
+}
+inline ::chatserver::LogInReply* LogInM::release_reply() {
+  // @@protoc_insertion_point(field_release:chatserver.LogInM.reply)
+  
+  ::chatserver::LogInReply* temp = reply_;
+  reply_ = NULL;
+  return temp;
+}
+inline void LogInM::set_allocated_reply(::chatserver::LogInReply* reply) {
+  delete reply_;
+  reply_ = reply;
+  if (reply) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInM.reply)
+}
+
+// optional .chatserver.LogInRequest request = 2;
+inline bool LogInM::has_request() const {
+  return !_is_default_instance_ && request_ != NULL;
+}
+inline void LogInM::clear_request() {
+  if (GetArenaNoVirtual() == NULL && request_ != NULL) delete request_;
+  request_ = NULL;
+}
+inline const ::chatserver::LogInRequest& LogInM::request() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogInM.request)
+  return request_ != NULL ? *request_ : *default_instance_->request_;
+}
+inline ::chatserver::LogInRequest* LogInM::mutable_request() {
+  
+  if (request_ == NULL) {
+    request_ = new ::chatserver::LogInRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.LogInM.request)
+  return request_;
+}
+inline ::chatserver::LogInRequest* LogInM::release_request() {
+  // @@protoc_insertion_point(field_release:chatserver.LogInM.request)
+  
+  ::chatserver::LogInRequest* temp = request_;
+  request_ = NULL;
+  return temp;
+}
+inline void LogInM::set_allocated_request(::chatserver::LogInRequest* request) {
+  delete request_;
+  request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInM.request)
+}
+
+// -------------------------------------------------------------------
+
+// LogOutM
+
+// optional .chatserver.LogOutReply reply = 1;
+inline bool LogOutM::has_reply() const {
+  return !_is_default_instance_ && reply_ != NULL;
+}
+inline void LogOutM::clear_reply() {
+  if (GetArenaNoVirtual() == NULL && reply_ != NULL) delete reply_;
+  reply_ = NULL;
+}
+inline const ::chatserver::LogOutReply& LogOutM::reply() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogOutM.reply)
+  return reply_ != NULL ? *reply_ : *default_instance_->reply_;
+}
+inline ::chatserver::LogOutReply* LogOutM::mutable_reply() {
+  
+  if (reply_ == NULL) {
+    reply_ = new ::chatserver::LogOutReply;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.LogOutM.reply)
+  return reply_;
+}
+inline ::chatserver::LogOutReply* LogOutM::release_reply() {
+  // @@protoc_insertion_point(field_release:chatserver.LogOutM.reply)
+  
+  ::chatserver::LogOutReply* temp = reply_;
+  reply_ = NULL;
+  return temp;
+}
+inline void LogOutM::set_allocated_reply(::chatserver::LogOutReply* reply) {
+  delete reply_;
+  reply_ = reply;
+  if (reply) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutM.reply)
+}
+
+// optional .chatserver.LogOutRequest request = 2;
+inline bool LogOutM::has_request() const {
+  return !_is_default_instance_ && request_ != NULL;
+}
+inline void LogOutM::clear_request() {
+  if (GetArenaNoVirtual() == NULL && request_ != NULL) delete request_;
+  request_ = NULL;
+}
+inline const ::chatserver::LogOutRequest& LogOutM::request() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogOutM.request)
+  return request_ != NULL ? *request_ : *default_instance_->request_;
+}
+inline ::chatserver::LogOutRequest* LogOutM::mutable_request() {
+  
+  if (request_ == NULL) {
+    request_ = new ::chatserver::LogOutRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.LogOutM.request)
+  return request_;
+}
+inline ::chatserver::LogOutRequest* LogOutM::release_request() {
+  // @@protoc_insertion_point(field_release:chatserver.LogOutM.request)
+  
+  ::chatserver::LogOutRequest* temp = request_;
+  request_ = NULL;
+  return temp;
+}
+inline void LogOutM::set_allocated_request(::chatserver::LogOutRequest* request) {
+  delete request_;
+  request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutM.request)
+}
+
+// -------------------------------------------------------------------
+
+// oneOfTypes
+
+// optional .chatserver.LogOutM logout = 1;
+inline bool oneOfTypes::has_logout() const {
+  return types_case() == kLogout;
+}
+inline void oneOfTypes::set_has_logout() {
+  _oneof_case_[0] = kLogout;
+}
+inline void oneOfTypes::clear_logout() {
+  if (has_logout()) {
+    delete types_.logout_;
+    clear_has_types();
+  }
+}
+inline  const ::chatserver::LogOutM& oneOfTypes::logout() const {
+  // @@protoc_insertion_point(field_get:chatserver.oneOfTypes.logout)
+  return has_logout()
+      ? *types_.logout_
+      : ::chatserver::LogOutM::default_instance();
+}
+inline ::chatserver::LogOutM* oneOfTypes::mutable_logout() {
+  if (!has_logout()) {
+    clear_types();
+    set_has_logout();
+    types_.logout_ = new ::chatserver::LogOutM;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.oneOfTypes.logout)
+  return types_.logout_;
+}
+inline ::chatserver::LogOutM* oneOfTypes::release_logout() {
+  // @@protoc_insertion_point(field_release:chatserver.oneOfTypes.logout)
+  if (has_logout()) {
+    clear_has_types();
+    ::chatserver::LogOutM* temp = types_.logout_;
+    types_.logout_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void oneOfTypes::set_allocated_logout(::chatserver::LogOutM* logout) {
+  clear_types();
+  if (logout) {
+    set_has_logout();
+    types_.logout_ = logout;
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.oneOfTypes.logout)
+}
+
+// optional .chatserver.LogInM login = 2;
+inline bool oneOfTypes::has_login() const {
+  return types_case() == kLogin;
+}
+inline void oneOfTypes::set_has_login() {
+  _oneof_case_[0] = kLogin;
+}
+inline void oneOfTypes::clear_login() {
+  if (has_login()) {
+    delete types_.login_;
+    clear_has_types();
+  }
+}
+inline  const ::chatserver::LogInM& oneOfTypes::login() const {
+  // @@protoc_insertion_point(field_get:chatserver.oneOfTypes.login)
+  return has_login()
+      ? *types_.login_
+      : ::chatserver::LogInM::default_instance();
+}
+inline ::chatserver::LogInM* oneOfTypes::mutable_login() {
+  if (!has_login()) {
+    clear_types();
+    set_has_login();
+    types_.login_ = new ::chatserver::LogInM;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.oneOfTypes.login)
+  return types_.login_;
+}
+inline ::chatserver::LogInM* oneOfTypes::release_login() {
+  // @@protoc_insertion_point(field_release:chatserver.oneOfTypes.login)
+  if (has_login()) {
+    clear_has_types();
+    ::chatserver::LogInM* temp = types_.login_;
+    types_.login_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void oneOfTypes::set_allocated_login(::chatserver::LogInM* login) {
+  clear_types();
+  if (login) {
+    set_has_login();
+    types_.login_ = login;
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.oneOfTypes.login)
+}
+
+// optional .chatserver.SendMessageM sendmessage = 3;
+inline bool oneOfTypes::has_sendmessage() const {
+  return types_case() == kSendmessage;
+}
+inline void oneOfTypes::set_has_sendmessage() {
+  _oneof_case_[0] = kSendmessage;
+}
+inline void oneOfTypes::clear_sendmessage() {
+  if (has_sendmessage()) {
+    delete types_.sendmessage_;
+    clear_has_types();
+  }
+}
+inline  const ::chatserver::SendMessageM& oneOfTypes::sendmessage() const {
+  // @@protoc_insertion_point(field_get:chatserver.oneOfTypes.sendmessage)
+  return has_sendmessage()
+      ? *types_.sendmessage_
+      : ::chatserver::SendMessageM::default_instance();
+}
+inline ::chatserver::SendMessageM* oneOfTypes::mutable_sendmessage() {
+  if (!has_sendmessage()) {
+    clear_types();
+    set_has_sendmessage();
+    types_.sendmessage_ = new ::chatserver::SendMessageM;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.oneOfTypes.sendmessage)
+  return types_.sendmessage_;
+}
+inline ::chatserver::SendMessageM* oneOfTypes::release_sendmessage() {
+  // @@protoc_insertion_point(field_release:chatserver.oneOfTypes.sendmessage)
+  if (has_sendmessage()) {
+    clear_has_types();
+    ::chatserver::SendMessageM* temp = types_.sendmessage_;
+    types_.sendmessage_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void oneOfTypes::set_allocated_sendmessage(::chatserver::SendMessageM* sendmessage) {
+  clear_types();
+  if (sendmessage) {
+    set_has_sendmessage();
+    types_.sendmessage_ = sendmessage;
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.oneOfTypes.sendmessage)
+}
+
+// optional .chatserver.ReceiveMessageM receivemessage = 4;
+inline bool oneOfTypes::has_receivemessage() const {
+  return types_case() == kReceivemessage;
+}
+inline void oneOfTypes::set_has_receivemessage() {
+  _oneof_case_[0] = kReceivemessage;
+}
+inline void oneOfTypes::clear_receivemessage() {
+  if (has_receivemessage()) {
+    delete types_.receivemessage_;
+    clear_has_types();
+  }
+}
+inline  const ::chatserver::ReceiveMessageM& oneOfTypes::receivemessage() const {
+  // @@protoc_insertion_point(field_get:chatserver.oneOfTypes.receivemessage)
+  return has_receivemessage()
+      ? *types_.receivemessage_
+      : ::chatserver::ReceiveMessageM::default_instance();
+}
+inline ::chatserver::ReceiveMessageM* oneOfTypes::mutable_receivemessage() {
+  if (!has_receivemessage()) {
+    clear_types();
+    set_has_receivemessage();
+    types_.receivemessage_ = new ::chatserver::ReceiveMessageM;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.oneOfTypes.receivemessage)
+  return types_.receivemessage_;
+}
+inline ::chatserver::ReceiveMessageM* oneOfTypes::release_receivemessage() {
+  // @@protoc_insertion_point(field_release:chatserver.oneOfTypes.receivemessage)
+  if (has_receivemessage()) {
+    clear_has_types();
+    ::chatserver::ReceiveMessageM* temp = types_.receivemessage_;
+    types_.receivemessage_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void oneOfTypes::set_allocated_receivemessage(::chatserver::ReceiveMessageM* receivemessage) {
+  clear_types();
+  if (receivemessage) {
+    set_has_receivemessage();
+    types_.receivemessage_ = receivemessage;
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.oneOfTypes.receivemessage)
+}
+
+// optional .chatserver.ListM list = 5;
+inline bool oneOfTypes::has_list() const {
+  return types_case() == kList;
+}
+inline void oneOfTypes::set_has_list() {
+  _oneof_case_[0] = kList;
+}
+inline void oneOfTypes::clear_list() {
+  if (has_list()) {
+    delete types_.list_;
+    clear_has_types();
+  }
+}
+inline  const ::chatserver::ListM& oneOfTypes::list() const {
+  // @@protoc_insertion_point(field_get:chatserver.oneOfTypes.list)
+  return has_list()
+      ? *types_.list_
+      : ::chatserver::ListM::default_instance();
+}
+inline ::chatserver::ListM* oneOfTypes::mutable_list() {
+  if (!has_list()) {
+    clear_types();
+    set_has_list();
+    types_.list_ = new ::chatserver::ListM;
+  }
+  // @@protoc_insertion_point(field_mutable:chatserver.oneOfTypes.list)
+  return types_.list_;
+}
+inline ::chatserver::ListM* oneOfTypes::release_list() {
+  // @@protoc_insertion_point(field_release:chatserver.oneOfTypes.list)
+  if (has_list()) {
+    clear_has_types();
+    ::chatserver::ListM* temp = types_.list_;
+    types_.list_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void oneOfTypes::set_allocated_list(::chatserver::ListM* list) {
+  clear_types();
+  if (list) {
+    set_has_list();
+    types_.list_ = list;
+  }
+  // @@protoc_insertion_point(field_set_allocated:chatserver.oneOfTypes.list)
+}
+
+inline bool oneOfTypes::has_types() const {
+  return types_case() != TYPES_NOT_SET;
+}
+inline void oneOfTypes::clear_has_types() {
+  _oneof_case_[0] = TYPES_NOT_SET;
+}
+inline oneOfTypes::TypesCase oneOfTypes::types_case() const {
+  return oneOfTypes::TypesCase(_oneof_case_[0]);
+}
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

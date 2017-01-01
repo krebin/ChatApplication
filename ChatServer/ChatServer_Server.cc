@@ -26,21 +26,38 @@ using chatserver::ReceiveMessageReply;
 using chatserver::ListRequest;
 using chatserver::ListReply;
 
+enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
+
+/*
+ * LinkedList
+ * Basic data structure to link users
+ */
 class LinkedList
 {
     public:
 
+        /*
+         * Node
+         * Inner class to store users
+         */
         class Node
 	{
 	    public:
-
+                
+                /*
+                 * Queue
+                 * Basic data structure to store mssages
+                 */
                 class Queue
 	        {
 		    public:
 			Queue()
 			{
+                            // allocate space for messages
 			    allocateMessages();
+                            // front = 0
 			    setFront(0);
+                            // rear = 0
 			    setRear(0);
 			}
 
@@ -349,8 +366,16 @@ class ServerImpl final
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogIn(service_, cq_, plist);
-			reply_.set_conformation(request_.user());
+			// append to string to create reply
+			std::string conformation = "Logged in as: " + request_.user();
+
+                        // add person to linkedlist
 			plist->insertPerson(request_.user());
+
+			// set conformation
+			reply_.set_conformation(conformation);
+
+			// service finished
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -393,7 +418,19 @@ class ServerImpl final
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataReceiveMessage(service_, cq_, plist);
-			reply_.set_conformation(plist->search(request_.user())->getMessages()->dequeueAll());
+
+			// get messages from queue in node
+			std::string messages = plist->search(request_.user())->getMessages()->dequeueAll();
+
+			// check if you got any message
+		        if(messages == "")
+			      // reply if no messages
+		              messages = "You have no messages\n.";
+
+			// set conformation
+			reply_.set_conformation(messages);
+
+		        // service finished
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -437,10 +474,13 @@ class ServerImpl final
 		    {
 			new CallDataSendMessage(service_, cq_, plist);
 
-			reply_.set_conformation(plist->search(request_.recipient())->getName());
+                        // Confirm messages were sent
+			reply_.set_conformation("Messages sent to " +  plist->search(request_.recipient())->getName());
 
+                        // Put user's name before message
 			std::string message = "Message from " + request_.user() + ":\n" + request_.message();
 
+                        // Add message to queue
 			plist->search(request_.recipient())->getMessages()->enqueue(message);
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
@@ -484,7 +524,10 @@ class ServerImpl final
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataList(service_, cq_, plist);
-			reply_.set_list(plist->list());
+                        // Set list of users
+			reply_.set_list("List of users: " + plist->list());
+
+                        // Service finished
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -527,7 +570,10 @@ class ServerImpl final
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogOut(service_, cq_, plist);
-			reply_.set_conformation(plist->deletePerson(request_.user()));
+                        // Set conformation
+			reply_.set_conformation("Logged out: " + plist->deletePerson(request_.user()));
+
+                        // Service finished
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -565,9 +611,7 @@ class ServerImpl final
 	    {
 		GPR_ASSERT(cq_->Next(&tag, &ok));
 		GPR_ASSERT(ok);
-		//static_cast<CallDataLogIn*>(tag)->Proceed(getList());
-		//static_cast<CallDataList*>(tag)->Proceed(getList());
-
+		// check for type of service in superclass
 		switch(static_cast<CallData*>(tag)->getType())
 		{
 		    case 1:
@@ -594,6 +638,7 @@ class ServerImpl final
     	std::unique_ptr<ServerCompletionQueue> cq_;
     	ChatServer::AsyncService service_;
     	std::unique_ptr<Server> server_;
+	// list to store users+messages
     	LinkedList* list;
 };
 
