@@ -22,7 +22,6 @@ using chatserver::ReceiveMessageReply;
 using chatserver::ReceiveMessageRequest;
 using chatserver::ListReply;
 using chatserver::ListRequest;
-using chatserver::oneOfTypes;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
 
@@ -53,7 +52,7 @@ class ChatServerClient
 	    return message;
 	}
 
-	std::string sendService(const std::string& user, 
+	std::string sendService(std::string* user, 
                                 int type, 
                                 const std::string& recipient, 
                                 std::string message)
@@ -81,7 +80,7 @@ class ChatServerClient
 	    if(type == LOGIN)
 	    {
 		// set user
-	        logInRequest.set_user(user);
+	        logInRequest.set_user(*user);
 		std::unique_ptr<ClientAsyncResponseReader<LogInReply>>
                 rpc(stub_->AsyncLogIn(&context, logInRequest, &cq));
 
@@ -91,7 +90,7 @@ class ChatServerClient
 	    else if(type == LOGOUT)
 	    {
 		// set user
-		logOutRequest.set_user(user);
+		logOutRequest.set_user(*user);
 		std::unique_ptr<ClientAsyncResponseReader<LogOutReply>> 
                 rpc(stub_->AsyncLogOut(&context, logOutRequest, &cq));
 
@@ -101,7 +100,7 @@ class ChatServerClient
             else if(type == SENDM)
             {
 		// set user, message, recipient
-	        sendMessageRequest.set_user(user);
+	        sendMessageRequest.set_user(*user);
 	        sendMessageRequest.set_message(message);
 	        sendMessageRequest.set_recipient(recipient);
 		std::unique_ptr<ClientAsyncResponseReader<SendMessageReply>> 
@@ -113,7 +112,7 @@ class ChatServerClient
 	    else if(type == RECEIVEM)
 	    {
 		// set user
-	        receiveMessageRequest.set_user(user);
+	        receiveMessageRequest.set_user(*user);
 		std::unique_ptr<ClientAsyncResponseReader<ReceiveMessageReply>> 
                 rpc(stub_->AsyncReceiveMessage(&context, receiveMessageRequest,
                                                &cq));
@@ -144,7 +143,11 @@ class ChatServerClient
 	    if(type == LIST)
 		conformation = listReply.list();
 	    else if(type == LOGIN)
+            {
 		conformation = logInReply.conformation();
+                // In case name was changed
+                *user = logInReply.user();
+            }
 	    else if(type == LOGOUT)
 		conformation = logOutReply.conformation();
 	    else if(type == RECEIVEM)
@@ -159,16 +162,16 @@ class ChatServerClient
 	    else
 	    {
 		return "RPC failed";
-	    }     
+	    }
 	}
 
     private:
 	std::unique_ptr<ChatServer::Stub> stub_;
 };
 
-int displayMenu(ChatServerClient* Chatter, std::string user);
+int displayMenu(ChatServerClient* Chatter, std::string* user);
 
-int displayMenu(ChatServerClient* Chatter, std::string user)
+int displayMenu(ChatServerClient* Chatter, std::string* user)
 {
         std::cout << "Enter the number corresponding to the command.\n";     
         std::cout << "1: Log Out\n";
@@ -179,6 +182,7 @@ int displayMenu(ChatServerClient* Chatter, std::string user)
         int choice;
         std::string rec;
         std::cin >> choice;
+        std::string* n;
         
 
 	switch(choice)
@@ -197,15 +201,13 @@ int displayMenu(ChatServerClient* Chatter, std::string user)
 		return 1;
 	    // User wants to receieve messages
 	    case 3:
-		std::cout << "Receiving messages.\n"
+		std::cout << "Receiving messages.\n\n"
 		          << Chatter->sendService(user, RECEIVEM, "", "")
-                          << std::endl 
-                          << "All messages recieved.\n" 
-                          << std::endl;
+                          << "All messages recieved.\n\n";
 		return 1;
 	    // User wants a list of people on server
 	    case 4:
-                std::cout << Chatter->sendService("", LIST, "", "");
+                std::cout << Chatter->sendService(user, LIST, "", "");
 		return 1;
 	    default:
 	        std::cout << "Invalid Choice. Exiting Client.\n";
@@ -217,7 +219,8 @@ int displayMenu(ChatServerClient* Chatter, std::string user)
 
 int main(int argc, char** argv)
 {
-    ChatServerClient chatter(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
+    ChatServerClient chatter(grpc::CreateChannel("localhost:50051", 
+                             grpc::InsecureChannelCredentials()));
 
     // pointer so client may be called from other functions 
     ChatServerClient* Chatter = &chatter;
@@ -231,15 +234,14 @@ int main(int argc, char** argv)
     std::cin >> user;
 
     //if((conformation = chatter.LogIn(user)) == "RPC failed")
-    if((conformation = chatter.sendService(user, LOGIN, "", "")) == 
-                                                                  "RPC failed")
+    if((conformation = chatter.sendService(&user, LOGIN, "", ""))=="RPC failed")
     {
-	std::cout << "Unable to connect to server. Exiting Client.\n";
-	return -1;
+	std::cout << "Cannot connect to server\n";
+        return -1;
     }
 
     // Log In successful
-    std::cout << "Logged In As: " << conformation << std::endl;
+    std::cout << conformation << std::endl;
 
     // run displayMenu until user wants to log out
     // or chooses an invalid service
@@ -247,7 +249,7 @@ int main(int argc, char** argv)
 
     do
     {
-	choice = displayMenu(Chatter, user);
+	choice = displayMenu(Chatter, &user);
     }
     while(choice);
     

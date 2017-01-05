@@ -2,9 +2,11 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <unistd.h>
 
 #include <grpc++/grpc++.h>
 #include "chatserver.grpc.pb.h"
+#include "LinkedListChatServer.hpp"
 
 using grpc::Server;
 using grpc::ServerAsyncResponseWriter;
@@ -28,287 +30,28 @@ using chatserver::ListReply;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
 
-/*
- * LinkedList
- * Basic data structure to link users
- */
-class LinkedList
-{
-    public:
-
-        /*
-         * Node
-         * Inner class to store users
-         */
-        class Node
-	{
-	    public:
-                
-                /*
-                 * Queue
-                 * Basic data structure to store mssages
-                 */
-                class Queue
-	        {
-		    public:
-			Queue()
-			{
-                            // allocate space for messages
-			    allocateMessages();
-                            // front = 0
-			    setFront(0);
-                            // rear = 0
-			    setRear(0);
-			}
-
-			
-			void enqueue(std::string message)
-			{
-			    getMessages()[getFront()] = message;
-			    setRear(getRear() + 1);
-			}
-
-			std::string dequeueAll()
-			{
-			    std::string messages = "";
-			    while(getFront() != getRear())
-			    {
-			        messages+=(dequeue());
-			    }
-			    return messages;
-			}
-
-			std::string* getMessages()
-			{
-			    return messages;
-			}
-
-			int getFront()
-			{
-			    return front;
-			}
-	
-			int getRear()
-			{
-			    return rear;
-			}
-
-		    private:
-		        std::string* messages;
-			int front;
-			int rear;
-
-			void allocateMessages()
-			{
-			    messages = new std::string[10];
-			}
-			void setFront(int n)
-			{
-			    front = n%10;
-			}
-			void setRear(int n)
-			{
-			    rear = n%10;
-			}
-			std::string dequeue()
-			{
-			    std::string message = getMessages()[getFront()];
-			    setFront(getFront() + 1);
-			    return message;
-			}
-
-	        };
-
-		Node(std::string name)
-		{
-		    setName(name);
-		    setNext(NULL);
-		    setPrev(NULL);
-		    allocateQueue();
-		}
-
-		std::string getName()
-		{
-		    return name;
-		}
-
-		Queue* getMessages()
-		{
-		    return messages;
-		}
-
-		int getNumMessages()
-		{
-		    return numMessages;
-		}
-
-		Node* getNext()
-	        {
-		    return next;
-		}
-
-		Node* getPrev()
-		{
-		    return prev;
-		}
-
-		void setNext(Node* n)
-		{
-		    next = n;
-		}
-
-		void setPrev(Node* n)
-		{
-		    prev = n;
-		}
-
-	    private:
-	        std::string name;
-		Queue* messages;
-		int numMessages;
-	        Node* next;
-		Node* prev;
-
-		void setName(std::string n)
-		{
-		    name = n;
-		}
-
-		void setNumMessages(int num)
-		{
-		    numMessages = num;
-		}
-
-		void allocateQueue()
-		{
-		    messages = new Queue();
-		}
-	};
-
-	Node* getHead()
-	{
-	    return head;
-	}
-
-	int getNumPeople()
-	{
-	    return numPeople;
-	}
-
-	void insertPerson(std::string name)
-	{
-	    Node* addNode = new Node(name);
-	    if(!getNumPeople())
-		setHead(addNode);
-	    else
-	    {
-	        Node* curNode = getHead();
-	        while(curNode->getNext() != NULL)
-		    curNode = curNode->getNext();
-		curNode->setNext(addNode);
-		addNode->setPrev(curNode);
-	    }
-	    setNumPeople(getNumPeople() + 1);
-	}
-
-	std::string deletePerson(std::string name)
-	{
-	    std::string n;
-	    if((getNumPeople() == 1) && (getHead()->getName() == name))
-	    {
-		n = getHead()->getName();
-		setHead(NULL);
-		setNumPeople(getNumPeople() - 1);
-		return n;
-	    }
-
-	    Node* curNode = getHead();
-	   
-	    while(curNode->getName() != name)
-		curNode = curNode->getNext(); 
-	    
-		n = curNode->getName();
-	        if(curNode->getPrev() != NULL && curNode->getNext() != NULL)
-    	        {
-	            curNode->getPrev()->setNext(curNode->getNext());
-		    curNode->getNext()->setPrev(curNode->getPrev());
-		}
-		else if(curNode->getNext() == NULL)
-		{
-	            curNode->getPrev()->setNext(NULL);
-		}
-	        else if(curNode->getPrev() == NULL)
-		{
-		    if(curNode == getHead())
-			setHead(curNode->getNext());
-	            curNode->getNext()->setPrev(NULL);
-	        }
-
-            setNumPeople(getNumPeople() - 1);
-	    return n;
-	}
-
-        std::string list()
-	{
-	    std::string people;
-            Node* curNode = getHead();
-	    while(curNode->getNext())
-	    {
-                people+=(curNode->getName() + ", ");
-	        curNode = curNode->getNext();
-            }
-
-	    people+=(curNode->getName());
-
-	    return people;
-	}
-	
-	Node* search(std::string name)
-	{
-	    Node* curNode = getHead();
-	    while(curNode)
-	    {
-	        if(curNode->getName() == name)
-		{
-		    return curNode;
-		}
-		curNode = curNode->getNext();;
-	    }
-            return NULL;
-	}
-
-    private:
-        Node* head;
-	int numPeople;	
-
-	void setHead(Node* n)
-	{
-	    head = n;
-	}
-
-	void setNumPeople(int n)
-	{
-	    numPeople = n;
-	}
-	
-};
-
 class ServerImpl final
 {
     public:
+	ServerImpl()
+        {
+            allocateList();
+        }
+
 	~ServerImpl()
 	{
 	    server_->Shutdown();
 	    cq_->Shutdown();
+            delete list;
 	}
 
         void Run()
         {
-	    allocateList();
 	    std::string server_address("0.0.0.0:50051");
 
 	    ServerBuilder builder;
-	    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+	    builder.AddListeningPort(server_address, 
+                                     grpc::InsecureServerCredentials());
 	    builder.RegisterService(&service_);
 	    cq_ = builder.AddCompletionQueue();
 	    server_ = builder.BuildAndStart();
@@ -349,10 +92,12 @@ class ServerImpl final
         class CallDataLogIn: public CallData
 	{
 	    public:
-		CallDataLogIn(ChatServer::AsyncService* service, ServerCompletionQueue* cq, LinkedList* plist)
-			: service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+		CallDataLogIn(ChatServer::AsyncService* service, 
+                              ServerCompletionQueue* cq, LinkedList* plist)
+			: service_(service), cq_(cq), responder_(&ctx_), 
+                          status_(CREATE)
 		{
-		    setType(1);
+		    setType(LOGIN);
 		    Proceed(plist);
 		}
 
@@ -361,21 +106,49 @@ class ServerImpl final
 		    if(status_ == CREATE)
 		    {
 			status_ = PROCESS;
-			service_->RequestLogIn(&ctx_, &request_, &responder_, cq_, cq_, this);
+			service_->RequestLogIn(&ctx_, &request_, 
+                                               &responder_, 
+                                               cq_, cq_, this);
 		    }
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogIn(service_, cq_, plist);
-			// append to string to create reply
-			std::string conformation = "Logged in as: " + request_.user();
+                        std::string conformation;
 
-                        // add person to linkedlist
-			plist->insertPerson(request_.user());
-
-			// set conformation
-			reply_.set_conformation(conformation);
+                        // Search is name can be already found
+                        // in list
+                        if(plist->search(request_.user()))
+                        {
+                            // add 1 to the end of name
+                            // if already taken
+                            int count = 1;
+                            // string conversion to concatenate
+                            std::string scount = std::to_string(count);
+                            // keep incrementig by one until open name
+                            // is found
+                            while(plist->search(request_.user() + scount))
+                            {
+                                scount = std::to_string(count++);
+                            }
+                            // insert generated name
+                            conformation = request_.user() + " taken; " +
+                                           "logged in as: " +
+                                           request_.user() + scount;
+                            plist->insertPerson(request_.user() + scount);
+                            // update name for client
+                            reply_.set_user(request_.user() + scount);
+                        }
+                        else
+                        {
+                            conformation = "Logged in as: " + request_.user();
+                            // insert person into list
+                            plist->insertPerson(request_.user());
+                            // update name for client
+                            reply_.set_user(request_.user());
+                        }
 
 			// service finished
+                        reply_.set_conformation(conformation);
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -401,10 +174,13 @@ class ServerImpl final
 	class CallDataReceiveMessage: public CallData
 	{
 	    public:
-		CallDataReceiveMessage(ChatServer::AsyncService* service, ServerCompletionQueue* cq, LinkedList* plist)
-			: service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+		CallDataReceiveMessage(ChatServer::AsyncService* service, 
+                                       ServerCompletionQueue* cq, 
+                                       LinkedList* plist)
+			: service_(service), cq_(cq), 
+                          responder_(&ctx_), status_(CREATE)
 		{
-		    setType(5);
+		    setType(RECEIVEM);
 		    Proceed(plist);
 		}
 
@@ -413,19 +189,21 @@ class ServerImpl final
 		    if(status_ == CREATE)
 		    {
 			status_ = PROCESS;
-			service_->RequestReceiveMessage(&ctx_, &request_, &responder_, cq_, cq_, this);
+			service_->RequestReceiveMessage(&ctx_, &request_, 
+                                                        &responder_, 
+                                                        cq_, cq_, this);
 		    }
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataReceiveMessage(service_, cq_, plist);
-
+                        
+                        // .5 second delay
+                        usleep(.750);
 			// get messages from queue in node
-			std::string messages = plist->search(request_.user())->getMessages()->dequeueAll();
-
-			// check if you got any message
-		        if(messages == "")
-			      // reply if no messages
-		              messages = "You have no messages\n.";
+			std::string messages = plist->
+                             search(request_.user())->
+                                       getMessages()->
+                                       dequeueAll();
 
 			// set conformation
 			reply_.set_conformation(messages);
@@ -456,10 +234,13 @@ class ServerImpl final
         class CallDataSendMessage: public CallData
 	{
 	    public:
-		CallDataSendMessage(ChatServer::AsyncService* service, ServerCompletionQueue* cq, LinkedList* plist)
-			: service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+		CallDataSendMessage(ChatServer::AsyncService* service, 
+                                    ServerCompletionQueue* cq, 
+                                    LinkedList* plist)
+			: service_(service), cq_(cq), 
+                          responder_(&ctx_), status_(CREATE)
 		{
-		    setType(4);
+		    setType(SENDM);
 		    Proceed(plist);
 		}
 
@@ -468,23 +249,55 @@ class ServerImpl final
 		    if(status_ == CREATE)
 		    {
 			status_ = PROCESS;
-			service_->RequestSendMessage(&ctx_, &request_, &responder_, cq_, cq_, this);
+			service_->RequestSendMessage(&ctx_, &request_, 
+                                                     &responder_, 
+                                                     cq_, cq_, this);
 		    }
+
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataSendMessage(service_, cq_, plist);
+                        std::string state;
 
-                        // Confirm messages were sent
-			reply_.set_conformation("Messages sent to " +  plist->search(request_.recipient())->getName());
+                        // .75 second delay
+                        usleep(750);
 
                         // Put user's name before message
-			std::string message = "Message from " + request_.user() + ":\n" + request_.message();
+			std::string message = "Message from " + 
+                                              request_.user() + 
+                                                          ":" + 
+                                              request_.message();
+                        Node* person;
+                        // Search to see if recipient is logged on
+                        if(!(person = plist->search(request_.recipient())))
+                            state = request_.recipient() + "is not logged " +
+                                                           "on right now.";
+                        else
+                        {                        
+                            // Add message to queue
+                            // max 10 messages per person
+			    if(plist->search(request_.recipient())->
+                                                     getMessages()->
+                                                     enqueue(message + "\n"))
+                                state = request_.recipient() + "'s messages "
+                                                             + "are full "
+                                                             + "try agin "
+                                                             + "later.\n";
+                            // Messages sent
+                            else
+                                state = "Messages sent to " +
+                                        plist->search(request_.recipient())->
+                                                      getName() + "\n";
+                        }
 
-                        // Add message to queue
-			plist->search(request_.recipient())->getMessages()->enqueue(message);
+                        // Send back success/failure
+                        reply_.set_conformation(state);
+
+
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
+
 		    else
 		    {
 			GPR_ASSERT(status_ == FINISH);
@@ -507,10 +320,13 @@ class ServerImpl final
         class CallDataList: public CallData
 	{
 	    public:
-		CallDataList(ChatServer::AsyncService* service, ServerCompletionQueue* cq, LinkedList* plist)
-			: service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+		CallDataList(ChatServer::AsyncService* service, 
+                             ServerCompletionQueue* cq, 
+                             LinkedList* plist)
+			: service_(service), cq_(cq), 
+                          responder_(&ctx_), status_(CREATE)
 		{
-		    setType(2);
+		    setType(LIST);
 		    Proceed(plist);
 		}
 
@@ -519,13 +335,17 @@ class ServerImpl final
 		    if(status_ == CREATE)
 		    {
 			status_ = PROCESS;
-			service_->RequestList(&ctx_, &request_, &responder_, cq_, cq_, this);
+			service_->RequestList(&ctx_, &request_, 
+                                              &responder_, 
+                                              cq_, cq_, this);
 		    }
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataList(service_, cq_, plist);
                         // Set list of users
-			reply_.set_list("List of users: " + plist->list());
+			reply_.set_list("List of users: " + 
+                                         plist->list() + 
+                                         "\n");
 
                         // Service finished
 			status_ = FINISH;
@@ -553,10 +373,12 @@ class ServerImpl final
 	class CallDataLogOut: public CallData
 	{
 	    public:
-		CallDataLogOut(ChatServer::AsyncService* service, ServerCompletionQueue* cq, LinkedList* plist)
-			: service_(service), cq_(cq), responder_(&ctx_), status_(CREATE)
+		CallDataLogOut(ChatServer::AsyncService* service, 
+                               ServerCompletionQueue* cq, LinkedList* plist)
+			: service_(service), cq_(cq), 
+                          responder_(&ctx_), status_(CREATE)
 		{
-		    setType(3);
+		    setType(LOGOUT);
 		    Proceed(plist);
 		}
 
@@ -565,13 +387,16 @@ class ServerImpl final
 		    if(status_ == CREATE)
 		    {
 			status_ = PROCESS;
-			service_->RequestLogOut(&ctx_, &request_, &responder_, cq_, cq_, this);
+			service_->RequestLogOut(&ctx_, &request_, 
+                                                &responder_, 
+                                                cq_, cq_, this);
 		    }
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogOut(service_, cq_, plist);
                         // Set conformation
-			reply_.set_conformation("Logged out: " + plist->deletePerson(request_.user()));
+			reply_.set_conformation("Logged out: " + 
+                        plist->deletePerson(request_.user()));
 
                         // Service finished
 			status_ = FINISH;
@@ -614,20 +439,25 @@ class ServerImpl final
 		// check for type of service in superclass
 		switch(static_cast<CallData*>(tag)->getType())
 		{
-		    case 1:
-			static_cast<CallDataLogIn*>(tag)->Proceed(getList());
+		    case LOGIN:
+			static_cast<CallDataLogIn*>(tag)->
+                                    Proceed(getList());
 			break;
-		    case 2:
-			static_cast<CallDataList*>(tag)->Proceed(getList());
+		    case LIST:
+			static_cast<CallDataList*>(tag)->
+                                    Proceed(getList());
 			break;
-		    case 3:
-			static_cast<CallDataLogOut*>(tag)->Proceed(getList());
+		    case LOGOUT:
+			static_cast<CallDataLogOut*>(tag)->
+                                    Proceed(getList());
 			break;
-		    case 4:
-			static_cast<CallDataSendMessage*>(tag)->Proceed(getList());
+		    case SENDM:
+			static_cast<CallDataSendMessage*>(tag)->
+                                    Proceed(getList());
 			break;
-		    case 5:
-			static_cast<CallDataReceiveMessage*>(tag)->Proceed(getList());
+		    case RECEIVEM:
+			static_cast<CallDataReceiveMessage*>(tag)->
+                                    Proceed(getList());
 			break;
 		    default:
 			break;

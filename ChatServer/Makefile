@@ -26,7 +26,7 @@ all: ChatServer_Client ChatServer_Server
 ChatServer_Client: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Client.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Server.o
+ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Server.o LinkedListChatServer.o NodeChatServer.o QueueChatServer.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
