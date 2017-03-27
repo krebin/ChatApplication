@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 
+#include <vector>
+#include <unordered_map>
 #include <grpc++/grpc++.h>
 #include "chatserver.grpc.pb.h"
 
@@ -183,13 +185,14 @@ int displayMenu(ChatServerClient* Chatter, std::string* user)
         std::string rec;
         std::cin >> choice;
         std::string* n;
+        std::string empty = "";
         
 
 	switch(choice)
 	{
 	    // User wants to log out
 	    case 1:
-		std::cout << Chatter->sendService(user, LOGOUT, "", "");
+		std::cout << Chatter->sendService(user, LOGOUT, empty, empty);
 	        return 0;
 	    // User wants to send messages to someone
 	    case 2:
