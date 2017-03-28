@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <thread>
-#include <unordered_map>
+#include <ctime>
+#include <functional>
+#include <unordered_set>
 #include <unistd.h>
 
 #include <grpc++/grpc++.h>
@@ -29,10 +31,50 @@ using chatserver::ReceiveMessageReply;
 using chatserver::ListRequest;
 using chatserver::ListReply;
 
-typedef std::unordered_map<std::string, UserNode*> user_map;
-typedef std::pair<std::string, UserNode*> user_pair;
+//typedef std::unordered_map<std::string, UserNode*> user_map;
+//typedef std::pair<std::string, UserNode*> user_pair;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
+
+/** A function class to use as Compare class in unordered_set<UserNode*>
+ */
+struct UserNodeComp
+{
+    public:
+        /** Overloaded operator
+         * @return bool: true if same, false if not
+         * @param UserNode*& lhs: first UserNode pointer to compare
+         * @param UserNode*& rhs: second UserNode pointer to compare
+         */
+        bool operator()(UserNode* const& lhs, UserNode* const& rhs) const
+        {
+            // dereference pointers to compare
+            return *(lhs) == *(rhs);
+        }
+};
+
+/** A function class to use as a Hash class in unordered_set<UserNode*>
+ */
+struct UserNodeHash 
+{
+    public:
+        /** Overloaded operator
+         * @return size_t hash value
+         * @param UserNode*& node: UserNode pointer to hash
+         */
+        size_t operator()(UserNode* const& node) const
+        {
+           // standard library hash function
+           return hash_(node->getName());
+        }
+
+    private:
+        // hash element
+        std::hash<std::string> hash_;
+};
+
+
+typedef std::unordered_set<UserNode*, UserNodeHash, UserNodeComp> user_set;
 
 class ServerImpl final
 {
@@ -83,7 +125,7 @@ class ServerImpl final
 	{
 	    public:
 		CallDataLogIn(ChatServer::AsyncService* service, 
-                              ServerCompletionQueue* cq, user_map& users)
+                              ServerCompletionQueue* cq, user_set& users)
 			: service_(service), cq_(cq), responder_(&ctx_), 
                           status_(CREATE)
 		{
@@ -91,7 +133,7 @@ class ServerImpl final
 		    Proceed(users);
 		}
 
-		void Proceed(user_map& users)
+		void Proceed(user_set& users)
 		{
 		    if(status_ == CREATE)
 		    {
@@ -106,32 +148,36 @@ class ServerImpl final
                         std::string conformation;
                         std::string name = request_.user();
 
-                        // iterator to user
-                        auto user = users.find(name);
+                        // UserNode on stack for find
+                        UserNode tempUser(name);
 
-                        if(user != users.end())
+                        // iterator to user
+                        auto user = (users.find(&tempUser));
+
+                        if(user == users.end())
                         {
-                            users.insert(user_pair(name, new UserNode(name)));
-                            conformation = "Logged in as new user: ";
+                            users.insert(new UserNode(name));
+                            conformation = "Logged in as new user: " + name;
                         }
                         else
                         {
                             // user already logged in
-                            if(user->second->getStatus()) 
+                            if((*user)->getStatus()) 
                             {
-                                conformation = "User already logged in.";
+                                conformation = "+";
                             }
                             else
                             {
                                 // online_ to true
-                                user->second->setStatus(true);
-                                conformation = "Logged in as: ";
+                                (*user)->setStatus(true);
+                                conformation = "Logged in as: " + name;
                             }
-                            reply_.set_user(request_.user());
                         }
+                        // update user
+                        reply_.set_user(request_.user());
 
 			// service finished
-                        reply_.set_conformation(conformation);
+                        reply_.set_conformation(conformation + "\n");
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -159,7 +205,7 @@ class ServerImpl final
 	    public:
 		CallDataReceiveMessage(ChatServer::AsyncService* service, 
                                        ServerCompletionQueue* cq, 
-                                       user_map& users)
+                                       user_set& users)
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
@@ -167,7 +213,7 @@ class ServerImpl final
 		    Proceed(users);
 		}
 
-		void Proceed(user_map& users)
+		void Proceed(user_set& users)
 		{
 		    if(status_ == CREATE)
 		    {
@@ -179,12 +225,15 @@ class ServerImpl final
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataReceiveMessage(service_, cq_, users);
-                        auto user = users.find(request_.user());             
+
+                        // user on stack for find
+                        UserNode tempUser(request_.user());
+                        auto user = users.find(&tempUser);             
  
                         // .5 second delay
                         usleep(.750);
 			// get messages from queue in node
-                        auto messages = user->second->getMessages();
+                        auto messages = (*user)->getMessages();
 
 			// set conformation
 			reply_.set_conformation(messages);
@@ -217,7 +266,7 @@ class ServerImpl final
 	    public:
 		CallDataSendMessage(ChatServer::AsyncService* service, 
                                     ServerCompletionQueue* cq, 
-                                    user_map& users)
+                                    user_set& users)
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
@@ -226,7 +275,7 @@ class ServerImpl final
 		}
 
 
-		void Proceed(std::unordered_map<std::string, UserNode*>& users)
+		void Proceed(user_set& users)
 		{
 		    if(status_ == CREATE)
 		    {
@@ -242,35 +291,46 @@ class ServerImpl final
                         std::string state;
                         auto name = request_.user();
                         auto message = request_.message();
-                        auto recipient = users.find(request_.recipient());
+                        
+                        // User on stack for find
+                        UserNode tempUser(request_.recipient());
+                        auto recipient = users.find(&tempUser);
+
+                        // Time and Date
+                        time_t now = time(0);
+                        tm *gmtm = gmtime(&now);
+                        char* dt = asctime(gmtm);
 
                         // .75 second delay
                         usleep(750);
-
                         // Put user's name before message
-			std::string newMessage = "Message from " + 
+			std::string newMessage = "UTC: " +
+                                                 std::string(dt) +
+                                                 "Message from " + 
                                                  name + 
-                                                 ":" + 
-                                                 message;
+                                                 ":\n" +
+                                                 message + "\n";
 
-                        // user exists
+                        // User exists
                         if(recipient != users.end())
                         {
                             // push message
-                            recipient->second->addMessage(message);
+                            (*recipient)->addMessage(newMessage);
                             // confirm sent
-                            state = "Message sent to " + request_.recipient();
+                            state = "Message sent to " + 
+                                    request_.recipient() +
+                                    "\n";
                         }
+                        // User does not exist
                         else
                         {
-                            // confirm sent
                             state = "The user " + 
                                     request_.recipient() +
-                                    " does not exist.";                                                   
+                                    " does not exist.\n";                                                   
                         }
  
                         // Send back success/failure
-                        reply_.set_conformation(state);
+                        reply_.set_conformation(state + "\n");
 
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
@@ -300,7 +360,7 @@ class ServerImpl final
 	    public:
 		CallDataList(ChatServer::AsyncService* service, 
                              ServerCompletionQueue* cq, 
-                             user_map& users)
+                             user_set& users)
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
@@ -308,7 +368,7 @@ class ServerImpl final
 		    Proceed(users);
 		}
 
-		void Proceed(std::unordered_map<std::string, UserNode*>& users)
+		void Proceed(user_set& users)
 		{
 		    if(status_ == CREATE)
 		    {
@@ -323,17 +383,20 @@ class ServerImpl final
                         std::string list = "List of users: ";
                         auto begin = users.begin();
 
-                        for(int i = 0; i < users.size() - 1; i++)
+                        while(begin != users.end())
                         {
                             // append users, iterate
-                            list+=(begin->second->getName());
-                            list+=(", ");
+                            if((*begin)->getStatus())
+                            {
+                                list+="[";
+                                list+=((*begin)->getName());
+                                list+="] ";
+                            }
                             begin++;
                         }
-                        list+=(begin->second->getName());
 
                         // Set list of users
-			reply_.set_list(list);
+			reply_.set_list(list + "\n");
 
                         // Service finished
 			status_ = FINISH;
@@ -362,7 +425,7 @@ class ServerImpl final
 	{
 	    public:
 		CallDataLogOut(ChatServer::AsyncService* service, 
-                               ServerCompletionQueue* cq, user_map& users)
+                               ServerCompletionQueue* cq, user_set& users)
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
@@ -370,7 +433,7 @@ class ServerImpl final
 		    Proceed(users);
 		}
 
-		void Proceed(std::unordered_map<std::string, UserNode*>& users)
+		void Proceed(user_set& users)
 		{
 		    if(status_ == CREATE)
 		    {
@@ -379,16 +442,20 @@ class ServerImpl final
                                                 &responder_, 
                                                 cq_, cq_, this);
 		    }
+
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogOut(service_, cq_, users);
                         auto name = request_.user();
-                        auto user = users.find(name);
+                        // User on stack for find
+                        UserNode tempUser(name);
+                        auto user = users.find(&tempUser);
                         // set online_ to false
-                        user->second->setStatus(false);
+                        (*user)->setStatus(false);
+                        std::cout << name;
 
                         // Set conformation
-			reply_.set_conformation("Logged out: " + name);
+			reply_.set_conformation("Logged out: " + name + "\n");
                         
                         // Service finished
 			status_ = FINISH;
@@ -459,7 +526,7 @@ class ServerImpl final
     	ChatServer::AsyncService service_;
     	std::unique_ptr<Server> server_;
 
-        user_map users_;
+        user_set users_;
 };
 
 int main(int argc, char** argv)

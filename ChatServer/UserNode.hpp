@@ -9,11 +9,16 @@ class UserNode
 {
     public:
         UserNode(std::string name);
-        std::string getName();
-        bool getStatus();
+        std::string getName() const;
+        bool getStatus() const;
         void setStatus(bool online);
         std::string getMessages();
         void addMessage(std::string message);
+
+        /** Overriden == method for unordered_set
+         * @return bool: true if names equal, false if not
+         */
+        bool operator==(const UserNode& other);
 
         
 

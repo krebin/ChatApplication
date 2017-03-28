@@ -8,7 +8,7 @@ UserNode::UserNode(std::string name): name_(name),
 /** Accessor method for name
  * @return string: name_ member
  */
-std::string UserNode::getName()
+std::string UserNode::getName() const
 {
     return name_;
 }
@@ -18,7 +18,12 @@ std::string UserNode::getName()
  */
 std::string UserNode::getMessages()
 {
+    // Empty queue
+    if(!messages_.size())
+        return "No new messages.\n\n";
+
     std::string messages = "";
+
     // dequeue messages and append to empty string
     while(messages_.size())
     {
@@ -39,7 +44,7 @@ void UserNode::setStatus(bool online)
 /** Accessor method for online status
  * @return online_ member
  */
-bool UserNode::getStatus()
+bool UserNode::getStatus() const
 {
     return online_;
 }
@@ -50,4 +55,13 @@ bool UserNode::getStatus()
 void UserNode::addMessage(std::string message)
 {
     messages_.push(message);
+}
+
+
+/** Overriden == method for unordered_set
+ * @return bool: true if names equal, false if not
+ */
+bool UserNode::operator==(const UserNode& other)
+{
+    return this->getName() == other.getName();
 }

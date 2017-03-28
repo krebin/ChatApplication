@@ -54,7 +54,7 @@ class ChatServerClient
 	    return message;
 	}
 
-	std::string sendService(std::string* user, 
+	std::string sendService(std::string& user, 
                                 int type, 
                                 const std::string& recipient, 
                                 std::string message)
@@ -82,17 +82,16 @@ class ChatServerClient
 	    if(type == LOGIN)
 	    {
 		// set user
-	        logInRequest.set_user(*user);
+	        logInRequest.set_user(user);
 		std::unique_ptr<ClientAsyncResponseReader<LogInReply>>
                 rpc(stub_->AsyncLogIn(&context, logInRequest, &cq));
-
 		rpc->Finish(&logInReply, &status, (void*)1);
 	    }
 	    // service is LogOut
 	    else if(type == LOGOUT)
 	    {
 		// set user
-		logOutRequest.set_user(*user);
+		logOutRequest.set_user(user);
 		std::unique_ptr<ClientAsyncResponseReader<LogOutReply>> 
                 rpc(stub_->AsyncLogOut(&context, logOutRequest, &cq));
 
@@ -102,7 +101,7 @@ class ChatServerClient
             else if(type == SENDM)
             {
 		// set user, message, recipient
-	        sendMessageRequest.set_user(*user);
+	        sendMessageRequest.set_user(user);
 	        sendMessageRequest.set_message(message);
 	        sendMessageRequest.set_recipient(recipient);
 		std::unique_ptr<ClientAsyncResponseReader<SendMessageReply>> 
@@ -114,7 +113,7 @@ class ChatServerClient
 	    else if(type == RECEIVEM)
 	    {
 		// set user
-	        receiveMessageRequest.set_user(*user);
+	        receiveMessageRequest.set_user(user);
 		std::unique_ptr<ClientAsyncResponseReader<ReceiveMessageReply>> 
                 rpc(stub_->AsyncReceiveMessage(&context, receiveMessageRequest,
                                                &cq));
@@ -148,7 +147,7 @@ class ChatServerClient
             {
 		conformation = logInReply.conformation();
                 // In case name was changed
-                *user = logInReply.user();
+                user = logInReply.user();
             }
 	    else if(type == LOGOUT)
 		conformation = logOutReply.conformation();
@@ -159,7 +158,7 @@ class ChatServerClient
 
 	    if(status.ok())
 	    {
-		return conformation + "\n";
+		return conformation;
 	    }
 	    else
 	    {
@@ -171,9 +170,9 @@ class ChatServerClient
 	std::unique_ptr<ChatServer::Stub> stub_;
 };
 
-int displayMenu(ChatServerClient* Chatter, std::string* user);
+int displayMenu(ChatServerClient* Chatter, std::string& user);
 
-int displayMenu(ChatServerClient* Chatter, std::string* user)
+int displayMenu(ChatServerClient* Chatter, std::string& user)
 {
         std::cout << "Enter the number corresponding to the command.\n";     
         std::cout << "1: Log Out\n";
@@ -192,7 +191,7 @@ int displayMenu(ChatServerClient* Chatter, std::string* user)
 	{
 	    // User wants to log out
 	    case 1:
-		std::cout << Chatter->sendService(user, LOGOUT, empty, empty);
+		std::cout << Chatter->sendService(user, LOGOUT, "", "");
 	        return 0;
 	    // User wants to send messages to someone
 	    case 2:
@@ -227,7 +226,6 @@ int main(int argc, char** argv)
 
     // pointer so client may be called from other functions 
     ChatServerClient* Chatter = &chatter;
- 
     // name of user
     std::string user;
     // string to store conformation of log in service
@@ -236,8 +234,18 @@ int main(int argc, char** argv)
     std::cout << "Log In As: ";
     std::cin >> user;
 
-    //if((conformation = chatter.LogIn(user)) == "RPC failed")
-    if((conformation = chatter.sendService(&user, LOGIN, "", ""))=="RPC failed")
+    while((conformation = chatter.sendService(user, LOGIN, "", "")) == "+\n")
+    {
+       std::cout << "The user "
+                 << user
+                 << " is already logged in.\n\n"
+                 << "Log In As: ";
+
+       std::cin >> user;
+    }
+
+    // log in did not go through
+    if(conformation == "RPC failed")
     {
 	std::cout << "Cannot connect to server\n";
         return -1;
@@ -252,7 +260,7 @@ int main(int argc, char** argv)
 
     do
     {
-	choice = displayMenu(Chatter, &user);
+	choice = displayMenu(Chatter, user);
     }
     while(choice);
     
