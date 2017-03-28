@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Except for these:
+!.gitignore
+!Makefile
+!*.grpc
+!*.pb
+!*.cc
+!*.hpp
