@@ -103,24 +103,20 @@ class ServerImpl final
 
     private:
 
+        /** Base class for all CallData
+         */
 	class CallData
 	{
 	    public:
-		
-		int getType()
-		{
-		    return type;
-		}
-
-		void setType(int t)
-		{
-		    type = t;
-		}
-
-	    private:
-		int type;
+                /** Must override this method, proceed with RPC
+                 * @param user_set& users: ref to unordered_set of UserNode*
+                 */
+                virtual void Proceed(user_set& users) = 0;
+	
 	};
 
+        /** Class for Log In RPC service
+         */
         class CallDataLogIn: public CallData
 	{
 	    public:
@@ -129,7 +125,6 @@ class ServerImpl final
 			: service_(service), cq_(cq), responder_(&ctx_), 
                           status_(CREATE)
 		{
-		    setType(LOGIN);
 		    Proceed(users);
 		}
 
@@ -209,7 +204,6 @@ class ServerImpl final
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
-		    setType(RECEIVEM);
 		    Proceed(users);
 		}
 
@@ -270,7 +264,6 @@ class ServerImpl final
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
-		    setType(SENDM);
 		    Proceed(users);
 		}
 
@@ -364,7 +357,6 @@ class ServerImpl final
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
-		    setType(LIST);
 		    Proceed(users);
 		}
 
@@ -429,7 +421,6 @@ class ServerImpl final
 			: service_(service), cq_(cq), 
                           responder_(&ctx_), status_(CREATE)
 		{
-		    setType(LOGOUT);
 		    Proceed(users);
 		}
 
@@ -487,38 +478,14 @@ class ServerImpl final
 	    new CallDataLogOut(&service_, cq_.get(), users_);
 	    new CallDataSendMessage(&service_, cq_.get(), users_);
 	    new CallDataReceiveMessage(&service_, cq_.get(), users_);
+
 	    void* tag;
 	    bool ok;
 	    while(true)
 	    {
 		GPR_ASSERT(cq_->Next(&tag, &ok));
 		GPR_ASSERT(ok);
-		// check for type of service in superclass
-		switch(static_cast<CallData*>(tag)->getType())
-		{
-		    case LOGIN:
-			static_cast<CallDataLogIn*>(tag)->
-                                    Proceed(users_);
-			break;
-		    case LIST:
-			static_cast<CallDataList*>(tag)->
-                                    Proceed(users_);
-			break;
-		    case LOGOUT:
-			static_cast<CallDataLogOut*>(tag)->
-                                    Proceed(users_);
-			break;
-		    case SENDM:
-			static_cast<CallDataSendMessage*>(tag)->
-                                    Proceed(users_);
-			break;
-		    case RECEIVEM:
-			static_cast<CallDataReceiveMessage*>(tag)->
-                                    Proceed(users_);
-			break;
-		    default:
-			break;
-		}
+                static_cast<CallData*>(tag)->Proceed(users_);
 	    }
  	}
 
@@ -526,6 +493,7 @@ class ServerImpl final
     	ChatServer::AsyncService service_;
     	std::unique_ptr<Server> server_;
 
+        // Hash table that uses user names as keys
         user_set users_;
 };
 
