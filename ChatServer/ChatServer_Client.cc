@@ -1,9 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
-
-#include <vector>
-#include <unordered_map>
+#include <sstream>
 #include <grpc++/grpc++.h>
 #include "chatserver.grpc.pb.h"
 
@@ -181,11 +179,18 @@ int displayMenu(ChatServerClient* Chatter, std::string& user)
 	std::cout << "4: List of people on server\n\n";
 
         int choice;
-        std::string rec;
-        std::cin >> choice;
-        std::string* n;
-        std::string empty = "";
-        
+        std::string input, rec;
+        std::getline(std::cin, input);
+
+        // check for EOF, default behavior will log out
+        if(std::cin.eof())
+        {
+            std::cout << Chatter->sendService(user, LOGOUT, "", "");
+            return 0;
+        }
+
+        std::stringstream format(input);
+        format >> choice;
 
 	switch(choice)
 	{
@@ -212,10 +217,8 @@ int displayMenu(ChatServerClient* Chatter, std::string& user)
                 std::cout << Chatter->sendService(user, LIST, "", "");
 		return 1;
 	    default:
-	        std::cout << "Invalid Choice. Exiting Client.\n";
-		// Log User out
-                Chatter->sendService(user, LOGOUT, "", "");
-	        return 0;
+	        std::cout << "Invalid Choice.\n\n";
+	        return 1;
 	}
 }
 
@@ -232,16 +235,28 @@ int main(int argc, char** argv)
     std::string conformation;
 
     std::cout << "Log In As: ";
-    std::cin >> user;
-
-    while((conformation = chatter.sendService(user, LOGIN, "", "")) == "+\n")
+    std::getline(std::cin, user);
+   
+    while((conformation = chatter.sendService(user, LOGIN, "", "")) == "+\n"
+         ||conformation == "-\n")
     {
-       std::cout << "The user "
-                 << user
-                 << " is already logged in.\n\n"
-                 << "Log In As: ";
+       // Marker for user already logged in
+       if(conformation == "+\n")
+       {
+           std::cout << "The user "
+                     << user
+                     << " is already logged in.\n\n";
+       }
+       // - is marker for invalid name
+       else
+       {
+           std::cout << "The name "
+                     << user
+                     << " is not alphanumeric or contains spaces.\n\n";
+       }
+       std::cout << "Log in as: ";
 
-       std::cin >> user;
+       std::getline(std::cin, user);
     }
 
     // log in did not go through

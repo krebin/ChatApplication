@@ -31,10 +31,9 @@ using chatserver::ReceiveMessageReply;
 using chatserver::ListRequest;
 using chatserver::ListReply;
 
-//typedef std::unordered_map<std::string, UserNode*> user_map;
-//typedef std::pair<std::string, UserNode*> user_pair;
-
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
+#define ALPHA_START 65
+#define ALPHA_END 122
 
 /** A function class to use as Compare class in unordered_set<UserNode*>
  */
@@ -75,6 +74,24 @@ struct UserNodeHash
 
 
 typedef std::unordered_set<UserNode*, UserNodeHash, UserNodeComp> user_set;
+bool isValid(std::string name);
+
+/** Function to check whether or not name chosen is valid name
+ * Name must contain only alphanumeric and no spaces
+ * @param std::string name: string to be checked
+ * @return bool valid: true if valid, false if not
+ */
+bool isValid(std::string name)
+{
+    for(int i = 0; i < name.length(); i++)
+    {
+        // letter must be A through z
+        if(name[i] < ALPHA_START || name[i] > ALPHA_END)
+            return false;
+    }
+    return true;
+}
+
 
 class ServerImpl final
 {
@@ -117,7 +134,7 @@ class ServerImpl final
 
         /** Class for Log In RPC service
          */
-        class CallDataLogIn: public CallData
+        class CallDataLogIn final: public CallData
 	{
 	    public:
 		CallDataLogIn(ChatServer::AsyncService* service, 
@@ -142,6 +159,7 @@ class ServerImpl final
 			new CallDataLogIn(service_, cq_, users);
                         std::string conformation;
                         std::string name = request_.user();
+                        bool valid = isValid(name);
 
                         // UserNode on stack for find
                         UserNode tempUser(name);
@@ -149,25 +167,34 @@ class ServerImpl final
                         // iterator to user
                         auto user = (users.find(&tempUser));
 
-                        if(user == users.end())
+                        // if name was valid
+                        if(valid)
                         {
-                            users.insert(new UserNode(name));
-                            conformation = "Logged in as new user: " + name;
-                        }
-                        else
-                        {
-                            // user already logged in
-                            if((*user)->getStatus()) 
+                            if(user == users.end())
                             {
-                                conformation = "+";
+                                users.insert(new UserNode(name));
+                                conformation = "Logged in as new user: " + name;
                             }
                             else
                             {
-                                // online_ to true
-                                (*user)->setStatus(true);
-                                conformation = "Logged in as: " + name;
+                                // user already logged in
+                                if((*user)->getStatus()) 
+                                {
+                                    conformation = "+";
+                                }
+                                else
+                                {
+                                    // online_ to true
+                                    (*user)->setStatus(true);
+                                    conformation = "Logged in as: " + name;
+                                }
                             }
                         }
+                        else
+                        {
+                            conformation = "-";
+                        }
+
                         // update user
                         reply_.set_user(request_.user());
 
@@ -195,7 +222,7 @@ class ServerImpl final
 		CallStatus status_;
 	};
 
-	class CallDataReceiveMessage: public CallData
+	class CallDataReceiveMessage final: public CallData
 	{
 	    public:
 		CallDataReceiveMessage(ChatServer::AsyncService* service, 
@@ -255,7 +282,7 @@ class ServerImpl final
 		CallStatus status_;
 	};
 
-        class CallDataSendMessage: public CallData
+        class CallDataSendMessage final: public CallData
 	{
 	    public:
 		CallDataSendMessage(ChatServer::AsyncService* service, 
@@ -348,7 +375,7 @@ class ServerImpl final
 		CallStatus status_;
 	};
 
-        class CallDataList: public CallData
+        class CallDataList final: public CallData
 	{
 	    public:
 		CallDataList(ChatServer::AsyncService* service, 
@@ -413,7 +440,7 @@ class ServerImpl final
 		CallStatus status_;
 	};
 
-	class CallDataLogOut: public CallData
+	class CallDataLogOut final: public CallData
 	{
 	    public:
 		CallDataLogOut(ChatServer::AsyncService* service, 
