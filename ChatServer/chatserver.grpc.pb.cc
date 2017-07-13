@@ -21,6 +21,8 @@ static const char* ChatServer_method_names[] = {
   "/chatserver.ChatServer/SendMessage",
   "/chatserver.ChatServer/ReceiveMessage",
   "/chatserver.ChatServer/List",
+  "/chatserver.ChatServer/Chat",
+  "/chatserver.ChatServer/SayHello",
 };
 
 std::unique_ptr< ChatServer::Stub> ChatServer::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -34,6 +36,8 @@ ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_SendMessage_(ChatServer_method_names[2], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ReceiveMessage_(ChatServer_method_names[3], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_List_(ChatServer_method_names[4], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Chat_(ChatServer_method_names[5], ::grpc::RpcMethod::BIDI_STREAMING, channel)
+  , rpcmethod_SayHello_(ChatServer_method_names[6], ::grpc::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status ChatServer::Stub::LogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::chatserver::LogInReply* response) {
@@ -76,6 +80,22 @@ ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return new ::grpc::ClientAsyncResponseReader< ::chatserver::ListReply>(channel_.get(), cq, rpcmethod_List_, context, request);
 }
 
+::grpc::ClientReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* ChatServer::Stub::ChatRaw(::grpc::ClientContext* context) {
+  return new ::grpc::ClientReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>(channel_.get(), rpcmethod_Chat_, context);
+}
+
+::grpc::ClientAsyncReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* ChatServer::Stub::AsyncChatRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>(channel_.get(), cq, rpcmethod_Chat_, context, tag);
+}
+
+::grpc::ClientReader< ::chatserver::HelloReply>* ChatServer::Stub::SayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request) {
+  return new ::grpc::ClientReader< ::chatserver::HelloReply>(channel_.get(), rpcmethod_SayHello_, context, request);
+}
+
+::grpc::ClientAsyncReader< ::chatserver::HelloReply>* ChatServer::Stub::AsyncSayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReader< ::chatserver::HelloReply>(channel_.get(), cq, rpcmethod_SayHello_, context, request, tag);
+}
+
 ChatServer::Service::Service() {
   (void)ChatServer_method_names;
   AddMethod(new ::grpc::RpcServiceMethod(
@@ -103,6 +123,16 @@ ChatServer::Service::Service() {
       ::grpc::RpcMethod::NORMAL_RPC,
       new ::grpc::RpcMethodHandler< ChatServer::Service, ::chatserver::ListRequest, ::chatserver::ListReply>(
           std::mem_fn(&ChatServer::Service::List), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      ChatServer_method_names[5],
+      ::grpc::RpcMethod::BIDI_STREAMING,
+      new ::grpc::BidiStreamingHandler< ChatServer::Service, ::chatserver::ChatMessage, ::chatserver::ChatMessage>(
+          std::mem_fn(&ChatServer::Service::Chat), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      ChatServer_method_names[6],
+      ::grpc::RpcMethod::SERVER_STREAMING,
+      new ::grpc::ServerStreamingHandler< ChatServer::Service, ::chatserver::HelloRequest, ::chatserver::HelloReply>(
+          std::mem_fn(&ChatServer::Service::SayHello), this)));
 }
 
 ChatServer::Service::~Service() {
@@ -140,6 +170,19 @@ ChatServer::Service::~Service() {
   (void) context;
   (void) request;
   (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ChatServer::Service::Chat(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* stream) {
+  (void) context;
+  (void) stream;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ChatServer::Service::SayHello(::grpc::ServerContext* context, const ::chatserver::HelloRequest* request, ::grpc::ServerWriter< ::chatserver::HelloReply>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

@@ -4,7 +4,7 @@
 # Except for these:
 !.gitignore
 !Makefile
-!*.grpc
-!*.pb
-!*.cc
-!*.hpp
+UserNode.hpp
+UserNode.cc
+ChatServer_Client.cc
+ChatServer_Server.cc

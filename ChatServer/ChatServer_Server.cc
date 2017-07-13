@@ -3,6 +3,8 @@
 #include <string>
 #include <thread>
 #include <ctime>
+#include <vector>
+#include <unordered_map>
 #include <functional>
 #include <unordered_set>
 #include <unistd.h>
@@ -13,10 +15,12 @@
 
 using grpc::Server;
 using grpc::ServerAsyncResponseWriter;
+using grpc::ServerAsyncWriter;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerCompletionQueue;
 using grpc::Status;
+using grpc::ServerAsyncReaderWriter;
 
 using chatserver::ChatServer;
 
@@ -30,6 +34,9 @@ using chatserver::ReceiveMessageRequest;
 using chatserver::ReceiveMessageReply;
 using chatserver::ListRequest;
 using chatserver::ListReply;
+using chatserver::ChatMessage;
+using chatserver::HelloRequest;
+using chatserver::HelloReply;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
 #define ALPHA_START 65
@@ -73,7 +80,6 @@ struct UserNodeHash
 };
 
 
-typedef std::unordered_set<UserNode*, UserNodeHash, UserNodeComp> user_set;
 bool isValid(std::string name);
 
 /** Function to check whether or not name chosen is valid name
@@ -93,8 +99,16 @@ bool isValid(std::string name)
 }
 
 
-class ServerImpl final
+class ServerImpl final : public ChatServer::AsyncService
 {
+
+
+    using user_set = std::unordered_set<UserNode*, UserNodeHash, UserNodeComp>;
+
+    using chat_responder = ServerAsyncReaderWriter<ChatMessage, ChatMessage>;
+
+    using responder_set = std::unordered_map<void*, ServerAsyncReaderWriter<ChatMessage, ChatMessage>>;
+
     public:
 	ServerImpl(){}
 
@@ -282,7 +296,107 @@ class ServerImpl final
 		CallStatus status_;
 	};
 
-        class CallDataSendMessage final: public CallData
+    class CallDataChat final: public CallData
+	{
+	    public:
+		CallDataChat(ChatServer::AsyncService* service
+                   , ServerCompletionQueue* cq 
+                   , user_set& users
+                   , std::vector<CallDataChat*>& chatters)
+
+			       : service_(service)
+                   , cq_(cq) 
+                   , responder_(&ctx_)
+                   , status_(CREATE)
+                   , chatters_(chatters)
+		{
+		    Proceed(users);
+		}
+
+		ServerAsyncReaderWriter<ChatMessage, ChatMessage> responder_;
+        std::vector<CallDataChat*> chatters_;
+        std::vector<std::string> receivedMessages_;
+
+		void Proceed(user_set& users)
+		{
+		    if(status_ == CREATE)
+		    {
+			    status_ = PROCESS;
+			    service_->RequestChat(&ctx_,
+                                      &responder_, 
+                                      cq_, cq_, this);
+
+
+                //service_->RequestSendMessage(&ctx_, &request_, 
+                //                             &responder_, 
+                 //                            cq_, cq_, this);
+
+		    }
+		    else if(status_ == PROCESS)
+		    {
+			    new CallDataChat(service_, cq_, users, chatters_);
+
+                responder_.Read(&request_, this);
+                status_ = PROCESSING;
+                ChatMessage test;
+                test.set_user("Test");
+                test.set_messages("Test Message");
+
+                for(int i = 0; i < chatters_.size(); i++)
+                {
+                    auto responder = chatters_[i];
+                    if(responder != this)
+                    {
+                        responder->responder_.Write(test, this);
+                    } 
+                }
+
+                std::cout<<"test5\n";
+                chatters_.push_back(this);
+                
+		    }
+
+		    else if(status_ == PROCESSING)
+		    {
+                responder_.Read(&request_, this);
+                ChatMessage test;
+                test.set_user("Test");
+                test.set_messages("Test Message");
+
+                for(int i = 0; i < chatters_.size(); i++)
+                {
+                    auto responder = chatters_[i];
+                    if(responder != this)
+                    {
+                        responder->responder_.Write(test, this);
+                    } 
+                }
+
+
+
+		    }
+
+		    else
+		    {
+			    GPR_ASSERT(status_ == FINISH);
+			    delete this;
+		    }
+		}
+
+	    private:
+		    ChatServer::AsyncService* service_;
+		    ServerCompletionQueue* cq_;
+		    ServerContext ctx_;
+            responder_set responders_;
+		    ChatMessage request_;
+		
+		    enum CallStatus {CREATE, PROCESS, PROCESSING, FINISH};
+		    CallStatus status_;
+	};
+
+
+
+    class CallDataSendMessage final: public CallData
 	{
 	    public:
 		CallDataSendMessage(ChatServer::AsyncService* service, 
@@ -497,31 +611,37 @@ class ServerImpl final
 		enum CallStatus {CREATE, PROCESS, FINISH};
 		CallStatus status_;
 	};
-	
-	void HandleRpcs()
+
+
+    void HandleRpcs()
 	{
 	    new CallDataLogIn(&service_, cq_.get(), users_);
 	    new CallDataList(&service_, cq_.get(), users_);
 	    new CallDataLogOut(&service_, cq_.get(), users_);
 	    new CallDataSendMessage(&service_, cq_.get(), users_);
 	    new CallDataReceiveMessage(&service_, cq_.get(), users_);
+        new CallDataChat(&service_, cq_.get(), users_, chatters_);
 
 	    void* tag;
 	    bool ok;
 	    while(true)
 	    {
-		GPR_ASSERT(cq_->Next(&tag, &ok));
-		GPR_ASSERT(ok);
-                static_cast<CallData*>(tag)->Proceed(users_);
+		    GPR_ASSERT(cq_->Next(&tag, &ok));
+		    GPR_ASSERT(ok);
+            static_cast<CallData*>(tag)->Proceed(users_);
 	    }
  	}
 
     	std::unique_ptr<ServerCompletionQueue> cq_;
     	ChatServer::AsyncService service_;
     	std::unique_ptr<Server> server_;
+		//std::shared_ptr<ServerAsyncReaderWriter<ChatMessage, ChatMessage>> stream_;
 
         // Hash table that uses user names as keys
         user_set users_;
+        // Hash table that uses user names to identify Chat RPC
+        //responder_set responders_;
+        std::vector<CallDataChat*> chatters_;
 };
 
 int main(int argc, char** argv)
