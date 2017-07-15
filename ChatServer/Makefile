@@ -21,7 +21,7 @@ PROTOS_PATH = ../proto
 
 vpath %.proto $(PROTOS_PATH)
 
-all: ChatServer_Client ChatServer_Server ChatServer_ServerR AS AC
+all: ChatServer_Client ChatServer_Server ChatServer_ServerR
 
 ChatServer_Client: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Client.o
 	$(CXX) $^ $(LDFLAGS) -o $@
@@ -32,12 +32,6 @@ ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_ServerR.o Use
 
 ChatServer_ServerR: chatserver.pb.o chatserver.grpc.pb.o ChatServer_ServerR.o UserNode.o
 	$(CXX) $^ $(LDFLAGS) -o $@
-
-#AS: route_guide.pb.o route_guide.grpc.pb.o servermain.o helper.o
-#	$(CXX) $^ $(LDFLAGS) -o $@
-
-#AC: route_guide.pb.o route_guide.grpc.pb.o clientmain.o helper.o
-#	$(CXX) $^ $(LDFLAGS) -o $@
 
 
 .PRECIOUS: %.grpc.pb.cc

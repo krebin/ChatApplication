@@ -44,7 +44,6 @@ struct UnaryServiceType
 class ChatServerClient
 {
     public:
-    std::vector<std::thread> test;
 	explicit ChatServerClient(std::shared_ptr<Channel> channel)
 				  : stub_(ChatServer::NewStub(channel)) {}
 
@@ -68,6 +67,8 @@ class ChatServerClient
 	    return message;
 	}
 
+
+
     ChatMessage createChatMessage(std::string message, std::string user) 
     {
         ChatMessage chatMessage;
@@ -77,39 +78,55 @@ class ChatServerClient
     } 
 
 
-    void Chat(std::string& user)
+    void Chat(std::string user)
     {
-        std::cout << "test\n";
+        std::cout << "Now chatting, type anything. "
+                  << "Send \"#done\" to end the Chat.\n\n";
+
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<ChatMessage, ChatMessage>>
         stream(stub_->Chat(&context));
 
+        // lambda function to read new messages repeatedly
         std::thread reader([stream]()
         {
-                std::cout<<"froo\n";
                 ChatMessage server_note;
                 while(stream->Read(&server_note))
                 {
-                     std::cout << "moo";
-                     std::cout << "["
+                    // server will set note's user as done
+                    if(server_note.user() == "#done")
+                        break;
+
+                    std::cout << "["
                               << server_note.user()
                               << "]: "
-                              << server_note.messages();
+                              << server_note.messages()
+                              << std::endl;
                 }
         });
-        std::cout <<"test2\n";
 
+        // Repeat input of messages
+        // "#done" is message to end chat
         std::string message;
         do
-        {
-            std::cout << "test3\n";
-            std::cin >> message;
+        {   
+    		getline(std::cin, message);
             stream->Write(createChatMessage(message, user));
         }
         while(message != "#done");
 
-        reader.join();
+        // Signal done writing messages to stream
         stream->WritesDone();
+        Status status = stream->Finish();
+
+        // wait for thread to finish
+        reader.join();
+
+        if(!status.ok())
+            std::cout << "Chat RPC failed.\n\n";
+        else
+            std::cout << "Chat finished.\n\n";
+
                             
     }
 
@@ -189,33 +206,6 @@ class ChatServerClient
             rpc(stub_->AsyncList(&context, listrequest, &cq));
             rpc->Finish(&listReply, &status, (void*)1);
 	    }
-        else if(type == CHAT)
-        {
-            std::shared_ptr<ClientReaderWriter<ChatMessage, ChatMessage>>
-            stream(stub_->Chat(&context));
-            
-            std::thread writer([=]() 
-            {
-                std::string message;
-                std::cin >> message;
-                while(message != "done#")
-                {
-                    stream->Write(createChatMessage(message, "boba"));
-                }
-                stream->WritesDone();
-            });
-
-            ChatMessage server_note;
-            while(stream->Read(&server_note))
-            {
-                std::cout << server_note.messages() << std::endl;
-            }
-
-            writer.join();
-
-            status = stream->Finish();
-	    }
-	    // service not given
 	    else
 	    {
 		    return "No such service\n\n";
@@ -270,7 +260,6 @@ int displayMenu(ChatServerClient* Chatter, std::string& user)
 	          << "3: Receive Messages\n"
 	          << "4: List of people on server\n"
               << "5: Chat\n\n";
-
     int choice;
     std::string input, rec;
     std::getline(std::cin, input);
