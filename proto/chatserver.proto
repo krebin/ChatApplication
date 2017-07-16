@@ -9,6 +9,13 @@ service ChatServer
     rpc SendMessage (SendMessageRequest) returns (SendMessageReply) {}
     rpc ReceiveMessage (ReceiveMessageRequest) returns (ReceiveMessageReply) {}
     rpc List (ListRequest) returns (ListReply) {}
+    rpc Chat (stream ChatMessage) returns (stream ChatMessage) {}
+}
+
+message ChatMessage
+{
+    string user = 1;
+    string messages = 2;
 }
 
 message LogInRequest
