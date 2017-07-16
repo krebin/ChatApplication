@@ -27,8 +27,6 @@ using chatserver::ReceiveMessageRequest;
 using chatserver::ListReply;
 using chatserver::ListRequest;
 using chatserver::ChatMessage;
-using chatserver::HelloRequest;
-using chatserver::HelloReply;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST, CHAT};
 
@@ -44,8 +42,8 @@ struct UnaryServiceType
 class ChatServerClient
 {
     public:
-	explicit ChatServerClient(std::shared_ptr<Channel> channel)
-				  : stub_(ChatServer::NewStub(channel)) {}
+	    explicit ChatServerClient(std::shared_ptr<Channel> channel)
+		    		  : stub_(ChatServer::NewStub(channel)) {}
 
 	std::string createMessage()
 	{
@@ -95,7 +93,9 @@ class ChatServerClient
                 {
                     // server will set note's user as done
                     if(server_note.user() == "#done")
+                    {
                         break;
+                    }
 
                     std::cout << "["
                               << server_note.user()
@@ -117,15 +117,15 @@ class ChatServerClient
 
         // Signal done writing messages to stream
         stream->WritesDone();
-        Status status = stream->Finish();
 
         // wait for thread to finish
         reader.join();
+        //Status status = stream->Finish();
 
-        if(!status.ok())
-            std::cout << "Chat RPC failed.\n\n";
-        else
-            std::cout << "Chat finished.\n\n";
+        //if(!status.ok())
+        //    std::cout << "Chat RPC failed.\n\n";
+        //else
+        //   std::cout << "Chat finished.\n\n";
 
                             
     }

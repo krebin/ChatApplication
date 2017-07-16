@@ -21,12 +21,6 @@ namespace chatserver {
 
 namespace {
 
-const ::google::protobuf::Descriptor* HelloRequest_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  HelloRequest_reflection_ = NULL;
-const ::google::protobuf::Descriptor* HelloReply_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  HelloReply_reflection_ = NULL;
 const ::google::protobuf::Descriptor* ChatMessage_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   ChatMessage_reflection_ = NULL;
@@ -71,37 +65,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
     ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
       "chatserver.proto");
   GOOGLE_CHECK(file != NULL);
-  HelloRequest_descriptor_ = file->message_type(0);
-  static const int HelloRequest_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloRequest, name_),
-  };
-  HelloRequest_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      HelloRequest_descriptor_,
-      HelloRequest::default_instance_,
-      HelloRequest_offsets_,
-      -1,
-      -1,
-      -1,
-      sizeof(HelloRequest),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloRequest, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloRequest, _is_default_instance_));
-  HelloReply_descriptor_ = file->message_type(1);
-  static const int HelloReply_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloReply, messages_),
-  };
-  HelloReply_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      HelloReply_descriptor_,
-      HelloReply::default_instance_,
-      HelloReply_offsets_,
-      -1,
-      -1,
-      -1,
-      sizeof(HelloReply),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloReply, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HelloReply, _is_default_instance_));
-  ChatMessage_descriptor_ = file->message_type(2);
+  ChatMessage_descriptor_ = file->message_type(0);
   static const int ChatMessage_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChatMessage, user_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChatMessage, messages_),
@@ -117,7 +81,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(ChatMessage),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChatMessage, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChatMessage, _is_default_instance_));
-  LogInRequest_descriptor_ = file->message_type(3);
+  LogInRequest_descriptor_ = file->message_type(1);
   static const int LogInRequest_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInRequest, user_),
   };
@@ -132,7 +96,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(LogInRequest),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInRequest, _is_default_instance_));
-  LogInReply_descriptor_ = file->message_type(4);
+  LogInReply_descriptor_ = file->message_type(2);
   static const int LogInReply_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, conformation_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, user_),
@@ -148,7 +112,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(LogInReply),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, _is_default_instance_));
-  LogOutRequest_descriptor_ = file->message_type(5);
+  LogOutRequest_descriptor_ = file->message_type(3);
   static const int LogOutRequest_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutRequest, user_),
   };
@@ -163,7 +127,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(LogOutRequest),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutRequest, _is_default_instance_));
-  LogOutReply_descriptor_ = file->message_type(6);
+  LogOutReply_descriptor_ = file->message_type(4);
   static const int LogOutReply_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutReply, conformation_),
   };
@@ -178,7 +142,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(LogOutReply),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutReply, _is_default_instance_));
-  SendMessageRequest_descriptor_ = file->message_type(7);
+  SendMessageRequest_descriptor_ = file->message_type(5);
   static const int SendMessageRequest_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, user_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, recipient_),
@@ -195,7 +159,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(SendMessageRequest),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, _is_default_instance_));
-  SendMessageReply_descriptor_ = file->message_type(8);
+  SendMessageReply_descriptor_ = file->message_type(6);
   static const int SendMessageReply_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, conformation_),
   };
@@ -210,7 +174,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(SendMessageReply),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, _is_default_instance_));
-  ReceiveMessageRequest_descriptor_ = file->message_type(9);
+  ReceiveMessageRequest_descriptor_ = file->message_type(7);
   static const int ReceiveMessageRequest_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageRequest, user_),
   };
@@ -225,7 +189,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(ReceiveMessageRequest),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageRequest, _is_default_instance_));
-  ReceiveMessageReply_descriptor_ = file->message_type(10);
+  ReceiveMessageReply_descriptor_ = file->message_type(8);
   static const int ReceiveMessageReply_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageReply, conformation_),
   };
@@ -240,7 +204,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(ReceiveMessageReply),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageReply, _is_default_instance_));
-  ListRequest_descriptor_ = file->message_type(11);
+  ListRequest_descriptor_ = file->message_type(9);
   static const int ListRequest_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ListRequest, list_),
   };
@@ -255,7 +219,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       sizeof(ListRequest),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ListRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ListRequest, _is_default_instance_));
-  ListReply_descriptor_ = file->message_type(12);
+  ListReply_descriptor_ = file->message_type(10);
   static const int ListReply_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ListReply, list_),
   };
@@ -284,10 +248,6 @@ void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      HelloRequest_descriptor_, &HelloRequest::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      HelloReply_descriptor_, &HelloReply::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       ChatMessage_descriptor_, &ChatMessage::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       LogInRequest_descriptor_, &LogInRequest::default_instance());
@@ -314,10 +274,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void protobuf_ShutdownFile_chatserver_2eproto() {
-  delete HelloRequest::default_instance_;
-  delete HelloRequest_reflection_;
-  delete HelloReply::default_instance_;
-  delete HelloReply_reflection_;
   delete ChatMessage::default_instance_;
   delete ChatMessage_reflection_;
   delete LogInRequest::default_instance_;
@@ -350,37 +306,31 @@ void protobuf_AddDesc_chatserver_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\020chatserver.proto\022\nchatserver\"\034\n\014HelloR"
-    "equest\022\014\n\004name\030\001 \001(\t\"\036\n\nHelloReply\022\020\n\010me"
-    "ssages\030\001 \001(\t\"-\n\013ChatMessage\022\014\n\004user\030\001 \001("
-    "\t\022\020\n\010messages\030\002 \001(\t\"\034\n\014LogInRequest\022\014\n\004u"
-    "ser\030\001 \001(\t\"0\n\nLogInReply\022\024\n\014conformation\030"
-    "\001 \001(\t\022\014\n\004user\030\002 \001(\t\"\035\n\rLogOutRequest\022\014\n\004"
-    "user\030\001 \001(\t\"#\n\013LogOutReply\022\024\n\014conformatio"
-    "n\030\001 \001(\t\"F\n\022SendMessageRequest\022\014\n\004user\030\001 "
-    "\001(\t\022\021\n\trecipient\030\002 \001(\t\022\017\n\007message\030\003 \001(\t\""
-    "(\n\020SendMessageReply\022\024\n\014conformation\030\001 \001("
-    "\t\"%\n\025ReceiveMessageRequest\022\014\n\004user\030\001 \001(\t"
-    "\"+\n\023ReceiveMessageReply\022\024\n\014conformation\030"
-    "\001 \001(\t\"\033\n\013ListRequest\022\014\n\004list\030\001 \001(\t\"\031\n\tLi"
-    "stReply\022\014\n\004list\030\001 \001(\t2\354\003\n\nChatServer\022;\n\005"
-    "LogIn\022\030.chatserver.LogInRequest\032\026.chatse"
-    "rver.LogInReply\"\000\022>\n\006LogOut\022\031.chatserver"
-    ".LogOutRequest\032\027.chatserver.LogOutReply\""
-    "\000\022M\n\013SendMessage\022\036.chatserver.SendMessag"
-    "eRequest\032\034.chatserver.SendMessageReply\"\000"
-    "\022V\n\016ReceiveMessage\022!.chatserver.ReceiveM"
-    "essageRequest\032\037.chatserver.ReceiveMessag"
-    "eReply\"\000\0228\n\004List\022\027.chatserver.ListReques"
-    "t\032\025.chatserver.ListReply\"\000\022>\n\004Chat\022\027.cha"
-    "tserver.ChatMessage\032\027.chatserver.ChatMes"
-    "sage\"\000(\0010\001\022@\n\010SayHello\022\030.chatserver.Hell"
-    "oRequest\032\026.chatserver.HelloReply\"\0000\001b\006pr"
-    "oto3", 1044);
+    "\n\020chatserver.proto\022\nchatserver\"-\n\013ChatMe"
+    "ssage\022\014\n\004user\030\001 \001(\t\022\020\n\010messages\030\002 \001(\t\"\034\n"
+    "\014LogInRequest\022\014\n\004user\030\001 \001(\t\"0\n\nLogInRepl"
+    "y\022\024\n\014conformation\030\001 \001(\t\022\014\n\004user\030\002 \001(\t\"\035\n"
+    "\rLogOutRequest\022\014\n\004user\030\001 \001(\t\"#\n\013LogOutRe"
+    "ply\022\024\n\014conformation\030\001 \001(\t\"F\n\022SendMessage"
+    "Request\022\014\n\004user\030\001 \001(\t\022\021\n\trecipient\030\002 \001(\t"
+    "\022\017\n\007message\030\003 \001(\t\"(\n\020SendMessageReply\022\024\n"
+    "\014conformation\030\001 \001(\t\"%\n\025ReceiveMessageReq"
+    "uest\022\014\n\004user\030\001 \001(\t\"+\n\023ReceiveMessageRepl"
+    "y\022\024\n\014conformation\030\001 \001(\t\"\033\n\013ListRequest\022\014"
+    "\n\004list\030\001 \001(\t\"\031\n\tListReply\022\014\n\004list\030\001 \001(\t2"
+    "\252\003\n\nChatServer\022;\n\005LogIn\022\030.chatserver.Log"
+    "InRequest\032\026.chatserver.LogInReply\"\000\022>\n\006L"
+    "ogOut\022\031.chatserver.LogOutRequest\032\027.chats"
+    "erver.LogOutReply\"\000\022M\n\013SendMessage\022\036.cha"
+    "tserver.SendMessageRequest\032\034.chatserver."
+    "SendMessageReply\"\000\022V\n\016ReceiveMessage\022!.c"
+    "hatserver.ReceiveMessageRequest\032\037.chatse"
+    "rver.ReceiveMessageReply\"\000\0228\n\004List\022\027.cha"
+    "tserver.ListRequest\032\025.chatserver.ListRep"
+    "ly\"\000\022>\n\004Chat\022\027.chatserver.ChatMessage\032\027."
+    "chatserver.ChatMessage\"\000(\0010\001b\006proto3", 916);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "chatserver.proto", &protobuf_RegisterTypes);
-  HelloRequest::default_instance_ = new HelloRequest();
-  HelloReply::default_instance_ = new HelloReply();
   ChatMessage::default_instance_ = new ChatMessage();
   LogInRequest::default_instance_ = new LogInRequest();
   LogInReply::default_instance_ = new LogInReply();
@@ -392,8 +342,6 @@ void protobuf_AddDesc_chatserver_2eproto() {
   ReceiveMessageReply::default_instance_ = new ReceiveMessageReply();
   ListRequest::default_instance_ = new ListRequest();
   ListReply::default_instance_ = new ListReply();
-  HelloRequest::default_instance_->InitAsDefaultInstance();
-  HelloReply::default_instance_->InitAsDefaultInstance();
   ChatMessage::default_instance_->InitAsDefaultInstance();
   LogInRequest::default_instance_->InitAsDefaultInstance();
   LogInReply::default_instance_->InitAsDefaultInstance();
@@ -414,574 +362,6 @@ struct StaticDescriptorInitializer_chatserver_2eproto {
     protobuf_AddDesc_chatserver_2eproto();
   }
 } static_descriptor_initializer_chatserver_2eproto_;
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int HelloRequest::kNameFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-HelloRequest::HelloRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:chatserver.HelloRequest)
-}
-
-void HelloRequest::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-HelloRequest::HelloRequest(const HelloRequest& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:chatserver.HelloRequest)
-}
-
-void HelloRequest::SharedCtor() {
-    _is_default_instance_ = false;
-  ::google::protobuf::internal::GetEmptyString();
-  _cached_size_ = 0;
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-HelloRequest::~HelloRequest() {
-  // @@protoc_insertion_point(destructor:chatserver.HelloRequest)
-  SharedDtor();
-}
-
-void HelloRequest::SharedDtor() {
-  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (this != default_instance_) {
-  }
-}
-
-void HelloRequest::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* HelloRequest::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return HelloRequest_descriptor_;
-}
-
-const HelloRequest& HelloRequest::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_chatserver_2eproto();
-  return *default_instance_;
-}
-
-HelloRequest* HelloRequest::default_instance_ = NULL;
-
-HelloRequest* HelloRequest::New(::google::protobuf::Arena* arena) const {
-  HelloRequest* n = new HelloRequest;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void HelloRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatserver.HelloRequest)
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-bool HelloRequest::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:chatserver.HelloRequest)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string name = 1;
-      case 1: {
-        if (tag == 10) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_name()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->name().data(), this->name().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.HelloRequest.name"));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:chatserver.HelloRequest)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:chatserver.HelloRequest)
-  return false;
-#undef DO_
-}
-
-void HelloRequest::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:chatserver.HelloRequest)
-  // optional string name = 1;
-  if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.HelloRequest.name");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->name(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:chatserver.HelloRequest)
-}
-
-::google::protobuf::uint8* HelloRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatserver.HelloRequest)
-  // optional string name = 1;
-  if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), this->name().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.HelloRequest.name");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->name(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:chatserver.HelloRequest)
-  return target;
-}
-
-int HelloRequest::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:chatserver.HelloRequest)
-  int total_size = 0;
-
-  // optional string name = 1;
-  if (this->name().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->name());
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void HelloRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatserver.HelloRequest)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const HelloRequest* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const HelloRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatserver.HelloRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatserver.HelloRequest)
-    MergeFrom(*source);
-  }
-}
-
-void HelloRequest::MergeFrom(const HelloRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatserver.HelloRequest)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from.name().size() > 0) {
-
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
-  }
-}
-
-void HelloRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatserver.HelloRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void HelloRequest::CopyFrom(const HelloRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatserver.HelloRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool HelloRequest::IsInitialized() const {
-
-  return true;
-}
-
-void HelloRequest::Swap(HelloRequest* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void HelloRequest::InternalSwap(HelloRequest* other) {
-  name_.Swap(&other->name_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata HelloRequest::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = HelloRequest_descriptor_;
-  metadata.reflection = HelloRequest_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// HelloRequest
-
-// optional string name = 1;
-void HelloRequest::clear_name() {
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- const ::std::string& HelloRequest::name() const {
-  // @@protoc_insertion_point(field_get:chatserver.HelloRequest.name)
-  return name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- void HelloRequest::set_name(const ::std::string& value) {
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.HelloRequest.name)
-}
- void HelloRequest::set_name(const char* value) {
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.HelloRequest.name)
-}
- void HelloRequest::set_name(const char* value, size_t size) {
-  
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.HelloRequest.name)
-}
- ::std::string* HelloRequest::mutable_name() {
-  
-  // @@protoc_insertion_point(field_mutable:chatserver.HelloRequest.name)
-  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- ::std::string* HelloRequest::release_name() {
-  // @@protoc_insertion_point(field_release:chatserver.HelloRequest.name)
-  
-  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- void HelloRequest::set_allocated_name(::std::string* name) {
-  if (name != NULL) {
-    
-  } else {
-    
-  }
-  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.HelloRequest.name)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int HelloReply::kMessagesFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-HelloReply::HelloReply()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:chatserver.HelloReply)
-}
-
-void HelloReply::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-HelloReply::HelloReply(const HelloReply& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:chatserver.HelloReply)
-}
-
-void HelloReply::SharedCtor() {
-    _is_default_instance_ = false;
-  ::google::protobuf::internal::GetEmptyString();
-  _cached_size_ = 0;
-  messages_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-HelloReply::~HelloReply() {
-  // @@protoc_insertion_point(destructor:chatserver.HelloReply)
-  SharedDtor();
-}
-
-void HelloReply::SharedDtor() {
-  messages_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (this != default_instance_) {
-  }
-}
-
-void HelloReply::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* HelloReply::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return HelloReply_descriptor_;
-}
-
-const HelloReply& HelloReply::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_chatserver_2eproto();
-  return *default_instance_;
-}
-
-HelloReply* HelloReply::default_instance_ = NULL;
-
-HelloReply* HelloReply::New(::google::protobuf::Arena* arena) const {
-  HelloReply* n = new HelloReply;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void HelloReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:chatserver.HelloReply)
-  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-bool HelloReply::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:chatserver.HelloReply)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string messages = 1;
-      case 1: {
-        if (tag == 10) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_messages()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->messages().data(), this->messages().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.HelloReply.messages"));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:chatserver.HelloReply)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:chatserver.HelloReply)
-  return false;
-#undef DO_
-}
-
-void HelloReply::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:chatserver.HelloReply)
-  // optional string messages = 1;
-  if (this->messages().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->messages().data(), this->messages().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.HelloReply.messages");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->messages(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:chatserver.HelloReply)
-}
-
-::google::protobuf::uint8* HelloReply::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:chatserver.HelloReply)
-  // optional string messages = 1;
-  if (this->messages().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->messages().data(), this->messages().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.HelloReply.messages");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->messages(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:chatserver.HelloReply)
-  return target;
-}
-
-int HelloReply::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:chatserver.HelloReply)
-  int total_size = 0;
-
-  // optional string messages = 1;
-  if (this->messages().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->messages());
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void HelloReply::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chatserver.HelloReply)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  const HelloReply* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const HelloReply>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chatserver.HelloReply)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chatserver.HelloReply)
-    MergeFrom(*source);
-  }
-}
-
-void HelloReply::MergeFrom(const HelloReply& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chatserver.HelloReply)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) {
-    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
-  }
-  if (from.messages().size() > 0) {
-
-    messages_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.messages_);
-  }
-}
-
-void HelloReply::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chatserver.HelloReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void HelloReply::CopyFrom(const HelloReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chatserver.HelloReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool HelloReply::IsInitialized() const {
-
-  return true;
-}
-
-void HelloReply::Swap(HelloReply* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void HelloReply::InternalSwap(HelloReply* other) {
-  messages_.Swap(&other->messages_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata HelloReply::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = HelloReply_descriptor_;
-  metadata.reflection = HelloReply_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// HelloReply
-
-// optional string messages = 1;
-void HelloReply::clear_messages() {
-  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- const ::std::string& HelloReply::messages() const {
-  // @@protoc_insertion_point(field_get:chatserver.HelloReply.messages)
-  return messages_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- void HelloReply::set_messages(const ::std::string& value) {
-  
-  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.HelloReply.messages)
-}
- void HelloReply::set_messages(const char* value) {
-  
-  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.HelloReply.messages)
-}
- void HelloReply::set_messages(const char* value, size_t size) {
-  
-  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.HelloReply.messages)
-}
- ::std::string* HelloReply::mutable_messages() {
-  
-  // @@protoc_insertion_point(field_mutable:chatserver.HelloReply.messages)
-  return messages_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- ::std::string* HelloReply::release_messages() {
-  // @@protoc_insertion_point(field_release:chatserver.HelloReply.messages)
-  
-  return messages_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
- void HelloReply::set_allocated_messages(::std::string* messages) {
-  if (messages != NULL) {
-    
-  } else {
-    
-  }
-  messages_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), messages);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.HelloReply.messages)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 

@@ -56,12 +56,6 @@ class ChatServer GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::ChatMessage, ::chatserver::ChatMessage>> AsyncChat(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::ChatMessage, ::chatserver::ChatMessage>>(AsyncChatRaw(context, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientReaderInterface< ::chatserver::HelloReply>> SayHello(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request) {
-      return std::unique_ptr< ::grpc::ClientReaderInterface< ::chatserver::HelloReply>>(SayHelloRaw(context, request));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::chatserver::HelloReply>> AsyncSayHello(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::chatserver::HelloReply>>(AsyncSayHelloRaw(context, request, cq, tag));
-    }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogInReply>* AsyncLogInRaw(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogOutReply>* AsyncLogOutRaw(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -70,8 +64,6 @@ class ChatServer GRPC_FINAL {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::ListReply>* AsyncListRaw(::grpc::ClientContext* context, const ::chatserver::ListRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderWriterInterface< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* ChatRaw(::grpc::ClientContext* context) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* AsyncChatRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
-    virtual ::grpc::ClientReaderInterface< ::chatserver::HelloReply>* SayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request) = 0;
-    virtual ::grpc::ClientAsyncReaderInterface< ::chatserver::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
   };
   class Stub GRPC_FINAL : public StubInterface {
    public:
@@ -102,12 +94,6 @@ class ChatServer GRPC_FINAL {
     std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>> AsyncChat(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>>(AsyncChatRaw(context, cq, tag));
     }
-    std::unique_ptr< ::grpc::ClientReader< ::chatserver::HelloReply>> SayHello(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request) {
-      return std::unique_ptr< ::grpc::ClientReader< ::chatserver::HelloReply>>(SayHelloRaw(context, request));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncReader< ::chatserver::HelloReply>> AsyncSayHello(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-      return std::unique_ptr< ::grpc::ClientAsyncReader< ::chatserver::HelloReply>>(AsyncSayHelloRaw(context, request, cq, tag));
-    }
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
@@ -118,15 +104,12 @@ class ChatServer GRPC_FINAL {
     ::grpc::ClientAsyncResponseReader< ::chatserver::ListReply>* AsyncListRaw(::grpc::ClientContext* context, const ::chatserver::ListRequest& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* ChatRaw(::grpc::ClientContext* context) GRPC_OVERRIDE;
     ::grpc::ClientAsyncReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* AsyncChatRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) GRPC_OVERRIDE;
-    ::grpc::ClientReader< ::chatserver::HelloReply>* SayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncReader< ::chatserver::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::chatserver::HelloRequest& request, ::grpc::CompletionQueue* cq, void* tag) GRPC_OVERRIDE;
     const ::grpc::RpcMethod rpcmethod_LogIn_;
     const ::grpc::RpcMethod rpcmethod_LogOut_;
     const ::grpc::RpcMethod rpcmethod_SendMessage_;
     const ::grpc::RpcMethod rpcmethod_ReceiveMessage_;
     const ::grpc::RpcMethod rpcmethod_List_;
     const ::grpc::RpcMethod rpcmethod_Chat_;
-    const ::grpc::RpcMethod rpcmethod_SayHello_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -140,7 +123,6 @@ class ChatServer GRPC_FINAL {
     virtual ::grpc::Status ReceiveMessage(::grpc::ServerContext* context, const ::chatserver::ReceiveMessageRequest* request, ::chatserver::ReceiveMessageReply* response);
     virtual ::grpc::Status List(::grpc::ServerContext* context, const ::chatserver::ListRequest* request, ::chatserver::ListReply* response);
     virtual ::grpc::Status Chat(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* stream);
-    virtual ::grpc::Status SayHello(::grpc::ServerContext* context, const ::chatserver::HelloRequest* request, ::grpc::ServerWriter< ::chatserver::HelloReply>* writer);
   };
   template <class BaseClass>
   class WithAsyncMethod_LogIn : public BaseClass {
@@ -262,27 +244,7 @@ class ChatServer GRPC_FINAL {
       ::grpc::Service::RequestAsyncBidiStreaming(5, context, stream, new_call_cq, notification_cq, tag);
     }
   };
-  template <class BaseClass>
-  class WithAsyncMethod_SayHello : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_SayHello() {
-      ::grpc::Service::MarkMethodAsync(6);
-    }
-    ~WithAsyncMethod_SayHello() GRPC_OVERRIDE {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status SayHello(::grpc::ServerContext* context, const ::chatserver::HelloRequest* request, ::grpc::ServerWriter< ::chatserver::HelloReply>* writer) GRPC_FINAL GRPC_OVERRIDE {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestSayHello(::grpc::ServerContext* context, ::chatserver::HelloRequest* request, ::grpc::ServerAsyncWriter< ::chatserver::HelloReply>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(6, context, request, writer, new_call_cq, notification_cq, tag);
-    }
-  };
-  typedef WithAsyncMethod_LogIn<WithAsyncMethod_LogOut<WithAsyncMethod_SendMessage<WithAsyncMethod_ReceiveMessage<WithAsyncMethod_List<WithAsyncMethod_Chat<WithAsyncMethod_SayHello<Service > > > > > > > AsyncService;
+  typedef WithAsyncMethod_LogIn<WithAsyncMethod_LogOut<WithAsyncMethod_SendMessage<WithAsyncMethod_ReceiveMessage<WithAsyncMethod_List<WithAsyncMethod_Chat<Service > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_LogIn : public BaseClass {
    private:
@@ -381,23 +343,6 @@ class ChatServer GRPC_FINAL {
     }
     // disable synchronous version of this method
     ::grpc::Status Chat(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::ChatMessage, ::chatserver::ChatMessage>* stream) GRPC_FINAL GRPC_OVERRIDE {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_SayHello : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_SayHello() {
-      ::grpc::Service::MarkMethodGeneric(6);
-    }
-    ~WithGenericMethod_SayHello() GRPC_OVERRIDE {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status SayHello(::grpc::ServerContext* context, const ::chatserver::HelloRequest* request, ::grpc::ServerWriter< ::chatserver::HelloReply>* writer) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
