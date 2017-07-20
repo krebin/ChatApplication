@@ -6,6 +6,7 @@
 #include <vector>
 #include <grpc++/grpc++.h>
 #include "chatserver.grpc.pb.h"
+#include "ChatServerGlobal.h"
 
 using grpc::Channel;
 using grpc::ClientAsyncResponseReader;
@@ -45,27 +46,6 @@ class ChatServerClient
 	    explicit ChatServerClient(std::shared_ptr<Channel> channel)
 		    		  : stub_(ChatServer::NewStub(channel)) {}
 
-	std::string createMessage()
-	{
-	    std::cout << "Enter your message. "
-                  << "Enter your last message as \"end\" "
-                  << "to stop sending messages.\n\n";
-
-	    std::string message = "";
-	    std::string appendMessage;
-
-        do
-	    {
-    		getline(std::cin, appendMessage);
-	    	if(appendMessage == "end")
-		        break;
-	    	message+=(appendMessage + "\n");
-	    }
-        while(1);
-	    return message;
-	}
-
-
 
     ChatMessage createChatMessage(std::string message, std::string user) 
     {
@@ -75,11 +55,87 @@ class ChatServerClient
         return chatMessage; 
     } 
 
+    void LogOut(std::string user)
+    {
+
+        ClientContext context;
+        CompletionQueue cq;
+        Status status;
+
+	    LogOutRequest logOutRequest;
+	    LogOutReply logOutReply;
+
+		// set user
+		logOutRequest.set_user(user);
+        std::unique_ptr<ClientAsyncResponseReader<LogOutReply>> 
+        rpc(stub_->AsyncLogOut(&context, logOutRequest, &cq));
+		rpc->Finish(&logOutReply, &status, (void*)1);
+
+	    void* got_tag;
+	    bool ok = false;
+	    GPR_ASSERT(cq.Next(&got_tag, &ok));
+	    GPR_ASSERT(got_tag == (void*)1);
+	    GPR_ASSERT(ok);
+
+        if(status.ok())
+            std::cout << logOutReply.confirmation();
+        else
+            std::cout << LOG_OUT_FAIL;
+    }
+
+    void SendMessage(std::string user)
+    {
+        ClientContext context;
+        std::shared_ptr<ClientReaderWriter<SendMessageRequest, SendMessageReply>>
+        stream(stub_->SendMessage(&context));
+
+
+        // Ask for recipient
+        std::cout << SEND_MESSAGES_WHO;
+        std::string recipient;
+        getline(std::cin, recipient);
+
+        // Server checks if user exists
+        SendMessageReply reply;
+        SendMessageRequest request;
+        request.set_recipient(recipient);
+
+        stream->Write(request);
+        stream->Read(&reply);
+ 
+       // Server sets status to 1 if user exists
+        if(reply.status())
+        {
+            std::cout << SEND_MESSAGES_PROMPT; 
+            std::string message;
+
+            // "#done" will signal server to change status to 0
+            while(reply.status())
+            {
+                getline(std::cin, message);
+  
+                // Set request parameters              
+                request.set_user(user);
+                request.set_recipient(recipient);
+                request.set_messages(message);
+
+                // Send request to server
+                stream->Write(request);
+                stream->Read(&reply);
+            }
+
+        }
+        else
+        {
+            std::cout << SEND_MESSAGES_NO_EXIST;
+        }
+        //stream->WritesDone();
+        std::cout << reply.confirmation();       
+    }
 
     void Chat(std::string user)
     {
-        std::cout << "Now chatting, type anything. "
-                  << "Send \"#done\" to end the Chat.\n\n";
+        std::cout << CHAT_PROMPT;
 
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<ChatMessage, ChatMessage>>
@@ -144,6 +200,7 @@ class ChatServerClient
 	    CompletionQueue cq;
         Status status;
 
+
 	    // grpc generated classes to send services
         LogInRequest logInRequest;
 	    LogInReply logInReply;
@@ -153,10 +210,8 @@ class ChatServerClient
 	    ListReply listReply;
 	    ReceiveMessageRequest receiveMessageRequest;
 	    ReceiveMessageReply receiveMessageReply;
-	    SendMessageRequest sendMessageRequest;
-	    SendMessageReply sendMessageReply;
 
-	    std::string conformation;
+	    std::string confirmation;
 
 	    // service is LogIn
 	    if(type == LOGIN)
@@ -176,18 +231,6 @@ class ChatServerClient
             rpc(stub_->AsyncLogOut(&context, logOutRequest, &cq));
 
 		    rpc->Finish(&logOutReply, &status, (void*)1);
-	    }
-	    // service is SendMessage
-            else if(type == SENDM)
-        {
-		// set user, message, recipient
-	        sendMessageRequest.set_user(user);
-	        sendMessageRequest.set_message(message);
-	        sendMessageRequest.set_recipient(recipient);
-		    std::unique_ptr<ClientAsyncResponseReader<SendMessageReply>> 
-            rpc(stub_->AsyncSendMessage(&context,sendMessageRequest, &cq));
-
-		    rpc->Finish(&sendMessageReply, &status, (void*)1);
 	    }
 	    // service is ReceiveMessage
 	    else if(type == RECEIVEM)
@@ -220,23 +263,20 @@ class ChatServerClient
 	    // Get responses from replies depending on which service
 	    // was called.
 	    if(type == LIST)
-		conformation = listReply.list();
+		confirmation = listReply.list();
 	    else if(type == LOGIN)
         {
-		    conformation = logInReply.conformation();
+		    confirmation = logInReply.confirmation();
             // In case name was changed
             user = logInReply.user();
         }
 	    else if(type == LOGOUT)
-		    conformation = logOutReply.conformation();
+		    confirmation = logOutReply.confirmation();
 	    else if(type == RECEIVEM)
-		    conformation = receiveMessageReply.conformation();
-	    else if(type == SENDM)
-		    conformation = sendMessageReply.conformation();
-
+		    confirmation = receiveMessageReply.confirmation();
 	    if(status.ok())
 	    {
-		    return conformation;
+		    return confirmation;
 	    }
 	    else
 	    {
@@ -278,16 +318,12 @@ int displayMenu(ChatServerClient* Chatter, std::string& user)
 	{
 	    // User wants to log out
 	    case 1:
-		std::cout << Chatter->sendService(user, LOGOUT, "", "");
+            Chatter->LogOut(user);
 	        return 0;
 	    // User wants to send messages to someone
 	    case 2:
-		    std::cout << "Who would you like to send messages to?\n";
-		    std::cin >> rec;
-		    std::cout << "Sending messages to " << rec << std::endl;
-		    std::cout << Chatter->sendService(user, SENDM, rec, 
-                         Chatter->createMessage());            
-		return 1;
+		    Chatter->SendMessage(user);    
+		    return 1;
 	    // User wants to receieve messages
 	    case 3:
 	        std::cout << "Receiving messages.\n\n"
@@ -314,17 +350,17 @@ int main(int argc, char** argv)
     
     // name of user
     std::string user;
-    // string to store conformation of log in service
-    std::string conformation;
+    // string to store confirmation of log in service
+    std::string confirmation;
 
     std::cout << "Log In As: ";
     std::getline(std::cin, user);
    
-    while((conformation = chatter.sendService(user, LOGIN, "", "")) == "+\n"
-         ||conformation == "-\n")
+    while((confirmation = chatter.sendService(user, LOGIN, "", "")) == "+\n"
+         ||confirmation == "-\n")
     {
        // Marker for user already logged in
-       if(conformation == "+\n")
+       if(confirmation == "+\n")
        {
            std::cout << "The user "
                      << user
@@ -343,14 +379,14 @@ int main(int argc, char** argv)
     }
 
     // log in did not go through
-    if(conformation == "RPC failed")
+    if(confirmation == "RPC failed")
     {
 	std::cout << "Cannot connect to server\n";
         return -1;
     }
 
     // Log In successful
-    std::cout << conformation << std::endl;
+    std::cout << confirmation << std::endl;
     
 
     

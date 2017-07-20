@@ -98,7 +98,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInRequest, _is_default_instance_));
   LogInReply_descriptor_ = file->message_type(2);
   static const int LogInReply_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, conformation_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, confirmation_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogInReply, user_),
   };
   LogInReply_reflection_ =
@@ -129,7 +129,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutRequest, _is_default_instance_));
   LogOutReply_descriptor_ = file->message_type(4);
   static const int LogOutReply_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutReply, conformation_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LogOutReply, confirmation_),
   };
   LogOutReply_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -146,7 +146,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
   static const int SendMessageRequest_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, user_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, recipient_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, message_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, messages_),
   };
   SendMessageRequest_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -160,8 +160,9 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageRequest, _is_default_instance_));
   SendMessageReply_descriptor_ = file->message_type(6);
-  static const int SendMessageReply_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, conformation_),
+  static const int SendMessageReply_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, confirmation_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SendMessageReply, status_),
   };
   SendMessageReply_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -191,7 +192,7 @@ void protobuf_AssignDesc_chatserver_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageRequest, _is_default_instance_));
   ReceiveMessageReply_descriptor_ = file->message_type(8);
   static const int ReceiveMessageReply_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageReply, conformation_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReceiveMessageReply, confirmation_),
   };
   ReceiveMessageReply_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -309,26 +310,27 @@ void protobuf_AddDesc_chatserver_2eproto() {
     "\n\020chatserver.proto\022\nchatserver\"-\n\013ChatMe"
     "ssage\022\014\n\004user\030\001 \001(\t\022\020\n\010messages\030\002 \001(\t\"\034\n"
     "\014LogInRequest\022\014\n\004user\030\001 \001(\t\"0\n\nLogInRepl"
-    "y\022\024\n\014conformation\030\001 \001(\t\022\014\n\004user\030\002 \001(\t\"\035\n"
+    "y\022\024\n\014confirmation\030\001 \001(\t\022\014\n\004user\030\002 \001(\t\"\035\n"
     "\rLogOutRequest\022\014\n\004user\030\001 \001(\t\"#\n\013LogOutRe"
-    "ply\022\024\n\014conformation\030\001 \001(\t\"F\n\022SendMessage"
+    "ply\022\024\n\014confirmation\030\001 \001(\t\"G\n\022SendMessage"
     "Request\022\014\n\004user\030\001 \001(\t\022\021\n\trecipient\030\002 \001(\t"
-    "\022\017\n\007message\030\003 \001(\t\"(\n\020SendMessageReply\022\024\n"
-    "\014conformation\030\001 \001(\t\"%\n\025ReceiveMessageReq"
-    "uest\022\014\n\004user\030\001 \001(\t\"+\n\023ReceiveMessageRepl"
-    "y\022\024\n\014conformation\030\001 \001(\t\"\033\n\013ListRequest\022\014"
-    "\n\004list\030\001 \001(\t\"\031\n\tListReply\022\014\n\004list\030\001 \001(\t2"
-    "\252\003\n\nChatServer\022;\n\005LogIn\022\030.chatserver.Log"
-    "InRequest\032\026.chatserver.LogInReply\"\000\022>\n\006L"
-    "ogOut\022\031.chatserver.LogOutRequest\032\027.chats"
-    "erver.LogOutReply\"\000\022M\n\013SendMessage\022\036.cha"
-    "tserver.SendMessageRequest\032\034.chatserver."
-    "SendMessageReply\"\000\022V\n\016ReceiveMessage\022!.c"
-    "hatserver.ReceiveMessageRequest\032\037.chatse"
-    "rver.ReceiveMessageReply\"\000\0228\n\004List\022\027.cha"
-    "tserver.ListRequest\032\025.chatserver.ListRep"
-    "ly\"\000\022>\n\004Chat\022\027.chatserver.ChatMessage\032\027."
-    "chatserver.ChatMessage\"\000(\0010\001b\006proto3", 916);
+    "\022\020\n\010messages\030\003 \001(\t\"8\n\020SendMessageReply\022\024"
+    "\n\014confirmation\030\001 \001(\t\022\016\n\006status\030\002 \001(\005\"%\n\025"
+    "ReceiveMessageRequest\022\014\n\004user\030\001 \001(\t\"+\n\023R"
+    "eceiveMessageReply\022\024\n\014confirmation\030\001 \001(\t"
+    "\"\033\n\013ListRequest\022\014\n\004list\030\001 \001(\t\"\031\n\tListRep"
+    "ly\022\014\n\004list\030\001 \001(\t2\256\003\n\nChatServer\022;\n\005LogIn"
+    "\022\030.chatserver.LogInRequest\032\026.chatserver."
+    "LogInReply\"\000\022>\n\006LogOut\022\031.chatserver.LogO"
+    "utRequest\032\027.chatserver.LogOutReply\"\000\022Q\n\013"
+    "SendMessage\022\036.chatserver.SendMessageRequ"
+    "est\032\034.chatserver.SendMessageReply\"\000(\0010\001\022"
+    "V\n\016ReceiveMessage\022!.chatserver.ReceiveMe"
+    "ssageRequest\032\037.chatserver.ReceiveMessage"
+    "Reply\"\000\0228\n\004List\022\027.chatserver.ListRequest"
+    "\032\025.chatserver.ListReply\"\000\022>\n\004Chat\022\027.chat"
+    "server.ChatMessage\032\027.chatserver.ChatMess"
+    "age\"\000(\0010\001b\006proto3", 937);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "chatserver.proto", &protobuf_RegisterTypes);
   ChatMessage::default_instance_ = new ChatMessage();
@@ -1032,7 +1034,7 @@ void LogInRequest::clear_user() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int LogInReply::kConformationFieldNumber;
+const int LogInReply::kConfirmationFieldNumber;
 const int LogInReply::kUserFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -1058,7 +1060,7 @@ void LogInReply::SharedCtor() {
     _is_default_instance_ = false;
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  conformation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   user_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -1068,7 +1070,7 @@ LogInReply::~LogInReply() {
 }
 
 void LogInReply::SharedDtor() {
-  conformation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   user_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
@@ -1101,7 +1103,7 @@ LogInReply* LogInReply::New(::google::protobuf::Arena* arena) const {
 
 void LogInReply::Clear() {
 // @@protoc_insertion_point(message_clear_start:chatserver.LogInReply)
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -1115,15 +1117,15 @@ bool LogInReply::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string conformation = 1;
+      // optional string confirmation = 1;
       case 1: {
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_conformation()));
+                input, this->mutable_confirmation()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->conformation().data(), this->conformation().length(),
+            this->confirmation().data(), this->confirmation().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.LogInReply.conformation"));
+            "chatserver.LogInReply.confirmation"));
         } else {
           goto handle_unusual;
         }
@@ -1172,14 +1174,14 @@ failure:
 void LogInReply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:chatserver.LogInReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.LogInReply.conformation");
+      "chatserver.LogInReply.confirmation");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->conformation(), output);
+      1, this->confirmation(), output);
   }
 
   // optional string user = 2;
@@ -1198,15 +1200,15 @@ void LogInReply::SerializeWithCachedSizes(
 ::google::protobuf::uint8* LogInReply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:chatserver.LogInReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.LogInReply.conformation");
+      "chatserver.LogInReply.confirmation");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->conformation(), target);
+        1, this->confirmation(), target);
   }
 
   // optional string user = 2;
@@ -1228,11 +1230,11 @@ int LogInReply::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:chatserver.LogInReply)
   int total_size = 0;
 
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->conformation());
+        this->confirmation());
   }
 
   // optional string user = 2;
@@ -1270,9 +1272,9 @@ void LogInReply::MergeFrom(const LogInReply& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
-  if (from.conformation().size() > 0) {
+  if (from.confirmation().size() > 0) {
 
-    conformation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.conformation_);
+    confirmation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.confirmation_);
   }
   if (from.user().size() > 0) {
 
@@ -1304,7 +1306,7 @@ void LogInReply::Swap(LogInReply* other) {
   InternalSwap(other);
 }
 void LogInReply::InternalSwap(LogInReply* other) {
-  conformation_.Swap(&other->conformation_);
+  confirmation_.Swap(&other->confirmation_);
   user_.Swap(&other->user_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -1321,48 +1323,48 @@ void LogInReply::InternalSwap(LogInReply* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // LogInReply
 
-// optional string conformation = 1;
-void LogInReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+void LogInReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& LogInReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.LogInReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& LogInReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogInReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void LogInReply::set_conformation(const ::std::string& value) {
+ void LogInReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.LogInReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.LogInReply.confirmation)
 }
- void LogInReply::set_conformation(const char* value) {
+ void LogInReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.LogInReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.LogInReply.confirmation)
 }
- void LogInReply::set_conformation(const char* value, size_t size) {
+ void LogInReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.LogInReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.LogInReply.confirmation)
 }
- ::std::string* LogInReply::mutable_conformation() {
+ ::std::string* LogInReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.LogInReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.LogInReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* LogInReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.LogInReply.conformation)
+ ::std::string* LogInReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.LogInReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void LogInReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+ void LogInReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInReply.confirmation)
 }
 
 // optional string user = 2;
@@ -1698,7 +1700,7 @@ void LogOutRequest::clear_user() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int LogOutReply::kConformationFieldNumber;
+const int LogOutReply::kConfirmationFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LogOutReply::LogOutReply()
@@ -1723,7 +1725,7 @@ void LogOutReply::SharedCtor() {
     _is_default_instance_ = false;
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  conformation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 LogOutReply::~LogOutReply() {
@@ -1732,7 +1734,7 @@ LogOutReply::~LogOutReply() {
 }
 
 void LogOutReply::SharedDtor() {
-  conformation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -1764,7 +1766,7 @@ LogOutReply* LogOutReply::New(::google::protobuf::Arena* arena) const {
 
 void LogOutReply::Clear() {
 // @@protoc_insertion_point(message_clear_start:chatserver.LogOutReply)
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 bool LogOutReply::MergePartialFromCodedStream(
@@ -1777,15 +1779,15 @@ bool LogOutReply::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string conformation = 1;
+      // optional string confirmation = 1;
       case 1: {
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_conformation()));
+                input, this->mutable_confirmation()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->conformation().data(), this->conformation().length(),
+            this->confirmation().data(), this->confirmation().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.LogOutReply.conformation"));
+            "chatserver.LogOutReply.confirmation"));
         } else {
           goto handle_unusual;
         }
@@ -1817,14 +1819,14 @@ failure:
 void LogOutReply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:chatserver.LogOutReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.LogOutReply.conformation");
+      "chatserver.LogOutReply.confirmation");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->conformation(), output);
+      1, this->confirmation(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:chatserver.LogOutReply)
@@ -1833,15 +1835,15 @@ void LogOutReply::SerializeWithCachedSizes(
 ::google::protobuf::uint8* LogOutReply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:chatserver.LogOutReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.LogOutReply.conformation");
+      "chatserver.LogOutReply.confirmation");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->conformation(), target);
+        1, this->confirmation(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:chatserver.LogOutReply)
@@ -1852,11 +1854,11 @@ int LogOutReply::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:chatserver.LogOutReply)
   int total_size = 0;
 
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->conformation());
+        this->confirmation());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -1887,9 +1889,9 @@ void LogOutReply::MergeFrom(const LogOutReply& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
-  if (from.conformation().size() > 0) {
+  if (from.confirmation().size() > 0) {
 
-    conformation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.conformation_);
+    confirmation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.confirmation_);
   }
 }
 
@@ -1917,7 +1919,7 @@ void LogOutReply::Swap(LogOutReply* other) {
   InternalSwap(other);
 }
 void LogOutReply::InternalSwap(LogOutReply* other) {
-  conformation_.Swap(&other->conformation_);
+  confirmation_.Swap(&other->confirmation_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1933,48 +1935,48 @@ void LogOutReply::InternalSwap(LogOutReply* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // LogOutReply
 
-// optional string conformation = 1;
-void LogOutReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+void LogOutReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& LogOutReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.LogOutReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& LogOutReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogOutReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void LogOutReply::set_conformation(const ::std::string& value) {
+ void LogOutReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.LogOutReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.LogOutReply.confirmation)
 }
- void LogOutReply::set_conformation(const char* value) {
+ void LogOutReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.LogOutReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.LogOutReply.confirmation)
 }
- void LogOutReply::set_conformation(const char* value, size_t size) {
+ void LogOutReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.LogOutReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.LogOutReply.confirmation)
 }
- ::std::string* LogOutReply::mutable_conformation() {
+ ::std::string* LogOutReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.LogOutReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.LogOutReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* LogOutReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.LogOutReply.conformation)
+ ::std::string* LogOutReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.LogOutReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void LogOutReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+ void LogOutReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutReply.confirmation)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -1984,7 +1986,7 @@ void LogOutReply::clear_conformation() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SendMessageRequest::kUserFieldNumber;
 const int SendMessageRequest::kRecipientFieldNumber;
-const int SendMessageRequest::kMessageFieldNumber;
+const int SendMessageRequest::kMessagesFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SendMessageRequest::SendMessageRequest()
@@ -2011,7 +2013,7 @@ void SendMessageRequest::SharedCtor() {
   _cached_size_ = 0;
   user_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   recipient_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  message_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  messages_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 SendMessageRequest::~SendMessageRequest() {
@@ -2022,7 +2024,7 @@ SendMessageRequest::~SendMessageRequest() {
 void SendMessageRequest::SharedDtor() {
   user_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   recipient_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  message_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  messages_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -2056,7 +2058,7 @@ void SendMessageRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:chatserver.SendMessageRequest)
   user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   recipient_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 bool SendMessageRequest::MergePartialFromCodedStream(
@@ -2098,20 +2100,20 @@ bool SendMessageRequest::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_message;
+        if (input->ExpectTag(26)) goto parse_messages;
         break;
       }
 
-      // optional string message = 3;
+      // optional string messages = 3;
       case 3: {
         if (tag == 26) {
-         parse_message:
+         parse_messages:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_message()));
+                input, this->mutable_messages()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->message().data(), this->message().length(),
+            this->messages().data(), this->messages().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.SendMessageRequest.message"));
+            "chatserver.SendMessageRequest.messages"));
         } else {
           goto handle_unusual;
         }
@@ -2163,14 +2165,14 @@ void SendMessageRequest::SerializeWithCachedSizes(
       2, this->recipient(), output);
   }
 
-  // optional string message = 3;
-  if (this->message().size() > 0) {
+  // optional string messages = 3;
+  if (this->messages().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->message().data(), this->message().length(),
+      this->messages().data(), this->messages().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.SendMessageRequest.message");
+      "chatserver.SendMessageRequest.messages");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->message(), output);
+      3, this->messages(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:chatserver.SendMessageRequest)
@@ -2201,15 +2203,15 @@ void SendMessageRequest::SerializeWithCachedSizes(
         2, this->recipient(), target);
   }
 
-  // optional string message = 3;
-  if (this->message().size() > 0) {
+  // optional string messages = 3;
+  if (this->messages().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->message().data(), this->message().length(),
+      this->messages().data(), this->messages().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.SendMessageRequest.message");
+      "chatserver.SendMessageRequest.messages");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->message(), target);
+        3, this->messages(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:chatserver.SendMessageRequest)
@@ -2234,11 +2236,11 @@ int SendMessageRequest::ByteSize() const {
         this->recipient());
   }
 
-  // optional string message = 3;
-  if (this->message().size() > 0) {
+  // optional string messages = 3;
+  if (this->messages().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->message());
+        this->messages());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -2277,9 +2279,9 @@ void SendMessageRequest::MergeFrom(const SendMessageRequest& from) {
 
     recipient_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.recipient_);
   }
-  if (from.message().size() > 0) {
+  if (from.messages().size() > 0) {
 
-    message_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.message_);
+    messages_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.messages_);
   }
 }
 
@@ -2309,7 +2311,7 @@ void SendMessageRequest::Swap(SendMessageRequest* other) {
 void SendMessageRequest::InternalSwap(SendMessageRequest* other) {
   user_.Swap(&other->user_);
   recipient_.Swap(&other->recipient_);
-  message_.Swap(&other->message_);
+  messages_.Swap(&other->messages_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -2413,48 +2415,48 @@ void SendMessageRequest::clear_recipient() {
   // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.recipient)
 }
 
-// optional string message = 3;
-void SendMessageRequest::clear_message() {
-  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string messages = 3;
+void SendMessageRequest::clear_messages() {
+  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& SendMessageRequest::message() const {
-  // @@protoc_insertion_point(field_get:chatserver.SendMessageRequest.message)
-  return message_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& SendMessageRequest::messages() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageRequest.messages)
+  return messages_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void SendMessageRequest::set_message(const ::std::string& value) {
+ void SendMessageRequest::set_messages(const ::std::string& value) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.SendMessageRequest.message)
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageRequest.messages)
 }
- void SendMessageRequest::set_message(const char* value) {
+ void SendMessageRequest::set_messages(const char* value) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageRequest.message)
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageRequest.messages)
 }
- void SendMessageRequest::set_message(const char* value, size_t size) {
+ void SendMessageRequest::set_messages(const char* value, size_t size) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageRequest.message)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageRequest.messages)
 }
- ::std::string* SendMessageRequest::mutable_message() {
+ ::std::string* SendMessageRequest::mutable_messages() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageRequest.message)
-  return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageRequest.messages)
+  return messages_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* SendMessageRequest::release_message() {
-  // @@protoc_insertion_point(field_release:chatserver.SendMessageRequest.message)
+ ::std::string* SendMessageRequest::release_messages() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageRequest.messages)
   
-  return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return messages_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void SendMessageRequest::set_allocated_message(::std::string* message) {
-  if (message != NULL) {
+ void SendMessageRequest::set_allocated_messages(::std::string* messages) {
+  if (messages != NULL) {
     
   } else {
     
   }
-  message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.message)
+  messages_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), messages);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.messages)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -2462,7 +2464,8 @@ void SendMessageRequest::clear_message() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SendMessageReply::kConformationFieldNumber;
+const int SendMessageReply::kConfirmationFieldNumber;
+const int SendMessageReply::kStatusFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SendMessageReply::SendMessageReply()
@@ -2487,7 +2490,8 @@ void SendMessageReply::SharedCtor() {
     _is_default_instance_ = false;
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  conformation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  status_ = 0;
 }
 
 SendMessageReply::~SendMessageReply() {
@@ -2496,7 +2500,7 @@ SendMessageReply::~SendMessageReply() {
 }
 
 void SendMessageReply::SharedDtor() {
-  conformation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -2528,7 +2532,8 @@ SendMessageReply* SendMessageReply::New(::google::protobuf::Arena* arena) const 
 
 void SendMessageReply::Clear() {
 // @@protoc_insertion_point(message_clear_start:chatserver.SendMessageReply)
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  status_ = 0;
 }
 
 bool SendMessageReply::MergePartialFromCodedStream(
@@ -2541,15 +2546,30 @@ bool SendMessageReply::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string conformation = 1;
+      // optional string confirmation = 1;
       case 1: {
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_conformation()));
+                input, this->mutable_confirmation()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->conformation().data(), this->conformation().length(),
+            this->confirmation().data(), this->confirmation().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.SendMessageReply.conformation"));
+            "chatserver.SendMessageReply.confirmation"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_status;
+        break;
+      }
+
+      // optional int32 status = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_status:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &status_)));
+
         } else {
           goto handle_unusual;
         }
@@ -2581,14 +2601,19 @@ failure:
 void SendMessageReply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:chatserver.SendMessageReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.SendMessageReply.conformation");
+      "chatserver.SendMessageReply.confirmation");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->conformation(), output);
+      1, this->confirmation(), output);
+  }
+
+  // optional int32 status = 2;
+  if (this->status() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->status(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:chatserver.SendMessageReply)
@@ -2597,15 +2622,20 @@ void SendMessageReply::SerializeWithCachedSizes(
 ::google::protobuf::uint8* SendMessageReply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:chatserver.SendMessageReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.SendMessageReply.conformation");
+      "chatserver.SendMessageReply.confirmation");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->conformation(), target);
+        1, this->confirmation(), target);
+  }
+
+  // optional int32 status = 2;
+  if (this->status() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->status(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:chatserver.SendMessageReply)
@@ -2616,11 +2646,18 @@ int SendMessageReply::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:chatserver.SendMessageReply)
   int total_size = 0;
 
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->conformation());
+        this->confirmation());
+  }
+
+  // optional int32 status = 2;
+  if (this->status() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->status());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -2651,9 +2688,12 @@ void SendMessageReply::MergeFrom(const SendMessageReply& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
-  if (from.conformation().size() > 0) {
+  if (from.confirmation().size() > 0) {
 
-    conformation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.conformation_);
+    confirmation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.confirmation_);
+  }
+  if (from.status() != 0) {
+    set_status(from.status());
   }
 }
 
@@ -2681,7 +2721,8 @@ void SendMessageReply::Swap(SendMessageReply* other) {
   InternalSwap(other);
 }
 void SendMessageReply::InternalSwap(SendMessageReply* other) {
-  conformation_.Swap(&other->conformation_);
+  confirmation_.Swap(&other->confirmation_);
+  std::swap(status_, other->status_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -2697,48 +2738,62 @@ void SendMessageReply::InternalSwap(SendMessageReply* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // SendMessageReply
 
-// optional string conformation = 1;
-void SendMessageReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+void SendMessageReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& SendMessageReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& SendMessageReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void SendMessageReply::set_conformation(const ::std::string& value) {
+ void SendMessageReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.confirmation)
 }
- void SendMessageReply::set_conformation(const char* value) {
+ void SendMessageReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageReply.confirmation)
 }
- void SendMessageReply::set_conformation(const char* value, size_t size) {
+ void SendMessageReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageReply.confirmation)
 }
- ::std::string* SendMessageReply::mutable_conformation() {
+ ::std::string* SendMessageReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* SendMessageReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.SendMessageReply.conformation)
+ ::std::string* SendMessageReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void SendMessageReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+ void SendMessageReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageReply.confirmation)
+}
+
+// optional int32 status = 2;
+void SendMessageReply::clear_status() {
+  status_ = 0;
+}
+ ::google::protobuf::int32 SendMessageReply::status() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.status)
+  return status_;
+}
+ void SendMessageReply::set_status(::google::protobuf::int32 value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.status)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -3030,7 +3085,7 @@ void ReceiveMessageRequest::clear_user() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ReceiveMessageReply::kConformationFieldNumber;
+const int ReceiveMessageReply::kConfirmationFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ReceiveMessageReply::ReceiveMessageReply()
@@ -3055,7 +3110,7 @@ void ReceiveMessageReply::SharedCtor() {
     _is_default_instance_ = false;
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  conformation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 ReceiveMessageReply::~ReceiveMessageReply() {
@@ -3064,7 +3119,7 @@ ReceiveMessageReply::~ReceiveMessageReply() {
 }
 
 void ReceiveMessageReply::SharedDtor() {
-  conformation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -3096,7 +3151,7 @@ ReceiveMessageReply* ReceiveMessageReply::New(::google::protobuf::Arena* arena) 
 
 void ReceiveMessageReply::Clear() {
 // @@protoc_insertion_point(message_clear_start:chatserver.ReceiveMessageReply)
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 bool ReceiveMessageReply::MergePartialFromCodedStream(
@@ -3109,15 +3164,15 @@ bool ReceiveMessageReply::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string conformation = 1;
+      // optional string confirmation = 1;
       case 1: {
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_conformation()));
+                input, this->mutable_confirmation()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->conformation().data(), this->conformation().length(),
+            this->confirmation().data(), this->confirmation().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "chatserver.ReceiveMessageReply.conformation"));
+            "chatserver.ReceiveMessageReply.confirmation"));
         } else {
           goto handle_unusual;
         }
@@ -3149,14 +3204,14 @@ failure:
 void ReceiveMessageReply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:chatserver.ReceiveMessageReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.ReceiveMessageReply.conformation");
+      "chatserver.ReceiveMessageReply.confirmation");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->conformation(), output);
+      1, this->confirmation(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:chatserver.ReceiveMessageReply)
@@ -3165,15 +3220,15 @@ void ReceiveMessageReply::SerializeWithCachedSizes(
 ::google::protobuf::uint8* ReceiveMessageReply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:chatserver.ReceiveMessageReply)
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->conformation().data(), this->conformation().length(),
+      this->confirmation().data(), this->confirmation().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "chatserver.ReceiveMessageReply.conformation");
+      "chatserver.ReceiveMessageReply.confirmation");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->conformation(), target);
+        1, this->confirmation(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:chatserver.ReceiveMessageReply)
@@ -3184,11 +3239,11 @@ int ReceiveMessageReply::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:chatserver.ReceiveMessageReply)
   int total_size = 0;
 
-  // optional string conformation = 1;
-  if (this->conformation().size() > 0) {
+  // optional string confirmation = 1;
+  if (this->confirmation().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->conformation());
+        this->confirmation());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -3219,9 +3274,9 @@ void ReceiveMessageReply::MergeFrom(const ReceiveMessageReply& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
-  if (from.conformation().size() > 0) {
+  if (from.confirmation().size() > 0) {
 
-    conformation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.conformation_);
+    confirmation_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.confirmation_);
   }
 }
 
@@ -3249,7 +3304,7 @@ void ReceiveMessageReply::Swap(ReceiveMessageReply* other) {
   InternalSwap(other);
 }
 void ReceiveMessageReply::InternalSwap(ReceiveMessageReply* other) {
-  conformation_.Swap(&other->conformation_);
+  confirmation_.Swap(&other->confirmation_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -3265,48 +3320,48 @@ void ReceiveMessageReply::InternalSwap(ReceiveMessageReply* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // ReceiveMessageReply
 
-// optional string conformation = 1;
-void ReceiveMessageReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+void ReceiveMessageReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& ReceiveMessageReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& ReceiveMessageReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ReceiveMessageReply::set_conformation(const ::std::string& value) {
+ void ReceiveMessageReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.confirmation)
 }
- void ReceiveMessageReply::set_conformation(const char* value) {
+ void ReceiveMessageReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.ReceiveMessageReply.confirmation)
 }
- void ReceiveMessageReply::set_conformation(const char* value, size_t size) {
+ void ReceiveMessageReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.ReceiveMessageReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.ReceiveMessageReply.confirmation)
 }
- ::std::string* ReceiveMessageReply::mutable_conformation() {
+ ::std::string* ReceiveMessageReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* ReceiveMessageReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageReply.conformation)
+ ::std::string* ReceiveMessageReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ReceiveMessageReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+ void ReceiveMessageReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.confirmation)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

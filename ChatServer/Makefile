@@ -11,7 +11,7 @@ CXXFLAGS += -std=c++11
 
 LDFLAGS += -L/usr/local/lib `pkg-config --libs grpc++ grpc`	  \
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed \
-           -lprotobuf -lpthread -ldl
+           -lprotobuf -lpthread -ldl -g3
 
 PROTOC = protoc
 GRPC_CPP_PLUGIN = grpc_cpp_plugin
@@ -21,13 +21,13 @@ PROTOS_PATH = ../proto
 
 vpath %.proto $(PROTOS_PATH)
 
-all: ChatServer_Client ChatServer_Server ChatServer_ServerR
+all: ChatServer_Client ChatServer_ServerR
 
 ChatServer_Client: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Client.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_ServerR.o UserNode.o
-	$(CXX) $^ $(LDFLAGS) -o $@
+#ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Server.o UserNode.o
+#	$(CXX) $^ $(LDFLAGS) -o $@
 
 
 ChatServer_ServerR: chatserver.pb.o chatserver.grpc.pb.o ChatServer_ServerR.o UserNode.o

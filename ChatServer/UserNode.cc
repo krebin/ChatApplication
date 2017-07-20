@@ -36,7 +36,7 @@ std::string UserNode::getMessages()
 /** Mutator method for online status
  * @param bool online: true if online, false if offline
  */
-void UserNode::setStatus(bool online)
+void UserNode::setOnline(bool online)
 {
     online_ = online;
 }
@@ -44,7 +44,7 @@ void UserNode::setStatus(bool online)
 /** Accessor method for online status
  * @return online_ member
  */
-bool UserNode::getStatus() const
+bool UserNode::getOnline() const
 {
     return online_;
 }
@@ -57,11 +57,3 @@ void UserNode::addMessage(std::string message)
     messages_.push(message);
 }
 
-
-/** Overriden == method for unordered_set
- * @return bool: true if names equal, false if not
- */
-bool UserNode::operator==(const UserNode& other)
-{
-    return this->getName() == other.getName();
-}

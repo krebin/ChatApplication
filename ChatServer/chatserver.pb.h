@@ -296,16 +296,16 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // optional string conformation = 1;
-  void clear_conformation();
-  static const int kConformationFieldNumber = 1;
-  const ::std::string& conformation() const;
-  void set_conformation(const ::std::string& value);
-  void set_conformation(const char* value);
-  void set_conformation(const char* value, size_t size);
-  ::std::string* mutable_conformation();
-  ::std::string* release_conformation();
-  void set_allocated_conformation(::std::string* conformation);
+  // optional string confirmation = 1;
+  void clear_confirmation();
+  static const int kConfirmationFieldNumber = 1;
+  const ::std::string& confirmation() const;
+  void set_confirmation(const ::std::string& value);
+  void set_confirmation(const char* value);
+  void set_confirmation(const char* value, size_t size);
+  ::std::string* mutable_confirmation();
+  ::std::string* release_confirmation();
+  void set_allocated_confirmation(::std::string* confirmation);
 
   // optional string user = 2;
   void clear_user();
@@ -323,7 +323,7 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr conformation_;
+  ::google::protobuf::internal::ArenaStringPtr confirmation_;
   ::google::protobuf::internal::ArenaStringPtr user_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
@@ -482,23 +482,23 @@ class LogOutReply : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // optional string conformation = 1;
-  void clear_conformation();
-  static const int kConformationFieldNumber = 1;
-  const ::std::string& conformation() const;
-  void set_conformation(const ::std::string& value);
-  void set_conformation(const char* value);
-  void set_conformation(const char* value, size_t size);
-  ::std::string* mutable_conformation();
-  ::std::string* release_conformation();
-  void set_allocated_conformation(::std::string* conformation);
+  // optional string confirmation = 1;
+  void clear_confirmation();
+  static const int kConfirmationFieldNumber = 1;
+  const ::std::string& confirmation() const;
+  void set_confirmation(const ::std::string& value);
+  void set_confirmation(const char* value);
+  void set_confirmation(const char* value, size_t size);
+  ::std::string* mutable_confirmation();
+  ::std::string* release_confirmation();
+  void set_allocated_confirmation(::std::string* confirmation);
 
   // @@protoc_insertion_point(class_scope:chatserver.LogOutReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr conformation_;
+  ::google::protobuf::internal::ArenaStringPtr confirmation_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -591,16 +591,16 @@ class SendMessageRequest : public ::google::protobuf::Message /* @@protoc_insert
   ::std::string* release_recipient();
   void set_allocated_recipient(::std::string* recipient);
 
-  // optional string message = 3;
-  void clear_message();
-  static const int kMessageFieldNumber = 3;
-  const ::std::string& message() const;
-  void set_message(const ::std::string& value);
-  void set_message(const char* value);
-  void set_message(const char* value, size_t size);
-  ::std::string* mutable_message();
-  ::std::string* release_message();
-  void set_allocated_message(::std::string* message);
+  // optional string messages = 3;
+  void clear_messages();
+  static const int kMessagesFieldNumber = 3;
+  const ::std::string& messages() const;
+  void set_messages(const ::std::string& value);
+  void set_messages(const char* value);
+  void set_messages(const char* value, size_t size);
+  ::std::string* mutable_messages();
+  ::std::string* release_messages();
+  void set_allocated_messages(::std::string* messages);
 
   // @@protoc_insertion_point(class_scope:chatserver.SendMessageRequest)
  private:
@@ -609,7 +609,7 @@ class SendMessageRequest : public ::google::protobuf::Message /* @@protoc_insert
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr user_;
   ::google::protobuf::internal::ArenaStringPtr recipient_;
-  ::google::protobuf::internal::ArenaStringPtr message_;
+  ::google::protobuf::internal::ArenaStringPtr messages_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -680,23 +680,30 @@ class SendMessageReply : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // optional string conformation = 1;
-  void clear_conformation();
-  static const int kConformationFieldNumber = 1;
-  const ::std::string& conformation() const;
-  void set_conformation(const ::std::string& value);
-  void set_conformation(const char* value);
-  void set_conformation(const char* value, size_t size);
-  ::std::string* mutable_conformation();
-  ::std::string* release_conformation();
-  void set_allocated_conformation(::std::string* conformation);
+  // optional string confirmation = 1;
+  void clear_confirmation();
+  static const int kConfirmationFieldNumber = 1;
+  const ::std::string& confirmation() const;
+  void set_confirmation(const ::std::string& value);
+  void set_confirmation(const char* value);
+  void set_confirmation(const char* value, size_t size);
+  ::std::string* mutable_confirmation();
+  ::std::string* release_confirmation();
+  void set_allocated_confirmation(::std::string* confirmation);
+
+  // optional int32 status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::google::protobuf::int32 status() const;
+  void set_status(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:chatserver.SendMessageReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr conformation_;
+  ::google::protobuf::internal::ArenaStringPtr confirmation_;
+  ::google::protobuf::int32 status_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -854,23 +861,23 @@ class ReceiveMessageReply : public ::google::protobuf::Message /* @@protoc_inser
 
   // accessors -------------------------------------------------------
 
-  // optional string conformation = 1;
-  void clear_conformation();
-  static const int kConformationFieldNumber = 1;
-  const ::std::string& conformation() const;
-  void set_conformation(const ::std::string& value);
-  void set_conformation(const char* value);
-  void set_conformation(const char* value, size_t size);
-  ::std::string* mutable_conformation();
-  ::std::string* release_conformation();
-  void set_allocated_conformation(::std::string* conformation);
+  // optional string confirmation = 1;
+  void clear_confirmation();
+  static const int kConfirmationFieldNumber = 1;
+  const ::std::string& confirmation() const;
+  void set_confirmation(const ::std::string& value);
+  void set_confirmation(const char* value);
+  void set_confirmation(const char* value, size_t size);
+  ::std::string* mutable_confirmation();
+  ::std::string* release_confirmation();
+  void set_allocated_confirmation(::std::string* confirmation);
 
   // @@protoc_insertion_point(class_scope:chatserver.ReceiveMessageReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr conformation_;
+  ::google::protobuf::internal::ArenaStringPtr confirmation_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -1201,48 +1208,48 @@ inline void LogInRequest::set_allocated_user(::std::string* user) {
 
 // LogInReply
 
-// optional string conformation = 1;
-inline void LogInReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+inline void LogInReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& LogInReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.LogInReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& LogInReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogInReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void LogInReply::set_conformation(const ::std::string& value) {
+inline void LogInReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.LogInReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.LogInReply.confirmation)
 }
-inline void LogInReply::set_conformation(const char* value) {
+inline void LogInReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.LogInReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.LogInReply.confirmation)
 }
-inline void LogInReply::set_conformation(const char* value, size_t size) {
+inline void LogInReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.LogInReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.LogInReply.confirmation)
 }
-inline ::std::string* LogInReply::mutable_conformation() {
+inline ::std::string* LogInReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.LogInReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.LogInReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* LogInReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.LogInReply.conformation)
+inline ::std::string* LogInReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.LogInReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void LogInReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+inline void LogInReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogInReply.confirmation)
 }
 
 // optional string user = 2;
@@ -1341,48 +1348,48 @@ inline void LogOutRequest::set_allocated_user(::std::string* user) {
 
 // LogOutReply
 
-// optional string conformation = 1;
-inline void LogOutReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+inline void LogOutReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& LogOutReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.LogOutReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& LogOutReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogOutReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void LogOutReply::set_conformation(const ::std::string& value) {
+inline void LogOutReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.LogOutReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.LogOutReply.confirmation)
 }
-inline void LogOutReply::set_conformation(const char* value) {
+inline void LogOutReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.LogOutReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.LogOutReply.confirmation)
 }
-inline void LogOutReply::set_conformation(const char* value, size_t size) {
+inline void LogOutReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.LogOutReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.LogOutReply.confirmation)
 }
-inline ::std::string* LogOutReply::mutable_conformation() {
+inline ::std::string* LogOutReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.LogOutReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.LogOutReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* LogOutReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.LogOutReply.conformation)
+inline ::std::string* LogOutReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.LogOutReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void LogOutReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+inline void LogOutReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.LogOutReply.confirmation)
 }
 
 // -------------------------------------------------------------------
@@ -1477,96 +1484,110 @@ inline void SendMessageRequest::set_allocated_recipient(::std::string* recipient
   // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.recipient)
 }
 
-// optional string message = 3;
-inline void SendMessageRequest::clear_message() {
-  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string messages = 3;
+inline void SendMessageRequest::clear_messages() {
+  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& SendMessageRequest::message() const {
-  // @@protoc_insertion_point(field_get:chatserver.SendMessageRequest.message)
-  return message_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& SendMessageRequest::messages() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageRequest.messages)
+  return messages_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void SendMessageRequest::set_message(const ::std::string& value) {
+inline void SendMessageRequest::set_messages(const ::std::string& value) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.SendMessageRequest.message)
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageRequest.messages)
 }
-inline void SendMessageRequest::set_message(const char* value) {
+inline void SendMessageRequest::set_messages(const char* value) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageRequest.message)
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageRequest.messages)
 }
-inline void SendMessageRequest::set_message(const char* value, size_t size) {
+inline void SendMessageRequest::set_messages(const char* value, size_t size) {
   
-  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageRequest.message)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageRequest.messages)
 }
-inline ::std::string* SendMessageRequest::mutable_message() {
+inline ::std::string* SendMessageRequest::mutable_messages() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageRequest.message)
-  return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageRequest.messages)
+  return messages_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* SendMessageRequest::release_message() {
-  // @@protoc_insertion_point(field_release:chatserver.SendMessageRequest.message)
+inline ::std::string* SendMessageRequest::release_messages() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageRequest.messages)
   
-  return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return messages_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void SendMessageRequest::set_allocated_message(::std::string* message) {
-  if (message != NULL) {
+inline void SendMessageRequest::set_allocated_messages(::std::string* messages) {
+  if (messages != NULL) {
     
   } else {
     
   }
-  message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.message)
+  messages_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), messages);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.messages)
 }
 
 // -------------------------------------------------------------------
 
 // SendMessageReply
 
-// optional string conformation = 1;
-inline void SendMessageReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+inline void SendMessageReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& SendMessageReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& SendMessageReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void SendMessageReply::set_conformation(const ::std::string& value) {
+inline void SendMessageReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.confirmation)
 }
-inline void SendMessageReply::set_conformation(const char* value) {
+inline void SendMessageReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.SendMessageReply.confirmation)
 }
-inline void SendMessageReply::set_conformation(const char* value, size_t size) {
+inline void SendMessageReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.SendMessageReply.confirmation)
 }
-inline ::std::string* SendMessageReply::mutable_conformation() {
+inline ::std::string* SendMessageReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.SendMessageReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* SendMessageReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.SendMessageReply.conformation)
+inline ::std::string* SendMessageReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.SendMessageReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void SendMessageReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+inline void SendMessageReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageReply.confirmation)
+}
+
+// optional int32 status = 2;
+inline void SendMessageReply::clear_status() {
+  status_ = 0;
+}
+inline ::google::protobuf::int32 SendMessageReply::status() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.status)
+  return status_;
+}
+inline void SendMessageReply::set_status(::google::protobuf::int32 value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.status)
 }
 
 // -------------------------------------------------------------------
@@ -1621,48 +1642,48 @@ inline void ReceiveMessageRequest::set_allocated_user(::std::string* user) {
 
 // ReceiveMessageReply
 
-// optional string conformation = 1;
-inline void ReceiveMessageReply::clear_conformation() {
-  conformation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string confirmation = 1;
+inline void ReceiveMessageReply::clear_confirmation() {
+  confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ReceiveMessageReply::conformation() const {
-  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.conformation)
-  return conformation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& ReceiveMessageReply::confirmation() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.confirmation)
+  return confirmation_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ReceiveMessageReply::set_conformation(const ::std::string& value) {
+inline void ReceiveMessageReply::set_confirmation(const ::std::string& value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.confirmation)
 }
-inline void ReceiveMessageReply::set_conformation(const char* value) {
+inline void ReceiveMessageReply::set_confirmation(const char* value) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.ReceiveMessageReply.confirmation)
 }
-inline void ReceiveMessageReply::set_conformation(const char* value, size_t size) {
+inline void ReceiveMessageReply::set_confirmation(const char* value, size_t size) {
   
-  conformation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  confirmation_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:chatserver.ReceiveMessageReply.conformation)
+  // @@protoc_insertion_point(field_set_pointer:chatserver.ReceiveMessageReply.confirmation)
 }
-inline ::std::string* ReceiveMessageReply::mutable_conformation() {
+inline ::std::string* ReceiveMessageReply::mutable_confirmation() {
   
-  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageReply.conformation)
-  return conformation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageReply.confirmation)
+  return confirmation_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ReceiveMessageReply::release_conformation() {
-  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageReply.conformation)
+inline ::std::string* ReceiveMessageReply::release_confirmation() {
+  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageReply.confirmation)
   
-  return conformation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return confirmation_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ReceiveMessageReply::set_allocated_conformation(::std::string* conformation) {
-  if (conformation != NULL) {
+inline void ReceiveMessageReply::set_allocated_confirmation(::std::string* confirmation) {
+  if (confirmation != NULL) {
     
   } else {
     
   }
-  conformation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), conformation);
-  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.conformation)
+  confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.confirmation)
 }
 
 // -------------------------------------------------------------------

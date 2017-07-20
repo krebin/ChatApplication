@@ -35,8 +35,6 @@ using chatserver::ReceiveMessageReply;
 using chatserver::ListRequest;
 using chatserver::ListReply;
 using chatserver::ChatMessage;
-using chatserver::HelloRequest;
-using chatserver::HelloReply;
 
 enum serviceTypes {LOGIN = 0, LOGOUT, SENDM, RECEIVEM, LIST};
 #define ALPHA_START 65
@@ -171,7 +169,7 @@ class ServerImpl final : public ChatServer::AsyncService
 		    else if(status_ == PROCESS)
 		    {
 			new CallDataLogIn(service_, cq_, users);
-                        std::string conformation;
+                        std::string confirmation;
                         std::string name = request_.user();
                         bool valid = isValid(name);
 
@@ -187,33 +185,33 @@ class ServerImpl final : public ChatServer::AsyncService
                             if(user == users.end())
                             {
                                 users.insert(new UserNode(name));
-                                conformation = "Logged in as new user: " + name;
+                                confirmation = "Logged in as new user: " + name;
                             }
                             else
                             {
                                 // user already logged in
                                 if((*user)->getStatus()) 
                                 {
-                                    conformation = "+";
+                                    confirmation = "+";
                                 }
                                 else
                                 {
                                     // online_ to true
                                     (*user)->setStatus(true);
-                                    conformation = "Logged in as: " + name;
+                                    confirmation = "Logged in as: " + name;
                                 }
                             }
                         }
                         else
                         {
-                            conformation = "-";
+                            confirmation = "-";
                         }
 
                         // update user
                         reply_.set_user(request_.user());
 
-			// service finished
-                        reply_.set_conformation(conformation + "\n");
+	 	// service finished
+                        reply_.set_confirmation(confirmation + "\n");
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
 		    }
@@ -270,8 +268,8 @@ class ServerImpl final : public ChatServer::AsyncService
 			// get messages from queue in node
                         auto messages = (*user)->getMessages();
 
-			// set conformation
-			reply_.set_conformation(messages);
+			// set confirmation
+			reply_.set_confirmation(messages);
 
 		        // service finished
 			status_ = FINISH;
@@ -464,7 +462,7 @@ class ServerImpl final : public ChatServer::AsyncService
                         }
  
                         // Send back success/failure
-                        reply_.set_conformation(state + "\n");
+                        reply_.set_confirmation(state + "\n");
 
 			status_ = FINISH;
 			responder_.Finish(reply_, Status::OK, this);
@@ -586,8 +584,8 @@ class ServerImpl final : public ChatServer::AsyncService
                         (*user)->setStatus(false);
                         std::cout << name;
 
-                        // Set conformation
-			reply_.set_conformation("Logged out: " + name + "\n");
+                        // Set confirmation
+			reply_.set_confirmation("Logged out: " + name + "\n");
                         
                         // Service finished
 			status_ = FINISH;
