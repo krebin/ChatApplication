@@ -6,7 +6,7 @@ service ChatServer
 {
     rpc LogIn (LogInRequest) returns (LogInReply) {}
     rpc LogOut (LogOutRequest) returns (LogOutReply) {}
-    rpc SendMessage (SendMessageRequest) returns (SendMessageReply) {}
+    rpc SendMessage (stream SendMessageRequest) returns (stream SendMessageReply) {}
     rpc ReceiveMessage (ReceiveMessageRequest) returns (ReceiveMessageReply) {}
     rpc List (ListRequest) returns (ListReply) {}
     rpc Chat (stream ChatMessage) returns (stream ChatMessage) {}
@@ -25,7 +25,7 @@ message LogInRequest
 
 message LogInReply
 {
-    string conformation = 1;
+    string confirmation = 1;
     string user = 2;
 }
 
@@ -36,19 +36,20 @@ message LogOutRequest
 
 message LogOutReply
 {
-    string conformation = 1;
+    string confirmation = 1;
 }
 
 message SendMessageRequest
 {
     string user = 1;
     string recipient = 2;
-    string message = 3;
+    string messages = 3;
 }
 
 message SendMessageReply
 {
-    string conformation = 1;
+    string confirmation = 1;
+    int32 status = 2;
 }
 
 message ReceiveMessageRequest
@@ -58,7 +59,7 @@ message ReceiveMessageRequest
 
 message ReceiveMessageReply
 {
-    string conformation = 1;
+    string confirmation = 1;
 }
 
 message ListRequest
