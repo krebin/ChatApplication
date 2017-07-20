@@ -4,10 +4,10 @@
 # Except for these:
 !.gitignore
 !Makefile
-UserNode.hpp
-UserNode.cc
-ChatServer_Client.cc
-ChatServer_Server.cc
-ChatServer_ClientR.cc
-../proto/chatserver.proto
-ChatServerGlobal.h
+!UserNode.hpp
+!UserNode.cc
+!ChatServer_Client.cc
+!ChatServer_Server.cc
+!ChatServer_ClientR.cc
+!../proto/chatserver.proto
+!ChatServerGlobal.h
