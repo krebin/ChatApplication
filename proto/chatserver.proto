@@ -7,7 +7,7 @@ service ChatServer
     rpc LogIn (LogInRequest) returns (LogInReply) {}
     rpc LogOut (LogOutRequest) returns (LogOutReply) {}
     rpc SendMessage (stream SendMessageRequest) returns (stream SendMessageReply) {}
-    rpc ReceiveMessage (ReceiveMessageRequest) returns (ReceiveMessageReply) {}
+    rpc ReceiveMessage (ReceiveMessageRequest) returns (stream ReceiveMessageReply) {}
     rpc List (ListRequest) returns (ListReply) {}
     rpc Chat (stream ChatMessage) returns (stream ChatMessage) {}
 }
@@ -27,6 +27,15 @@ message LogInReply
 {
     string confirmation = 1;
     string user = 2;
+
+    enum State
+    {
+        INVALID = 0;
+        ALREADY = 1;
+        SUCCESS = 2;
+    }
+
+    State logInState = 3;
 }
 
 message LogOutRequest
@@ -44,12 +53,27 @@ message SendMessageRequest
     string user = 1;
     string recipient = 2;
     string messages = 3;
+
+    enum State
+    {
+        INITIAL = 0;
+        PROCESSING = 1;
+    }
+
+    State requestState = 4;
 }
 
 message SendMessageReply
 {
     string confirmation = 1;
-    int32 status = 2;
+
+    enum State
+    {
+        EXIST = 0;
+        NO_EXIST = 1;
+    }
+
+    State recipientState = 2;
 }
 
 message ReceiveMessageRequest
@@ -59,7 +83,16 @@ message ReceiveMessageRequest
 
 message ReceiveMessageReply
 {
-    string confirmation = 1;
+    string messages = 1;
+    string confirmation = 2;
+
+    enum State
+    {
+        EMPTY = 0;
+        NON_EMPTY = 1;
+    }
+
+    State queueState = 3;
 }
 
 message ListRequest

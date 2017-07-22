@@ -26,6 +26,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
@@ -48,6 +49,91 @@ class ReceiveMessageRequest;
 class SendMessageReply;
 class SendMessageRequest;
 
+enum LogInReply_State {
+  LogInReply_State_INVALID = 0,
+  LogInReply_State_ALREADY = 1,
+  LogInReply_State_SUCCESS = 2,
+  LogInReply_State_LogInReply_State_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  LogInReply_State_LogInReply_State_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool LogInReply_State_IsValid(int value);
+const LogInReply_State LogInReply_State_State_MIN = LogInReply_State_INVALID;
+const LogInReply_State LogInReply_State_State_MAX = LogInReply_State_SUCCESS;
+const int LogInReply_State_State_ARRAYSIZE = LogInReply_State_State_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* LogInReply_State_descriptor();
+inline const ::std::string& LogInReply_State_Name(LogInReply_State value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    LogInReply_State_descriptor(), value);
+}
+inline bool LogInReply_State_Parse(
+    const ::std::string& name, LogInReply_State* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<LogInReply_State>(
+    LogInReply_State_descriptor(), name, value);
+}
+enum SendMessageRequest_State {
+  SendMessageRequest_State_INITIAL = 0,
+  SendMessageRequest_State_PROCESSING = 1,
+  SendMessageRequest_State_SendMessageRequest_State_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  SendMessageRequest_State_SendMessageRequest_State_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool SendMessageRequest_State_IsValid(int value);
+const SendMessageRequest_State SendMessageRequest_State_State_MIN = SendMessageRequest_State_INITIAL;
+const SendMessageRequest_State SendMessageRequest_State_State_MAX = SendMessageRequest_State_PROCESSING;
+const int SendMessageRequest_State_State_ARRAYSIZE = SendMessageRequest_State_State_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* SendMessageRequest_State_descriptor();
+inline const ::std::string& SendMessageRequest_State_Name(SendMessageRequest_State value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    SendMessageRequest_State_descriptor(), value);
+}
+inline bool SendMessageRequest_State_Parse(
+    const ::std::string& name, SendMessageRequest_State* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<SendMessageRequest_State>(
+    SendMessageRequest_State_descriptor(), name, value);
+}
+enum SendMessageReply_State {
+  SendMessageReply_State_EXIST = 0,
+  SendMessageReply_State_NO_EXIST = 1,
+  SendMessageReply_State_SendMessageReply_State_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  SendMessageReply_State_SendMessageReply_State_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool SendMessageReply_State_IsValid(int value);
+const SendMessageReply_State SendMessageReply_State_State_MIN = SendMessageReply_State_EXIST;
+const SendMessageReply_State SendMessageReply_State_State_MAX = SendMessageReply_State_NO_EXIST;
+const int SendMessageReply_State_State_ARRAYSIZE = SendMessageReply_State_State_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* SendMessageReply_State_descriptor();
+inline const ::std::string& SendMessageReply_State_Name(SendMessageReply_State value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    SendMessageReply_State_descriptor(), value);
+}
+inline bool SendMessageReply_State_Parse(
+    const ::std::string& name, SendMessageReply_State* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<SendMessageReply_State>(
+    SendMessageReply_State_descriptor(), name, value);
+}
+enum ReceiveMessageReply_State {
+  ReceiveMessageReply_State_EMPTY = 0,
+  ReceiveMessageReply_State_NON_EMPTY = 1,
+  ReceiveMessageReply_State_ReceiveMessageReply_State_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ReceiveMessageReply_State_ReceiveMessageReply_State_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ReceiveMessageReply_State_IsValid(int value);
+const ReceiveMessageReply_State ReceiveMessageReply_State_State_MIN = ReceiveMessageReply_State_EMPTY;
+const ReceiveMessageReply_State ReceiveMessageReply_State_State_MAX = ReceiveMessageReply_State_NON_EMPTY;
+const int ReceiveMessageReply_State_State_ARRAYSIZE = ReceiveMessageReply_State_State_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ReceiveMessageReply_State_descriptor();
+inline const ::std::string& ReceiveMessageReply_State_Name(ReceiveMessageReply_State value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ReceiveMessageReply_State_descriptor(), value);
+}
+inline bool ReceiveMessageReply_State_Parse(
+    const ::std::string& name, ReceiveMessageReply_State* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ReceiveMessageReply_State>(
+    ReceiveMessageReply_State_descriptor(), name, value);
+}
 // ===================================================================
 
 class ChatMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatserver.ChatMessage) */ {
@@ -294,6 +380,34 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // nested types ----------------------------------------------------
 
+  typedef LogInReply_State State;
+  static const State INVALID =
+    LogInReply_State_INVALID;
+  static const State ALREADY =
+    LogInReply_State_ALREADY;
+  static const State SUCCESS =
+    LogInReply_State_SUCCESS;
+  static inline bool State_IsValid(int value) {
+    return LogInReply_State_IsValid(value);
+  }
+  static const State State_MIN =
+    LogInReply_State_State_MIN;
+  static const State State_MAX =
+    LogInReply_State_State_MAX;
+  static const int State_ARRAYSIZE =
+    LogInReply_State_State_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  State_descriptor() {
+    return LogInReply_State_descriptor();
+  }
+  static inline const ::std::string& State_Name(State value) {
+    return LogInReply_State_Name(value);
+  }
+  static inline bool State_Parse(const ::std::string& name,
+      State* value) {
+    return LogInReply_State_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // optional string confirmation = 1;
@@ -318,6 +432,12 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::std::string* release_user();
   void set_allocated_user(::std::string* user);
 
+  // optional .chatserver.LogInReply.State logInState = 3;
+  void clear_loginstate();
+  static const int kLogInStateFieldNumber = 3;
+  ::chatserver::LogInReply_State loginstate() const;
+  void set_loginstate(::chatserver::LogInReply_State value);
+
   // @@protoc_insertion_point(class_scope:chatserver.LogInReply)
  private:
 
@@ -325,6 +445,7 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr confirmation_;
   ::google::protobuf::internal::ArenaStringPtr user_;
+  int loginstate_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -567,6 +688,32 @@ class SendMessageRequest : public ::google::protobuf::Message /* @@protoc_insert
 
   // nested types ----------------------------------------------------
 
+  typedef SendMessageRequest_State State;
+  static const State INITIAL =
+    SendMessageRequest_State_INITIAL;
+  static const State PROCESSING =
+    SendMessageRequest_State_PROCESSING;
+  static inline bool State_IsValid(int value) {
+    return SendMessageRequest_State_IsValid(value);
+  }
+  static const State State_MIN =
+    SendMessageRequest_State_State_MIN;
+  static const State State_MAX =
+    SendMessageRequest_State_State_MAX;
+  static const int State_ARRAYSIZE =
+    SendMessageRequest_State_State_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  State_descriptor() {
+    return SendMessageRequest_State_descriptor();
+  }
+  static inline const ::std::string& State_Name(State value) {
+    return SendMessageRequest_State_Name(value);
+  }
+  static inline bool State_Parse(const ::std::string& name,
+      State* value) {
+    return SendMessageRequest_State_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // optional string user = 1;
@@ -602,6 +749,12 @@ class SendMessageRequest : public ::google::protobuf::Message /* @@protoc_insert
   ::std::string* release_messages();
   void set_allocated_messages(::std::string* messages);
 
+  // optional .chatserver.SendMessageRequest.State requestState = 4;
+  void clear_requeststate();
+  static const int kRequestStateFieldNumber = 4;
+  ::chatserver::SendMessageRequest_State requeststate() const;
+  void set_requeststate(::chatserver::SendMessageRequest_State value);
+
   // @@protoc_insertion_point(class_scope:chatserver.SendMessageRequest)
  private:
 
@@ -610,6 +763,7 @@ class SendMessageRequest : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::internal::ArenaStringPtr user_;
   ::google::protobuf::internal::ArenaStringPtr recipient_;
   ::google::protobuf::internal::ArenaStringPtr messages_;
+  int requeststate_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -678,6 +832,32 @@ class SendMessageReply : public ::google::protobuf::Message /* @@protoc_insertio
 
   // nested types ----------------------------------------------------
 
+  typedef SendMessageReply_State State;
+  static const State EXIST =
+    SendMessageReply_State_EXIST;
+  static const State NO_EXIST =
+    SendMessageReply_State_NO_EXIST;
+  static inline bool State_IsValid(int value) {
+    return SendMessageReply_State_IsValid(value);
+  }
+  static const State State_MIN =
+    SendMessageReply_State_State_MIN;
+  static const State State_MAX =
+    SendMessageReply_State_State_MAX;
+  static const int State_ARRAYSIZE =
+    SendMessageReply_State_State_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  State_descriptor() {
+    return SendMessageReply_State_descriptor();
+  }
+  static inline const ::std::string& State_Name(State value) {
+    return SendMessageReply_State_Name(value);
+  }
+  static inline bool State_Parse(const ::std::string& name,
+      State* value) {
+    return SendMessageReply_State_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // optional string confirmation = 1;
@@ -691,11 +871,11 @@ class SendMessageReply : public ::google::protobuf::Message /* @@protoc_insertio
   ::std::string* release_confirmation();
   void set_allocated_confirmation(::std::string* confirmation);
 
-  // optional int32 status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::google::protobuf::int32 status() const;
-  void set_status(::google::protobuf::int32 value);
+  // optional .chatserver.SendMessageReply.State recipientState = 2;
+  void clear_recipientstate();
+  static const int kRecipientStateFieldNumber = 2;
+  ::chatserver::SendMessageReply_State recipientstate() const;
+  void set_recipientstate(::chatserver::SendMessageReply_State value);
 
   // @@protoc_insertion_point(class_scope:chatserver.SendMessageReply)
  private:
@@ -703,7 +883,7 @@ class SendMessageReply : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr confirmation_;
-  ::google::protobuf::int32 status_;
+  int recipientstate_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -859,11 +1039,48 @@ class ReceiveMessageReply : public ::google::protobuf::Message /* @@protoc_inser
 
   // nested types ----------------------------------------------------
 
+  typedef ReceiveMessageReply_State State;
+  static const State EMPTY =
+    ReceiveMessageReply_State_EMPTY;
+  static const State NON_EMPTY =
+    ReceiveMessageReply_State_NON_EMPTY;
+  static inline bool State_IsValid(int value) {
+    return ReceiveMessageReply_State_IsValid(value);
+  }
+  static const State State_MIN =
+    ReceiveMessageReply_State_State_MIN;
+  static const State State_MAX =
+    ReceiveMessageReply_State_State_MAX;
+  static const int State_ARRAYSIZE =
+    ReceiveMessageReply_State_State_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  State_descriptor() {
+    return ReceiveMessageReply_State_descriptor();
+  }
+  static inline const ::std::string& State_Name(State value) {
+    return ReceiveMessageReply_State_Name(value);
+  }
+  static inline bool State_Parse(const ::std::string& name,
+      State* value) {
+    return ReceiveMessageReply_State_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
-  // optional string confirmation = 1;
+  // optional string messages = 1;
+  void clear_messages();
+  static const int kMessagesFieldNumber = 1;
+  const ::std::string& messages() const;
+  void set_messages(const ::std::string& value);
+  void set_messages(const char* value);
+  void set_messages(const char* value, size_t size);
+  ::std::string* mutable_messages();
+  ::std::string* release_messages();
+  void set_allocated_messages(::std::string* messages);
+
+  // optional string confirmation = 2;
   void clear_confirmation();
-  static const int kConfirmationFieldNumber = 1;
+  static const int kConfirmationFieldNumber = 2;
   const ::std::string& confirmation() const;
   void set_confirmation(const ::std::string& value);
   void set_confirmation(const char* value);
@@ -872,12 +1089,20 @@ class ReceiveMessageReply : public ::google::protobuf::Message /* @@protoc_inser
   ::std::string* release_confirmation();
   void set_allocated_confirmation(::std::string* confirmation);
 
+  // optional .chatserver.ReceiveMessageReply.State queueState = 3;
+  void clear_queuestate();
+  static const int kQueueStateFieldNumber = 3;
+  ::chatserver::ReceiveMessageReply_State queuestate() const;
+  void set_queuestate(::chatserver::ReceiveMessageReply_State value);
+
   // @@protoc_insertion_point(class_scope:chatserver.ReceiveMessageReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr messages_;
   ::google::protobuf::internal::ArenaStringPtr confirmation_;
+  int queuestate_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_chatserver_2eproto();
   friend void protobuf_AssignDesc_chatserver_2eproto();
@@ -1296,6 +1521,20 @@ inline void LogInReply::set_allocated_user(::std::string* user) {
   // @@protoc_insertion_point(field_set_allocated:chatserver.LogInReply.user)
 }
 
+// optional .chatserver.LogInReply.State logInState = 3;
+inline void LogInReply::clear_loginstate() {
+  loginstate_ = 0;
+}
+inline ::chatserver::LogInReply_State LogInReply::loginstate() const {
+  // @@protoc_insertion_point(field_get:chatserver.LogInReply.logInState)
+  return static_cast< ::chatserver::LogInReply_State >(loginstate_);
+}
+inline void LogInReply::set_loginstate(::chatserver::LogInReply_State value) {
+  
+  loginstate_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.LogInReply.logInState)
+}
+
 // -------------------------------------------------------------------
 
 // LogOutRequest
@@ -1528,6 +1767,20 @@ inline void SendMessageRequest::set_allocated_messages(::std::string* messages) 
   // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageRequest.messages)
 }
 
+// optional .chatserver.SendMessageRequest.State requestState = 4;
+inline void SendMessageRequest::clear_requeststate() {
+  requeststate_ = 0;
+}
+inline ::chatserver::SendMessageRequest_State SendMessageRequest::requeststate() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageRequest.requestState)
+  return static_cast< ::chatserver::SendMessageRequest_State >(requeststate_);
+}
+inline void SendMessageRequest::set_requeststate(::chatserver::SendMessageRequest_State value) {
+  
+  requeststate_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageRequest.requestState)
+}
+
 // -------------------------------------------------------------------
 
 // SendMessageReply
@@ -1576,18 +1829,18 @@ inline void SendMessageReply::set_allocated_confirmation(::std::string* confirma
   // @@protoc_insertion_point(field_set_allocated:chatserver.SendMessageReply.confirmation)
 }
 
-// optional int32 status = 2;
-inline void SendMessageReply::clear_status() {
-  status_ = 0;
+// optional .chatserver.SendMessageReply.State recipientState = 2;
+inline void SendMessageReply::clear_recipientstate() {
+  recipientstate_ = 0;
 }
-inline ::google::protobuf::int32 SendMessageReply::status() const {
-  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.status)
-  return status_;
+inline ::chatserver::SendMessageReply_State SendMessageReply::recipientstate() const {
+  // @@protoc_insertion_point(field_get:chatserver.SendMessageReply.recipientState)
+  return static_cast< ::chatserver::SendMessageReply_State >(recipientstate_);
 }
-inline void SendMessageReply::set_status(::google::protobuf::int32 value) {
+inline void SendMessageReply::set_recipientstate(::chatserver::SendMessageReply_State value) {
   
-  status_ = value;
-  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.status)
+  recipientstate_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.SendMessageReply.recipientState)
 }
 
 // -------------------------------------------------------------------
@@ -1642,7 +1895,51 @@ inline void ReceiveMessageRequest::set_allocated_user(::std::string* user) {
 
 // ReceiveMessageReply
 
-// optional string confirmation = 1;
+// optional string messages = 1;
+inline void ReceiveMessageReply::clear_messages() {
+  messages_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ReceiveMessageReply::messages() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.messages)
+  return messages_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ReceiveMessageReply::set_messages(const ::std::string& value) {
+  
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.messages)
+}
+inline void ReceiveMessageReply::set_messages(const char* value) {
+  
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatserver.ReceiveMessageReply.messages)
+}
+inline void ReceiveMessageReply::set_messages(const char* value, size_t size) {
+  
+  messages_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatserver.ReceiveMessageReply.messages)
+}
+inline ::std::string* ReceiveMessageReply::mutable_messages() {
+  
+  // @@protoc_insertion_point(field_mutable:chatserver.ReceiveMessageReply.messages)
+  return messages_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ReceiveMessageReply::release_messages() {
+  // @@protoc_insertion_point(field_release:chatserver.ReceiveMessageReply.messages)
+  
+  return messages_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ReceiveMessageReply::set_allocated_messages(::std::string* messages) {
+  if (messages != NULL) {
+    
+  } else {
+    
+  }
+  messages_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), messages);
+  // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.messages)
+}
+
+// optional string confirmation = 2;
 inline void ReceiveMessageReply::clear_confirmation() {
   confirmation_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1684,6 +1981,20 @@ inline void ReceiveMessageReply::set_allocated_confirmation(::std::string* confi
   }
   confirmation_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), confirmation);
   // @@protoc_insertion_point(field_set_allocated:chatserver.ReceiveMessageReply.confirmation)
+}
+
+// optional .chatserver.ReceiveMessageReply.State queueState = 3;
+inline void ReceiveMessageReply::clear_queuestate() {
+  queuestate_ = 0;
+}
+inline ::chatserver::ReceiveMessageReply_State ReceiveMessageReply::queuestate() const {
+  // @@protoc_insertion_point(field_get:chatserver.ReceiveMessageReply.queueState)
+  return static_cast< ::chatserver::ReceiveMessageReply_State >(queuestate_);
+}
+inline void ReceiveMessageReply::set_queuestate(::chatserver::ReceiveMessageReply_State value) {
+  
+  queuestate_ = value;
+  // @@protoc_insertion_point(field_set:chatserver.ReceiveMessageReply.queueState)
 }
 
 // -------------------------------------------------------------------
@@ -1807,6 +2118,35 @@ inline void ListReply::set_allocated_list(::std::string* list) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace chatserver
+
+#ifndef SWIG
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::chatserver::LogInReply_State> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatserver::LogInReply_State>() {
+  return ::chatserver::LogInReply_State_descriptor();
+}
+template <> struct is_proto_enum< ::chatserver::SendMessageRequest_State> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatserver::SendMessageRequest_State>() {
+  return ::chatserver::SendMessageRequest_State_descriptor();
+}
+template <> struct is_proto_enum< ::chatserver::SendMessageReply_State> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatserver::SendMessageReply_State>() {
+  return ::chatserver::SendMessageReply_State_descriptor();
+}
+template <> struct is_proto_enum< ::chatserver::ReceiveMessageReply_State> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatserver::ReceiveMessageReply_State>() {
+  return ::chatserver::ReceiveMessageReply_State_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
+#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

@@ -33,7 +33,7 @@ ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   : channel_(channel), rpcmethod_LogIn_(ChatServer_method_names[0], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_LogOut_(ChatServer_method_names[1], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SendMessage_(ChatServer_method_names[2], ::grpc::RpcMethod::BIDI_STREAMING, channel)
-  , rpcmethod_ReceiveMessage_(ChatServer_method_names[3], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReceiveMessage_(ChatServer_method_names[3], ::grpc::RpcMethod::SERVER_STREAMING, channel)
   , rpcmethod_List_(ChatServer_method_names[4], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Chat_(ChatServer_method_names[5], ::grpc::RpcMethod::BIDI_STREAMING, channel)
   {}
@@ -62,12 +62,12 @@ ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return new ::grpc::ClientAsyncReaderWriter< ::chatserver::SendMessageRequest, ::chatserver::SendMessageReply>(channel_.get(), cq, rpcmethod_SendMessage_, context, tag);
 }
 
-::grpc::Status ChatServer::Stub::ReceiveMessage(::grpc::ClientContext* context, const ::chatserver::ReceiveMessageRequest& request, ::chatserver::ReceiveMessageReply* response) {
-  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_ReceiveMessage_, context, request, response);
+::grpc::ClientReader< ::chatserver::ReceiveMessageReply>* ChatServer::Stub::ReceiveMessageRaw(::grpc::ClientContext* context, const ::chatserver::ReceiveMessageRequest& request) {
+  return new ::grpc::ClientReader< ::chatserver::ReceiveMessageReply>(channel_.get(), rpcmethod_ReceiveMessage_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::chatserver::ReceiveMessageReply>* ChatServer::Stub::AsyncReceiveMessageRaw(::grpc::ClientContext* context, const ::chatserver::ReceiveMessageRequest& request, ::grpc::CompletionQueue* cq) {
-  return new ::grpc::ClientAsyncResponseReader< ::chatserver::ReceiveMessageReply>(channel_.get(), cq, rpcmethod_ReceiveMessage_, context, request);
+::grpc::ClientAsyncReader< ::chatserver::ReceiveMessageReply>* ChatServer::Stub::AsyncReceiveMessageRaw(::grpc::ClientContext* context, const ::chatserver::ReceiveMessageRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReader< ::chatserver::ReceiveMessageReply>(channel_.get(), cq, rpcmethod_ReceiveMessage_, context, request, tag);
 }
 
 ::grpc::Status ChatServer::Stub::List(::grpc::ClientContext* context, const ::chatserver::ListRequest& request, ::chatserver::ListReply* response) {
@@ -105,8 +105,8 @@ ChatServer::Service::Service() {
           std::mem_fn(&ChatServer::Service::SendMessage), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       ChatServer_method_names[3],
-      ::grpc::RpcMethod::NORMAL_RPC,
-      new ::grpc::RpcMethodHandler< ChatServer::Service, ::chatserver::ReceiveMessageRequest, ::chatserver::ReceiveMessageReply>(
+      ::grpc::RpcMethod::SERVER_STREAMING,
+      new ::grpc::ServerStreamingHandler< ChatServer::Service, ::chatserver::ReceiveMessageRequest, ::chatserver::ReceiveMessageReply>(
           std::mem_fn(&ChatServer::Service::ReceiveMessage), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       ChatServer_method_names[4],
@@ -143,10 +143,10 @@ ChatServer::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ChatServer::Service::ReceiveMessage(::grpc::ServerContext* context, const ::chatserver::ReceiveMessageRequest* request, ::chatserver::ReceiveMessageReply* response) {
+::grpc::Status ChatServer::Service::ReceiveMessage(::grpc::ServerContext* context, const ::chatserver::ReceiveMessageRequest* request, ::grpc::ServerWriter< ::chatserver::ReceiveMessageReply>* writer) {
   (void) context;
   (void) request;
-  (void) response;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

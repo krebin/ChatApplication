@@ -1,5 +1,6 @@
 #include <iostream>
 #include "UserNode.hpp"
+#include "ChatServerGlobal.h"
 
 /** Node Constructor **/
 UserNode::UserNode(std::string name): name_(name),
@@ -16,21 +17,29 @@ std::string UserNode::getName() const
 /** Get messages
  * @return messages sent to user
  */
-std::string UserNode::getMessages()
+std::pair<UserNode::QUEUE_STATE, std::string> UserNode::getMessage()
 {
-    // Empty queue
+    std::string message;
+    // Return state of message queue and read message
+    std::pair<UserNode::QUEUE_STATE, std::string> pair;
+
+    // If queue empty
     if(!messages_.size())
-        return "No new messages.\n\n";
-
-    std::string messages = "";
-
-    // dequeue messages and append to empty string
-    while(messages_.size())
     {
-        messages+=messages_.front();
-        messages_.pop();
+        message = RECEIVE_MESSAGE_EMPTY;
+        pair.first = UserNode::QUEUE_STATE::EMPTY;
     }
-    return messages;
+    // If queue not empty
+    else
+    {
+        // Dequeue single message
+        message = messages_.front();
+        messages_.pop();
+        pair.first = UserNode::QUEUE_STATE::NON_EMPTY;
+    }
+
+    pair.second = message;
+    return pair;
 }
 
 /** Mutator method for online status

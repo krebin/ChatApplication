@@ -15,6 +15,7 @@ using grpc::ClientContext;
 using grpc::CompletionQueue;
 using grpc::Status;
 using grpc::ClientReaderWriter;
+using grpc::ClientReader;
 
 using chatserver::ChatServer;
 using chatserver::LogInRequest;
@@ -83,6 +84,39 @@ class ChatServerClient
             std::cout << LOG_OUT_FAIL;
     }
 
+    /** Receive user's messages
+     * @param user: Name of user
+     */
+    void ReceiveMessage(std::string user)
+    {
+        ReceiveMessageRequest request;
+        ReceiveMessageReply reply;
+
+        // Set current user to get messages for
+        request.set_user(user); 
+
+        ClientContext context;
+        std::shared_ptr<ClientReader<ReceiveMessageReply>>
+        reader(stub_->ReceiveMessage(&context, request));
+
+        reader->Read(&reply);
+
+        // If the message queue was empty to begin with
+        if(reply.queuestate() == chatserver::ReceiveMessageReply::EMPTY)
+        {
+            std::cout << RECEIVE_MESSAGE_NONE;
+        }
+        // Else run as normal
+        else
+        {
+            while(reader->Read(&reply))
+            {
+                std::cout << reply.messages() << std::endl;
+            }
+        }
+
+    }
+
     void SendMessage(std::string user)
     {
         ClientContext context;
@@ -100,37 +134,58 @@ class ChatServerClient
         SendMessageRequest request;
         request.set_recipient(recipient);
 
+        // Initial state because first request send to server
+        // will be to check if the user exists
+        request.set_requeststate(chatserver::SendMessageRequest::INITIAL);
+
         stream->Write(request);
         stream->Read(&reply);
  
-       // Server sets status to 1 if user exists
-        if(reply.status())
+        // Server sets status to 1 if user exists
+        // Need status member to see if user exists
+        // in the first place
+        if(reply.recipientstate() == chatserver::SendMessageReply::EXIST)
         {
-            std::cout << SEND_MESSAGES_PROMPT; 
+            std::cout << SEND_MESSAGE_PROMPT; 
             std::string message;
 
-            // "#done" will signal server to change status to 0
-            while(reply.status())
+            while(true)
             {
                 getline(std::cin, message);
-  
-                // Set request parameters              
+                
+                // Set request parameters
                 request.set_user(user);
                 request.set_recipient(recipient);
                 request.set_messages(message);
+                request.set_requeststate(chatserver::SendMessageRequest::PROCESSING);
 
                 // Send request to server
-                stream->Write(request);
-                stream->Read(&reply);
+                if(message == DONE)
+                {
+            
+                    stream->WritesDone(); 
+                    break;
+                }
+                else
+                {
+                    stream->Write(request);
+                    stream->Read(&reply);
+                }
             }
-
         }
         else
         {
-            std::cout << SEND_MESSAGES_NO_EXIST;
-        }
-        //stream->WritesDone();
-        std::cout << reply.confirmation();       
+            stream->WritesDone(); 
+        }        
+
+        std::cout << reply.confirmation();      
+ 
+        Status status = stream->Finish();
+
+        if(!status.ok())
+            std::cout << SEND_MESSAGE_FAIL;
+        else
+            std::cout << SEND_MESSAGE_DONE;
     }
 
     void Chat(std::string user)
@@ -147,12 +202,6 @@ class ChatServerClient
                 ChatMessage server_note;
                 while(stream->Read(&server_note))
                 {
-                    // server will set note's user as done
-                    if(server_note.user() == "#done")
-                    {
-                        break;
-                    }
-
                     std::cout << "["
                               << server_note.user()
                               << "]: "
@@ -161,27 +210,28 @@ class ChatServerClient
                 }
         });
 
-        // Repeat input of messages
-        // "#done" is message to end chat
-        std::string message;
-        do
-        {   
-    		getline(std::cin, message);
-            stream->Write(createChatMessage(message, user));
+        while(true)
+        {
+            std::string message;
+            getline(std::cin, message);
+            if(message != DONE)
+            {
+                stream->Write(createChatMessage(message, user));
+            }
+            else
+            {
+                stream->WritesDone();
+                break;
+            }
         }
-        while(message != "#done");
 
-        // Signal done writing messages to stream
-        stream->WritesDone();
-
-        // wait for thread to finish
         reader.join();
-        //Status status = stream->Finish();
+        Status status = stream->Finish();
 
-        //if(!status.ok())
-        //    std::cout << "Chat RPC failed.\n\n";
-        //else
-        //   std::cout << "Chat finished.\n\n";
+        if(!status.ok())
+            std::cout << CHAT_FAIL;
+        else
+            std::cout << CHAT_DONE;
 
                             
     }
@@ -208,8 +258,6 @@ class ChatServerClient
 	    LogOutReply logOutReply;
 	    ListRequest listrequest;
 	    ListReply listReply;
-	    ReceiveMessageRequest receiveMessageRequest;
-	    ReceiveMessageReply receiveMessageReply;
 
 	    std::string confirmation;
 
@@ -232,17 +280,6 @@ class ChatServerClient
 
 		    rpc->Finish(&logOutReply, &status, (void*)1);
 	    }
-	    // service is ReceiveMessage
-	    else if(type == RECEIVEM)
-	    {
-		// set user
-	        receiveMessageRequest.set_user(user);
-		    std::unique_ptr<ClientAsyncResponseReader<ReceiveMessageReply>> 
-            rpc(stub_->AsyncReceiveMessage(&context, receiveMessageRequest,
-                                               &cq));
-		    rpc->Finish(&receiveMessageReply,  &status, (void*)1);
-	    }
-            // service is List
 	    else if(type == LIST)
         {
 	    	std::unique_ptr<ClientAsyncResponseReader<ListReply>> 
@@ -272,8 +309,6 @@ class ChatServerClient
         }
 	    else if(type == LOGOUT)
 		    confirmation = logOutReply.confirmation();
-	    else if(type == RECEIVEM)
-		    confirmation = receiveMessageReply.confirmation();
 	    if(status.ok())
 	    {
 		    return confirmation;
@@ -326,10 +361,8 @@ int displayMenu(ChatServerClient* Chatter, std::string& user)
 		    return 1;
 	    // User wants to receieve messages
 	    case 3:
-	        std::cout << "Receiving messages.\n\n"
-                      << Chatter->sendService(user, RECEIVEM, "", "")
-                      << "All messages recieved.\n\n";
-		return 1;
+            Chatter->ReceiveMessage(user);
+		    return 1;
 	    // User wants a list of people on server
 	    case 4:
             std::cout << Chatter->sendService(user, LIST, "", "");
