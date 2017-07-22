@@ -7,7 +7,6 @@
 !UserNode.hpp
 !UserNode.cc
 !ChatServer_Client.cc
-!ChatServer_Server.cc
-!ChatServer_ClientR.cc
+!ChatServer_ServerR.cc
 !../proto/chatserver.proto
 !ChatServerGlobal.h
