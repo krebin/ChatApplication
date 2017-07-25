@@ -321,38 +321,38 @@ void protobuf_AddDesc_chatserver_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\020chatserver.proto\022\nchatserver\"-\n\013ChatMe"
     "ssage\022\014\n\004user\030\001 \001(\t\022\020\n\010messages\030\002 \001(\t\"\034\n"
-    "\014LogInRequest\022\014\n\004user\030\001 \001(\t\"\222\001\n\nLogInRep"
+    "\014LogInRequest\022\014\n\004user\030\001 \001(\t\"\242\001\n\nLogInRep"
     "ly\022\024\n\014confirmation\030\001 \001(\t\022\014\n\004user\030\002 \001(\t\0220"
     "\n\nlogInState\030\003 \001(\0162\034.chatserver.LogInRep"
-    "ly.State\".\n\005State\022\013\n\007INVALID\020\000\022\013\n\007ALREAD"
-    "Y\020\001\022\013\n\007SUCCESS\020\002\"\035\n\rLogOutRequest\022\014\n\004use"
-    "r\030\001 \001(\t\"#\n\013LogOutReply\022\024\n\014confirmation\030\001"
-    " \001(\t\"\251\001\n\022SendMessageRequest\022\014\n\004user\030\001 \001("
-    "\t\022\021\n\trecipient\030\002 \001(\t\022\020\n\010messages\030\003 \001(\t\022:"
-    "\n\014requestState\030\004 \001(\0162$.chatserver.SendMe"
-    "ssageRequest.State\"$\n\005State\022\013\n\007INITIAL\020\000"
-    "\022\016\n\nPROCESSING\020\001\"\206\001\n\020SendMessageReply\022\024\n"
-    "\014confirmation\030\001 \001(\t\022:\n\016recipientState\030\002 "
-    "\001(\0162\".chatserver.SendMessageReply.State\""
-    " \n\005State\022\t\n\005EXIST\020\000\022\014\n\010NO_EXIST\020\001\"%\n\025Rec"
-    "eiveMessageRequest\022\014\n\004user\030\001 \001(\t\"\233\001\n\023Rec"
-    "eiveMessageReply\022\020\n\010messages\030\001 \001(\t\022\024\n\014co"
-    "nfirmation\030\002 \001(\t\0229\n\nqueueState\030\003 \001(\0162%.c"
-    "hatserver.ReceiveMessageReply.State\"!\n\005S"
-    "tate\022\t\n\005EMPTY\020\000\022\r\n\tNON_EMPTY\020\001\"\033\n\013ListRe"
-    "quest\022\014\n\004list\030\001 \001(\t\"\031\n\tListReply\022\014\n\004list"
-    "\030\001 \001(\t2\260\003\n\nChatServer\022;\n\005LogIn\022\030.chatser"
-    "ver.LogInRequest\032\026.chatserver.LogInReply"
-    "\"\000\022>\n\006LogOut\022\031.chatserver.LogOutRequest\032"
-    "\027.chatserver.LogOutReply\"\000\022Q\n\013SendMessag"
-    "e\022\036.chatserver.SendMessageRequest\032\034.chat"
-    "server.SendMessageReply\"\000(\0010\001\022X\n\016Receive"
-    "Message\022!.chatserver.ReceiveMessageReque"
-    "st\032\037.chatserver.ReceiveMessageReply\"\0000\001\022"
-    "8\n\004List\022\027.chatserver.ListRequest\032\025.chats"
-    "erver.ListReply\"\000\022>\n\004Chat\022\027.chatserver.C"
-    "hatMessage\032\027.chatserver.ChatMessage\"\000(\0010"
-    "\001b\006proto3", 1329);
+    "ly.State\">\n\005State\022\016\n\nSERVER_OFF\020\000\022\013\n\007INV"
+    "ALID\020\001\022\013\n\007ALREADY\020\002\022\013\n\007SUCCESS\020\003\"\035\n\rLogO"
+    "utRequest\022\014\n\004user\030\001 \001(\t\"#\n\013LogOutReply\022\024"
+    "\n\014confirmation\030\001 \001(\t\"\251\001\n\022SendMessageRequ"
+    "est\022\014\n\004user\030\001 \001(\t\022\021\n\trecipient\030\002 \001(\t\022\020\n\010"
+    "messages\030\003 \001(\t\022:\n\014requestState\030\004 \001(\0162$.c"
+    "hatserver.SendMessageRequest.State\"$\n\005St"
+    "ate\022\013\n\007INITIAL\020\000\022\016\n\nPROCESSING\020\001\"\206\001\n\020Sen"
+    "dMessageReply\022\024\n\014confirmation\030\001 \001(\t\022:\n\016r"
+    "ecipientState\030\002 \001(\0162\".chatserver.SendMes"
+    "sageReply.State\" \n\005State\022\t\n\005EXIST\020\000\022\014\n\010N"
+    "O_EXIST\020\001\"%\n\025ReceiveMessageRequest\022\014\n\004us"
+    "er\030\001 \001(\t\"\233\001\n\023ReceiveMessageReply\022\020\n\010mess"
+    "ages\030\001 \001(\t\022\024\n\014confirmation\030\002 \001(\t\0229\n\nqueu"
+    "eState\030\003 \001(\0162%.chatserver.ReceiveMessage"
+    "Reply.State\"!\n\005State\022\t\n\005EMPTY\020\000\022\r\n\tNON_E"
+    "MPTY\020\001\"\033\n\013ListRequest\022\014\n\004list\030\001 \001(\t\"\031\n\tL"
+    "istReply\022\014\n\004list\030\001 \001(\t2\264\003\n\nChatServer\022\?\n"
+    "\005LogIn\022\030.chatserver.LogInRequest\032\026.chats"
+    "erver.LogInReply\"\000(\0010\001\022>\n\006LogOut\022\031.chats"
+    "erver.LogOutRequest\032\027.chatserver.LogOutR"
+    "eply\"\000\022Q\n\013SendMessage\022\036.chatserver.SendM"
+    "essageRequest\032\034.chatserver.SendMessageRe"
+    "ply\"\000(\0010\001\022X\n\016ReceiveMessage\022!.chatserver"
+    ".ReceiveMessageRequest\032\037.chatserver.Rece"
+    "iveMessageReply\"\0000\001\0228\n\004List\022\027.chatserver"
+    ".ListRequest\032\025.chatserver.ListReply\"\000\022>\n"
+    "\004Chat\022\027.chatserver.ChatMessage\032\027.chatser"
+    "ver.ChatMessage\"\000(\0010\001b\006proto3", 1349);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "chatserver.proto", &protobuf_RegisterTypes);
   ChatMessage::default_instance_ = new ChatMessage();
@@ -1064,6 +1064,7 @@ bool LogInReply_State_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -1071,6 +1072,7 @@ bool LogInReply_State_IsValid(int value) {
 }
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const LogInReply_State LogInReply::SERVER_OFF;
 const LogInReply_State LogInReply::INVALID;
 const LogInReply_State LogInReply::ALREADY;
 const LogInReply_State LogInReply::SUCCESS;

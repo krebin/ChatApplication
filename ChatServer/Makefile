@@ -23,7 +23,7 @@ vpath %.proto $(PROTOS_PATH)
 
 all: ChatServer_Client ChatServer_ServerR
 
-ChatServer_Client: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Client.o UserNode.o
+ChatServer_Client: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Client.o UserNode.o 
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 #ChatServer_Server: chatserver.pb.o chatserver.grpc.pb.o ChatServer_Server.o UserNode.o

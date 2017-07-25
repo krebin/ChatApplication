@@ -30,9 +30,11 @@ class ChatServer GRPC_FINAL {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status LogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::chatserver::LogInReply* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogInReply>> AsyncLogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogInReply>>(AsyncLogInRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>> LogIn(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>>(LogInRaw(context));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>> AsyncLogIn(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>>(AsyncLogInRaw(context, cq, tag));
     }
     virtual ::grpc::Status LogOut(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::chatserver::LogOutReply* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogOutReply>> AsyncLogOut(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::grpc::CompletionQueue* cq) {
@@ -61,7 +63,8 @@ class ChatServer GRPC_FINAL {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::ChatMessage, ::chatserver::ChatMessage>>(AsyncChatRaw(context, cq, tag));
     }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogInReply>* AsyncLogInRaw(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>* LogInRaw(::grpc::ClientContext* context) = 0;
+    virtual ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::LogInRequest, ::chatserver::LogInReply>* AsyncLogInRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chatserver::LogOutReply>* AsyncLogOutRaw(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderWriterInterface< ::chatserver::SendMessageRequest, ::chatserver::SendMessageReply>* SendMessageRaw(::grpc::ClientContext* context) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::chatserver::SendMessageRequest, ::chatserver::SendMessageReply>* AsyncSendMessageRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
@@ -74,9 +77,11 @@ class ChatServer GRPC_FINAL {
   class Stub GRPC_FINAL : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status LogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::chatserver::LogInReply* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chatserver::LogInReply>> AsyncLogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chatserver::LogInReply>>(AsyncLogInRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>> LogIn(::grpc::ClientContext* context) {
+      return std::unique_ptr< ::grpc::ClientReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>>(LogInRaw(context));
+    }
+    std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>> AsyncLogIn(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>>(AsyncLogInRaw(context, cq, tag));
     }
     ::grpc::Status LogOut(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::chatserver::LogOutReply* response) GRPC_OVERRIDE;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chatserver::LogOutReply>> AsyncLogOut(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::grpc::CompletionQueue* cq) {
@@ -107,7 +112,8 @@ class ChatServer GRPC_FINAL {
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    ::grpc::ClientAsyncResponseReader< ::chatserver::LogInReply>* AsyncLogInRaw(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>* LogInRaw(::grpc::ClientContext* context) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>* AsyncLogInRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::chatserver::LogOutReply>* AsyncLogOutRaw(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientReaderWriter< ::chatserver::SendMessageRequest, ::chatserver::SendMessageReply>* SendMessageRaw(::grpc::ClientContext* context) GRPC_OVERRIDE;
     ::grpc::ClientAsyncReaderWriter< ::chatserver::SendMessageRequest, ::chatserver::SendMessageReply>* AsyncSendMessageRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) GRPC_OVERRIDE;
@@ -129,7 +135,7 @@ class ChatServer GRPC_FINAL {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status LogIn(::grpc::ServerContext* context, const ::chatserver::LogInRequest* request, ::chatserver::LogInReply* response);
+    virtual ::grpc::Status LogIn(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::LogInReply, ::chatserver::LogInRequest>* stream);
     virtual ::grpc::Status LogOut(::grpc::ServerContext* context, const ::chatserver::LogOutRequest* request, ::chatserver::LogOutReply* response);
     virtual ::grpc::Status SendMessage(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::SendMessageReply, ::chatserver::SendMessageRequest>* stream);
     virtual ::grpc::Status ReceiveMessage(::grpc::ServerContext* context, const ::chatserver::ReceiveMessageRequest* request, ::grpc::ServerWriter< ::chatserver::ReceiveMessageReply>* writer);
@@ -148,12 +154,12 @@ class ChatServer GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LogIn(::grpc::ServerContext* context, const ::chatserver::LogInRequest* request, ::chatserver::LogInReply* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status LogIn(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::LogInReply, ::chatserver::LogInRequest>* stream) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestLogIn(::grpc::ServerContext* context, ::chatserver::LogInRequest* request, ::grpc::ServerAsyncResponseWriter< ::chatserver::LogInReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    void RequestLogIn(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::chatserver::LogInReply, ::chatserver::LogInRequest>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncBidiStreaming(0, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -269,7 +275,7 @@ class ChatServer GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LogIn(::grpc::ServerContext* context, const ::chatserver::LogInRequest* request, ::chatserver::LogInReply* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status LogIn(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::LogInReply, ::chatserver::LogInRequest>* stream) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }

@@ -50,14 +50,15 @@ class SendMessageReply;
 class SendMessageRequest;
 
 enum LogInReply_State {
-  LogInReply_State_INVALID = 0,
-  LogInReply_State_ALREADY = 1,
-  LogInReply_State_SUCCESS = 2,
+  LogInReply_State_SERVER_OFF = 0,
+  LogInReply_State_INVALID = 1,
+  LogInReply_State_ALREADY = 2,
+  LogInReply_State_SUCCESS = 3,
   LogInReply_State_LogInReply_State_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   LogInReply_State_LogInReply_State_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool LogInReply_State_IsValid(int value);
-const LogInReply_State LogInReply_State_State_MIN = LogInReply_State_INVALID;
+const LogInReply_State LogInReply_State_State_MIN = LogInReply_State_SERVER_OFF;
 const LogInReply_State LogInReply_State_State_MAX = LogInReply_State_SUCCESS;
 const int LogInReply_State_State_ARRAYSIZE = LogInReply_State_State_MAX + 1;
 
@@ -381,6 +382,8 @@ class LogInReply : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // nested types ----------------------------------------------------
 
   typedef LogInReply_State State;
+  static const State SERVER_OFF =
+    LogInReply_State_SERVER_OFF;
   static const State INVALID =
     LogInReply_State_INVALID;
   static const State ALREADY =

@@ -854,53 +854,6 @@ class ServerImpl final : public ChatServer::AsyncService
 
     private:
 
-        void createLogInRpc()
-        {
-            UnaryRpcJobHandlers<chatserver::ChatServer::AsyncService, LogInRequest, LogInReply> jobHandlers;
-            jobHandlers.rpcJobContextHandler = &LogInContextSetterImpl;
-            jobHandlers.rpcJobDoneHandler = &LogInDone;
-            jobHandlers.createRpcJobHandler = std::bind(&ServerImpl::createLogInRpc, this);
-            jobHandlers.queueRequestHandler = &chatserver::ChatServer::AsyncService::RequestLogIn;
-            jobHandlers.processRequestHandler = &LogInProcessor;
-
-            new UnaryRpcJob<chatserver::ChatServer::AsyncService, LogInRequest, LogInReply>(&mChatServerService, mCQ.get(), jobHandlers);
-        }
-    
-        struct LogInResponder
-        {
-            std::function<bool(chatserver::LogInReply*)> sendFunc;
-            grpc::ServerContext* serverContext;
-        };
-
-        std::unordered_map<RpcJob*, LogInResponder> mLogInResponders;
-        static void LogInContextSetterImpl(chatserver::ChatServer::AsyncService* service, RpcJob* job, ServerContext* serverContext, std::function<bool(LogInReply*)> sendResponse)
-        {
-            LogInResponder responder;
-            responder.sendFunc = sendResponse;
-            responder.serverContext = serverContext;
-
-            gServerImpl->mLogInResponders[job] = responder;
-        }
-
-        static void LogInProcessor(chatserver::ChatServer::AsyncService* service, RpcJob* job, const chatserver::LogInRequest* request)
-        {
-            chatserver::LogInReply reply;
-            UserNode *newUser = new UserNode(request->user());
-            newUser->setOnline(true);
-            gServerImpl->users_[request->user()] = newUser;
-
-            reply.set_user(request->user());
-            reply.set_confirmation("Logged in as: " + request->user());
-            
-            gServerImpl->mLogInResponders[job].sendFunc(&reply);
-        }
-
-        static void LogInDone(chatserver::ChatServer::AsyncService* service, RpcJob* job, bool rpcCancelled)
-        {
-            gServerImpl->mLogInResponders.erase(job);
-            delete job;
-        }
-
         void createLogOutRpc()
         {
             UnaryRpcJobHandlers<chatserver::ChatServer::AsyncService, LogOutRequest, LogOutReply> jobHandlers;
@@ -945,6 +898,65 @@ class ServerImpl final : public ChatServer::AsyncService
         static void LogOutDone(chatserver::ChatServer::AsyncService* service, RpcJob* job, bool rpcCancelled)
         {
             gServerImpl->mLogOutResponders.erase(job);
+            delete job;
+        }
+
+        void createListRpc()
+        {
+            UnaryRpcJobHandlers<chatserver::ChatServer::AsyncService, ListRequest, ListReply> jobHandlers;
+            jobHandlers.rpcJobContextHandler = &ListContextSetterImpl;
+            jobHandlers.rpcJobDoneHandler = &ListDone;
+            jobHandlers.createRpcJobHandler = std::bind(&ServerImpl::createListRpc, this);
+            jobHandlers.queueRequestHandler = &chatserver::ChatServer::AsyncService::RequestList;
+            jobHandlers.processRequestHandler = &ListProcessor;
+
+            new UnaryRpcJob<chatserver::ChatServer::AsyncService, ListRequest, ListReply>(&mChatServerService, mCQ.get(), jobHandlers);
+        }
+    
+        struct ListResponder
+        {
+            std::function<bool(chatserver::ListReply*)> sendFunc;
+            grpc::ServerContext* serverContext;
+        };
+
+        std::unordered_map<RpcJob*, ListResponder> mListResponders;
+        static void ListContextSetterImpl(chatserver::ChatServer::AsyncService* service, RpcJob* job, ServerContext* serverContext, std::function<bool(ListReply*)> sendResponse)
+        {
+            ListResponder responder;
+            responder.sendFunc = sendResponse;
+            responder.serverContext = serverContext;
+
+            gServerImpl->mListResponders[job] = responder;
+        }
+
+        static void ListProcessor(chatserver::ChatServer::AsyncService* service, RpcJob* job, const chatserver::ListRequest* request)
+        {
+            std::string list;
+            ListReply reply;
+            auto it = gServerImpl->users_.begin();
+
+            // Iterate through all existing users
+            for(auto it = gServerImpl->users_.begin()
+              ; it != gServerImpl->users_.end()
+              ; it++)
+            {
+                // If user currently online
+                if(it->second->getOnline())
+                {
+                    // Format list of users
+                    list += ("[" + it->second->getName() + "] ");
+                }
+                
+            }
+            list += "\n\n";
+            reply.set_list(list);
+
+            gServerImpl->mListResponders[job].sendFunc(&reply);
+        }
+
+        static void ListDone(chatserver::ChatServer::AsyncService* service, RpcJob* job, bool rpcCancelled)
+        {
+            gServerImpl->mListResponders.erase(job);
             delete job;
         }
 
@@ -996,14 +1008,15 @@ class ServerImpl final : public ChatServer::AsyncService
                 if(pair.first == UserNode::QUEUE_STATE::EMPTY) 
                 {
                     reply.set_queuestate(chatserver::ReceiveMessageReply::EMPTY);
+                    gServerImpl->mReceiveMessageResponders[job].sendFunc(nullptr);
                 }
                 else if(pair.first == UserNode::QUEUE_STATE::NON_EMPTY)
                 {
                     reply.set_queuestate(chatserver::ReceiveMessageReply::NON_EMPTY);
+                    reply.set_messages(pair.second); 
+                    gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
                 }
 
-                reply.set_messages(pair.second); 
-                gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
 
                 while(reply.queuestate() == chatserver::ReceiveMessageReply::NON_EMPTY)
                 {
@@ -1011,18 +1024,22 @@ class ServerImpl final : public ChatServer::AsyncService
                     if(pair.first == UserNode::QUEUE_STATE::EMPTY) 
                     {
                         reply.set_queuestate(chatserver::ReceiveMessageReply::EMPTY);
+                        reply.set_messages(pair.second);            
+                        gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
+                        gServerImpl->mReceiveMessageResponders[job].sendFunc(nullptr);
                     }
                     else if(pair.first == UserNode::QUEUE_STATE::NON_EMPTY)
                     {
                         reply.set_queuestate(chatserver::ReceiveMessageReply::NON_EMPTY);
-                    }                     
-                    gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
+                        reply.set_messages(pair.second);            
+                        gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
+
+                    }         
                 }
-                // Set message
             }
             else
             {
-                gServerImpl->mReceiveMessageResponders[job].sendFunc(&reply);
+                gServerImpl->mReceiveMessageResponders[job].sendFunc(nullptr);
             }
         }
 
@@ -1069,7 +1086,6 @@ class ServerImpl final : public ChatServer::AsyncService
                 if(request->requeststate() == chatserver::SendMessageRequest::INITIAL)
                 {
                     auto recipientIterator = gServerImpl->users_.find(request->recipient());
-                    std::cout << request->recipient();         
                     // Check for existing user
                     if(recipientIterator != gServerImpl->users_.end())
                     {
@@ -1086,7 +1102,6 @@ class ServerImpl final : public ChatServer::AsyncService
                 {
                     // Access recipient UserNode from map
                     auto recipientIterator = gServerImpl->users_.find(request->recipient());
-                    std::cout << request->recipient();         
                     // Check for existing user
                     if(recipientIterator != gServerImpl->users_.end())
                     {
@@ -1098,22 +1113,12 @@ class ServerImpl final : public ChatServer::AsyncService
                         tm *gmtm = gmtime(&now);
                         char* dt = asctime(gmtm);
 
-
-                        // Message formatting
-                        std::string newMessage = "UTC: " + std::string(dt) +
-                                                 "Message from " + name + ": " +
-                                                 message;
-                        /*std::string newMessage = "UTC: " + std::string(dt) +
-                                                 "Message from " + "mingmong" + ": " +
-                                                 "ringrong";*/
-
-
-                        std::cout << newMessage << std::endl;
                         // Queue message
-                        recipientIterator->second->addMessage(newMessage);
+                        recipientIterator->second->addMessage("Message from " + name + ": " + message);
 
                         // Set fields
-                        reply.set_confirmation(SEND_MESSAGE_CONFIRM + name
+                        reply.set_confirmation(SEND_MESSAGE_CONFIRM
+                                             + request->recipient()
                                              + "\n\n");
                     }
                 }
@@ -1181,6 +1186,8 @@ class ServerImpl final : public ChatServer::AsyncService
             gServerImpl->newResponder = responder;
             gServerImpl->mChatResponders[job] = responder;
         }
+
+
     
         /** Processor for Chat RPC
          * @param AsyncService* service:
@@ -1239,6 +1246,119 @@ class ServerImpl final : public ChatServer::AsyncService
             delete job;
         }
 
+        /** Create a BidirectionStreamingRpcJob with LogIn RPC specifications
+         */
+        void createLogInRpc()
+        {
+            BidirectionalStreamingRpcJobHandlers<chatserver::ChatServer::AsyncService, LogInRequest, LogInReply> jobHandlers;
+            jobHandlers.rpcJobContextHandler = &LogInContextSetterImpl;
+            jobHandlers.rpcJobDoneHandler = &LogInDone;
+            jobHandlers.createRpcJobHandler = std::bind(&ServerImpl::createLogInRpc, this);
+            jobHandlers.queueRequestHandler = &chatserver::ChatServer::AsyncService::RequestLogIn;
+            jobHandlers.processRequestHandler = &LogInProcessor;
+
+            // Spawn the job to be used later
+            new BidirectionalStreamingRpcJob<chatserver::ChatServer::AsyncService, LogInRequest, LogInReply>(&mChatServerService, mCQ.get(), jobHandlers);
+        }
+
+        /** Struct to hold sending function
+         */
+        struct LogInResponder
+        {
+            std::function<bool(chatserver::LogInReply*)> sendFunc;
+            grpc::ServerContext* serverContext;
+        };
+
+        // Map to responders
+        std::unordered_map<RpcJob*, LogInResponder> mLogInResponders;
+
+        /** Sets up responders for LogIn RPC
+         * @param AsyncService* service:
+         * @param RpcJob* job: current RPC
+         * @param sendResponse: Function that defines how to send the message
+         */
+        static void LogInContextSetterImpl(chatserver::ChatServer::AsyncService* service, RpcJob* job
+                                        , ServerContext* serverContext
+                                        , std::function<bool(LogInReply*)> 
+                                                             sendResponse)
+        {
+            // Responder object
+            LogInResponder responder;
+            // Assign function
+            responder.sendFunc = sendResponse;
+            // Assign context
+            responder.serverContext = serverContext;
+
+            gServerImpl->mLogInResponders[job] = responder;
+        }
+    
+        /** Processor for Chat RPC
+         * @param AsyncService* service:
+         * @param RpcJob* job: current rpc request is coming from
+         * @param const ChatMessage* note: pointer to message that must be sent
+         */
+        static void LogInProcessor(chatserver::ChatServer::AsyncService* service, RpcJob* job, const LogInRequest* request)
+        {
+            LogInReply reply;
+            if(request)
+            {
+                auto user = request->user();
+                // User's desired name is not valid
+                if(!isValid(user))
+                {
+                    std::cout << "INVALID\n";
+                    reply.set_loginstate(chatserver::LogInReply::INVALID);
+                }
+                // User's name has been used before
+                else if(gServerImpl->users_.find(user) != gServerImpl->users_.end())
+                {
+                    // Someone is currently online with that name
+                    if(gServerImpl->users_[user]->getOnline())
+                    {
+                        std::cout << "ALREADY\n";
+                        reply.set_loginstate(chatserver::LogInReply::ALREADY);                        
+                    }
+                    // No one is currently online with that name
+                    else
+                    {
+                        std::cout << "SUCCESS\n";
+                        reply.set_loginstate(chatserver::LogInReply::SUCCESS);               
+                    }
+                }
+                // User's desired name has never before been used
+                else
+                {
+                    std::cout <<"SUCCESS NEW\n";
+                    // Create new user
+                    auto newNode = new UserNode(user);
+                    newNode->setOnline(true);
+                    gServerImpl->users_[user] = newNode;
+                    reply.set_loginstate(chatserver::LogInReply::SUCCESS);
+                }
+                gServerImpl->mLogInResponders[job].sendFunc(&reply);
+            }
+            else
+            {
+                gServerImpl->mLogInResponders[job].sendFunc(nullptr);
+            }
+        }
+   
+
+        /** Deallocate memory taken by Chat RPC instances
+         */
+        static void LogInDone(chatserver::ChatServer::AsyncService* service, RpcJob* job, bool rpcCancelled)
+        {
+            // Deallocate dynamic responder
+            delete gServerImpl->mChatResponders[job];
+            // Remove responder from map
+            gServerImpl->mChatResponders.erase(job);
+            // Delete rpc instance
+            delete job;
+        }
+
+
+
+
         /** Initialize RPC services, push RPC's for processRpcs() to handle
          */
         void HandleRpcs() 
@@ -1249,6 +1369,7 @@ class ServerImpl final : public ChatServer::AsyncService
             createChatRpc();
             createLogInRpc();
             createLogOutRpc();
+            createListRpc();
 
             TagInfo tagInfo;
             while (true) 

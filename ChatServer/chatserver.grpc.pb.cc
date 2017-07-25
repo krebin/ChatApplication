@@ -30,7 +30,7 @@ std::unique_ptr< ChatServer::Stub> ChatServer::NewStub(const std::shared_ptr< ::
 }
 
 ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel), rpcmethod_LogIn_(ChatServer_method_names[0], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel), rpcmethod_LogIn_(ChatServer_method_names[0], ::grpc::RpcMethod::BIDI_STREAMING, channel)
   , rpcmethod_LogOut_(ChatServer_method_names[1], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SendMessage_(ChatServer_method_names[2], ::grpc::RpcMethod::BIDI_STREAMING, channel)
   , rpcmethod_ReceiveMessage_(ChatServer_method_names[3], ::grpc::RpcMethod::SERVER_STREAMING, channel)
@@ -38,12 +38,12 @@ ChatServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_Chat_(ChatServer_method_names[5], ::grpc::RpcMethod::BIDI_STREAMING, channel)
   {}
 
-::grpc::Status ChatServer::Stub::LogIn(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::chatserver::LogInReply* response) {
-  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_LogIn_, context, request, response);
+::grpc::ClientReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>* ChatServer::Stub::LogInRaw(::grpc::ClientContext* context) {
+  return new ::grpc::ClientReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>(channel_.get(), rpcmethod_LogIn_, context);
 }
 
-::grpc::ClientAsyncResponseReader< ::chatserver::LogInReply>* ChatServer::Stub::AsyncLogInRaw(::grpc::ClientContext* context, const ::chatserver::LogInRequest& request, ::grpc::CompletionQueue* cq) {
-  return new ::grpc::ClientAsyncResponseReader< ::chatserver::LogInReply>(channel_.get(), cq, rpcmethod_LogIn_, context, request);
+::grpc::ClientAsyncReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>* ChatServer::Stub::AsyncLogInRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReaderWriter< ::chatserver::LogInRequest, ::chatserver::LogInReply>(channel_.get(), cq, rpcmethod_LogIn_, context, tag);
 }
 
 ::grpc::Status ChatServer::Stub::LogOut(::grpc::ClientContext* context, const ::chatserver::LogOutRequest& request, ::chatserver::LogOutReply* response) {
@@ -90,8 +90,8 @@ ChatServer::Service::Service() {
   (void)ChatServer_method_names;
   AddMethod(new ::grpc::RpcServiceMethod(
       ChatServer_method_names[0],
-      ::grpc::RpcMethod::NORMAL_RPC,
-      new ::grpc::RpcMethodHandler< ChatServer::Service, ::chatserver::LogInRequest, ::chatserver::LogInReply>(
+      ::grpc::RpcMethod::BIDI_STREAMING,
+      new ::grpc::BidiStreamingHandler< ChatServer::Service, ::chatserver::LogInRequest, ::chatserver::LogInReply>(
           std::mem_fn(&ChatServer::Service::LogIn), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       ChatServer_method_names[1],
@@ -123,10 +123,9 @@ ChatServer::Service::Service() {
 ChatServer::Service::~Service() {
 }
 
-::grpc::Status ChatServer::Service::LogIn(::grpc::ServerContext* context, const ::chatserver::LogInRequest* request, ::chatserver::LogInReply* response) {
+::grpc::Status ChatServer::Service::LogIn(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::chatserver::LogInReply, ::chatserver::LogInRequest>* stream) {
   (void) context;
-  (void) request;
-  (void) response;
+  (void) stream;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

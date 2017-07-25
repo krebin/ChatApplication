@@ -4,7 +4,7 @@ package chatserver;
 
 service ChatServer
 {
-    rpc LogIn (LogInRequest) returns (LogInReply) {}
+    rpc LogIn (stream LogInRequest) returns (stream LogInReply) {}
     rpc LogOut (LogOutRequest) returns (LogOutReply) {}
     rpc SendMessage (stream SendMessageRequest) returns (stream SendMessageReply) {}
     rpc ReceiveMessage (ReceiveMessageRequest) returns (stream ReceiveMessageReply) {}
@@ -30,9 +30,10 @@ message LogInReply
 
     enum State
     {
-        INVALID = 0;
-        ALREADY = 1;
-        SUCCESS = 2;
+        SERVER_OFF = 0;
+        INVALID = 1;
+        ALREADY = 2;
+        SUCCESS = 3;
     }
 
     State logInState = 3;
