@@ -10,3 +10,4 @@
 !ChatServer_ServerR.cc
 !../proto/chatserver.proto
 !ChatServerGlobal.h
+!ChatServer_ClientN.cc
