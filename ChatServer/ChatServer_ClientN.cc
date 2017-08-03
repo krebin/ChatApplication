@@ -15,6 +15,15 @@
 
 #define KEY_ENTER_ALT 10
 #define KEY_BACKSPACE_ALT 127
+#define X_RPC_RECEIVE 7
+#define Y_RPC_RECEIVE 0
+#define X_USER_INPUT 7
+#define Y_USER_INPUT 0
+#define NUM_FIELDS 1
+#define X_START_TYPE 5
+#define Y_START_TYPE 1
+
+enum color {RED = 1, GREEN, WHITE};
 
 using grpc::Channel;
 using grpc::ClientAsyncResponseReader;
@@ -471,8 +480,18 @@ class ChatServerClient
          */
         void initCurses()
         {
-            _forwarder = std::bind(&ChatServerClient::LogInN, this);
-            void* test = _forwarder.target<void*>();
+            // Pushed back specifically in this order, so no magic numbers
+            // needed when assigning function binding to user pointer
+            _forwarders.push_back(std::bind(&ChatServerClient::LogOutN, this));
+            _forwarders.push_back(std::bind(&ChatServerClient::SendMessageN, this));
+            _forwarders.push_back(std::bind(&ChatServerClient::ReceiveMessageN, this));
+            _forwarders.push_back(std::bind(&ChatServerClient::ListN, this));
+            _forwarders.push_back(std::bind(&ChatServerClient::ChatN, this));
+            
+           
+            //void (*func)() = _forwarder.target<void()>();
+
+            //int (*test)() = _forwarder.target<int*>();
             //_forwarderChat = std::bind(&ChatServerClient::func, this);
 
             // Names for menu items
@@ -491,8 +510,9 @@ class ChatServerClient
             cbreak();
             keypad(stdscr, TRUE);
             start_color();
-            init_pair(1, COLOR_RED, COLOR_BLACK);
-            init_pair(2, COLOR_GREEN, COLOR_BLACK);
+            init_pair(RED, COLOR_RED, COLOR_BLACK);
+            init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
+            init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
 
             // Initialize windows
             _menuWindow = newwin(30, 40, 2, 81);
@@ -503,19 +523,17 @@ class ChatServerClient
             // Begin FIELD initialization, FIELD(s) are where
             // inputs go within a FORM
 
-            // How big array is
-            int rows, cols, fieldSize = sizeof(_fields)/sizeof(_fields[0]);
+            int rows, cols;
 
             // Initialize fields settings
-            for(int i = 0; i < fieldSize - 1; i++)
-            {
-                // Field dimensions and properties
-                _fields[i] = new_field(1, 71, 2 + i, 4, 0, 0);
-                field_opts_on(_fields[i], O_AUTOSKIP);
-                set_field_back(_fields[i], A_NORMAL);
-            }
-            _fields[fieldSize - 1] = NULL;
-            field_opts_off(_fields[fieldSize - 2], O_AUTOSKIP);
+            // Field dimensions and properties
+
+            _fields[0] = new_field(8, 70,  0, 4, 0, 0);
+            field_opts_off(_fields[0], O_AUTOSKIP);
+            set_field_back(_fields[0], A_UNDERLINE);
+
+            // The last position in the index must be NULL
+            _fields[1] = NULL;
 
             // Forms for user input
             _form = new_form(_fields);
@@ -526,8 +544,7 @@ class ChatServerClient
 
             // Connect _form and _userInputWindow window
             set_form_win(_form, _userInputWindow);
-            set_form_sub(_form, derwin(_userInputWindow, rows, cols, 2, 2));
-
+            set_form_sub(_form, derwin(_userInputWindow, rows, cols, 1, 1));
 
             // Begin MENU creation
             // Create and initialize ITEM(s) to exist within a MENU
@@ -535,7 +552,8 @@ class ChatServerClient
             for(int i = 0; i < _choices.size() - 1; i++)
             {
                 _items[i] = new_item(_choices[i], NULL);
-                set_item_userptr(_items[i], test);
+                std::function<int()>& forwarder = _forwarders[i];
+                set_item_userptr(_items[i], &forwarder);
             }
             _items[_choices.size()] = (ITEM *)NULL;
 
@@ -561,17 +579,13 @@ class ChatServerClient
             box(_userInputWindow, 0, 0);
 
             // Flavor text
-            wattron(_userInputWindow, COLOR_PAIR(1));
-            mvwprintw(_userInputWindow, 0, 7, "%s", "User Input");
-            wattroff(_userInputWindow, COLOR_PAIR(1));
+            print(_userInputWindow, Y_RPC_RECEIVE, X_RPC_RECEIVE
+                , COLOR_PAIR(RED), "User Input"); 
 
-            wattron(_rpcReceiveWindow, COLOR_PAIR(1));
-            mvwprintw(_rpcReceiveWindow, 0, 7, "%s", "Choose RPC");
-            wattroff(_rpcReceiveWindow, COLOR_PAIR(1));
+            print(_rpcReceiveWindow, 0, 7, COLOR_PAIR(RED), "Choose RPC");
 
-            wattron(_menuWindow, COLOR_PAIR(2));
-            mvwprintw(_menuWindow, 1, (40 - strlen("RPC Menu"))/2 , "%s", "RPC Menu");
-            wattroff(_menuWindow, COLOR_PAIR(2));
+            print(_menuWindow, 1, (40 - strlen("RPC Menu"))/2
+                , COLOR_PAIR(GREEN), "RPC Menu");
 
             // Refresh windows
             wrefresh(_userInputWindow);
@@ -589,14 +603,19 @@ class ChatServerClient
                     case KEY_DOWN:
                         menu_driver(_menu, REQ_DOWN_ITEM);
                         break;
+
                     case KEY_UP:
                         menu_driver(_menu, REQ_UP_ITEM);
                         break;
+
                     case KEY_ENTER_ALT:
                     case KEY_ENTER:
-                        // function with no parameters returning void
-                        void(*func)();
+                    {
+                        // Obtain pointer stored within the ITEM, recast from (void*)
+                        auto func = (std::function<int()>*)item_userptr(current_item(_menu));
+                        (*func)();
                         break;
+                    }
                     default:
                         break;
                 }
@@ -605,8 +624,79 @@ class ChatServerClient
 
     private:
 
+        void print(WINDOW *win, int y, int x, chtype color, const char *string)
+        {
+            wattron(win, color);
+            mvwprintw(win, y, x, "%s", string);
+            wattroff(win, color);
+        }
+
         int ChatN()
         {
+            // Blinking cursor
+            curs_set(1);
+
+            // Recolor text
+            print(_userInputWindow, Y_USER_INPUT
+                , X_USER_INPUT, COLOR_PAIR(GREEN)
+                , "User Input - Type #done to exit");
+
+            wmove(_rpcReceiveWindow, 0, 0);
+            wclrtoeol(_rpcReceiveWindow);
+            box(_rpcReceiveWindow, 0 , 0);
+
+
+            print(_rpcReceiveWindow, Y_RPC_RECEIVE
+                , X_RPC_RECEIVE, COLOR_PAIR(GREEN), "Chat");
+
+            wrefresh(_rpcReceiveWindow);
+            // Move cursor to starting position
+            wmove(_userInputWindow, Y_START_TYPE, X_START_TYPE);
+            wrefresh(_userInputWindow);
+
+            int ch;
+            char *input = "";
+            while(ch = wgetch(_userInputWindow))
+            {
+                switch(ch)
+                {
+                    case KEY_ENTER:
+                    case KEY_ENTER_ALT:
+                    {
+                        form_driver(_form, REQ_NEXT_FIELD);
+                        form_driver(_form, REQ_PREV_FIELD);
+
+                        for(int i = 0; _fields[i]; i++)
+                        {
+                            print(_rpcReceiveWindow, 2+i, 4, COLOR_PAIR(WHITE), (field_buffer(_fields[i], 0)));
+                            input = field_buffer(_fields[i], 0);
+
+                            set_field_buffer(_fields[i], 0, "");
+                            //if(!strcmp(input, "#done"))
+                            //{
+                              //  break;
+                            //}
+                        }
+    
+                        wrefresh(_rpcReceiveWindow);
+                        pos_form_cursor(_form);
+                        break;
+                    }
+                    case KEY_BACKSPACE:
+                    case KEY_BACKSPACE_ALT:
+                    {
+                        form_driver(_form, REQ_DEL_PREV);
+                        break;
+                    }
+                    default:
+                    {
+                        // Print characters
+                        form_driver(_form, ch);
+                        break;
+                    }
+                }
+            }
+
         }
 
         int ListN()
@@ -637,17 +727,16 @@ class ChatServerClient
 		ITEM **_items;
 		MENU *_menu;
 		WINDOW *_menuWindow, *_userInputWindow, *_rpcReceiveWindow;
-		FIELD *_fields[7];
+		FIELD *_fields[NUM_FIELDS + 1];
 		FORM *_form;
 		std::vector<const char *> _choices;
 
-        // An ITEM has a user pointer that takes in a function
-        // as a parameter. Making the method static would
-        // introduce bugs if more than one clients are used, so a forwarder
-        // must be used as to keep the method non-static
-        std::function<int()> _forwarder;
+        // Vector to store binding RPC methods
+        std::vector<std::function<int()>> _forwarders;
 		
 };
+
+
 
 /** main driver for client
  * @param argc: number of command line args
